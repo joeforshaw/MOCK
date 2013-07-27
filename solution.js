@@ -18,7 +18,7 @@ var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
 
-var svg = d3.select("body").append("svg")
+var solutionSVG = d3.select("#solution-graph")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -26,16 +26,16 @@ var svg = d3.select("body").append("svg")
 
 var dsv = d3.dsv(" ", "text/plain");
 dsv("data/joe.example.data", function(error, data) {
-  data.forEach(function(d) {
-    d.First = +d.First;
-    d.Second = +d.Second;
-  });
+    data.forEach(function(d) {
+        d.First = +d.First;
+        d.Second = +d.Second;
+    });
 
-  x.domain(d3.extent(data, function(d) { return d.First; })).nice();
+    x.domain(d3.extent(data, function(d) { return d.First; })).nice();
 
-  y.domain(d3.extent(data, function(d) { return d.Second; })).nice();
+    y.domain(d3.extent(data, function(d) { return d.Second; })).nice();
 
-  svg.append("g")
+    solutionSVG.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis)
@@ -46,7 +46,7 @@ dsv("data/joe.example.data", function(error, data) {
         .style("text-anchor", "end")
         .text("First Dimension");
 
-    svg.append("g")
+    solutionSVG.append("g")
         .attr("class", "y axis")
         .call(yAxis)
       .append("text")
@@ -57,7 +57,7 @@ dsv("data/joe.example.data", function(error, data) {
         .style("text-anchor", "end")
         .text("Second Dimension");
 
-    svg.selectAll(".dot")
+    solutionSVG.selectAll(".dot")
         .data(data)
       .enter().append("circle")
         .attr("class", "dot")
@@ -66,7 +66,7 @@ dsv("data/joe.example.data", function(error, data) {
         .attr("cy", function(d) { return y(d.Second); })
         .style("fill", function(d) { return color(d.Class); });
 
-    var legend = svg.selectAll(".legend")
+    var legend = solutionSVG.selectAll(".legend")
         .data(color.domain())
       .enter().append("g")
         .attr("class", "legend")

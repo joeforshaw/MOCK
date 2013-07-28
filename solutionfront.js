@@ -31,16 +31,18 @@ var solutionFrontSVG = d3.select("#solution-front-graph")
 
 var dsv = d3.dsv(" ", "text/plain");
 
-// Solution data
-dsv("data/joe.example.solution.pf", function(error, data) {
-    data.forEach(function(d) {
+// Solution front data
+dsv("data/joe.example.solution.pf", function(error, solutionData) {
+    solutionData.forEach(function(d) {
         d.Connectivity = +d.Connectivity;
         d.Deviation    = +d.Deviation;
     });
 
+    // Set x and y domains between 0 and 1
     x.domain([0, 1]);
     y.domain([0, 1]);
 
+    // Draw x-axis
     solutionFrontSVG.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
@@ -52,6 +54,7 @@ dsv("data/joe.example.solution.pf", function(error, data) {
         .style("text-anchor", "end")
         .text("Connectivity");
 
+    // Draw y-axis
     solutionFrontSVG.append("g")
         .attr("class", "y axis")
         .call(yAxis)
@@ -63,33 +66,34 @@ dsv("data/joe.example.solution.pf", function(error, data) {
         .style("text-anchor", "end")
         .text("Overall Deviation");
 
-    data.sort(function(a, b) {
+    solutionData.sort(function(a, b) {
         return d3.ascending(a.Deviation, b.Deviation);
     });
 
-    solutionFrontSVG.append("path")
-        .datum(data)
-        .attr("class", "line")
-        .attr("d", line)
+    // Control data
+    dsv("data/joe.example.control.pf", function(error, controlData) {
+        controlData.forEach(function(d) {
+            d.Connectivity = +d.Connectivity;
+            d.Deviation    = +d.Deviation;
+        });
 
-});
+        // Sort control data
+        controlData.sort(function(a, b) {
+            return d3.ascending(a.Deviation, b.Deviation);
+        });
 
-// Control data
-dsv("data/joe.example.control.pf", function(error, data) {
-    data.forEach(function(d) {
-        d.Connectivity = +d.Connectivity;
-        d.Deviation    = +d.Deviation;
+        // Draw control line
+        solutionFrontSVG.append("path")
+            .datum(controlData)
+            .attr("class", "line")
+            .attr("d", line)  
+            .style("stroke", "#EEE")
+
+        // Draw solution front line
+        solutionFrontSVG.append("path")
+            .datum(solutionData)
+            .attr("class", "line")
+            .attr("d", line)
     });
 
-    console.log(data);
-
-    data.sort(function(a, b) {
-        return d3.ascending(a.Deviation, b.Deviation);
-    });
-
-    solutionFrontSVG.append("path")
-        .datum(data)
-        .attr("class", "line")
-        .attr("d", line)  
-        .style("stroke", "#EEE")
 });

@@ -91,4 +91,5 @@ dsv("data/joe.example.control.pf", function(error, data) {
         .datum(data)
         .attr("class", "line")
         .attr("d", line)  
+        .style("stroke", "#EEE")
 });

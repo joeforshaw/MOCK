@@ -2,24 +2,47 @@
 
   <head>
   	<title>MOCK</title>
-  	<link rel="stylesheet" href="style.css" type="text/css" media="screen" charset="utf-8">
+    <!-- <link rel="stylesheet" type="text/css" href="css/reset.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.css"> -->
+    <link href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/application.css">
   </head>
 
   <body>
-  	<script src="d3.v3.js" charset="utf-8"></script>
 
-  	<h1>MOCK Visualisation Tool</h1>
+    <div id="page">
 
-    <div id="solution">
-      <svg id="solution-graph"></svg>  
+      <div id="header">
+        <h1>Multiobjective Clustering Visualisation</h1>
+      </div>
+
+      <div id="nav">
+       <ul class="nav">
+          <li id="solution-nav">Solution</li>
+          <li id="pareto-front-nav">Pareto Front</li>
+        </ul>
+      </div>
+
+      <div id="content">
+
+        <div id="solution-page" class="graph">
+          <svg id="solution-graph"></svg>  
+        </div>
+
+        <div id="pareto-front-page" class="graph">
+          <svg id="pareto-front-graph"></svg>
+        </div>
+      
+      </div>
+
+      <script src="js/jquery.js"></script>
+      <script src="js/bootstrap.js"></script>
+      <script src="js/d3.v3.js" charset="utf-8"></script>
+      <script src="js/solution.js"></script>
+      <script src="js/solutionfront.js"></script>
+      <script src="js/application.js"></script>
+
     </div>
-
-    <div id="solution-front">
-      <svg id="solution-front-graph"></svg>
-    </div>
-    
-    <script type="text/javascript" src="solution.js"></script>
-    <script type="text/javascript" src="solutionfront.js"></script>
 
   </body>
 

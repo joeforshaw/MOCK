@@ -87,7 +87,7 @@ dsv("data/joe.example.solution.pf", function(error, solutionData) {
             .datum(controlData)
             .attr("class", "line")
             .attr("d", line)  
-            .style("stroke", "#EEE")
+            .style("stroke", "rgb(213,214,215)")
 
         // Draw solution front line
         solutionFrontSVG.append("path")

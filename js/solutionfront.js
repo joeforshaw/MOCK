@@ -1,5 +1,5 @@
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
+    width = 1000 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 var x = d3.scale.linear()
@@ -23,7 +23,7 @@ var line = d3.svg.line()
     .x(function(d) { return x(d.Deviation); })
     .y(function(d) { return y(d.Connectivity); });
 
-var solutionFrontSVG = d3.select("#solution-front-graph")
+var solutionFrontSVG = d3.select("#pareto-front-graph")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")

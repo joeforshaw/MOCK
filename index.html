@@ -12,32 +12,51 @@
 
     <div id="page">
 
-      <div id="header">
+      <header>
         <h1>Multiobjective Clustering Visualisation</h1>
-      </div>
+      </header>
 
-      <div id="nav">
+      <nav>
        <ul class="nav">
-          <li id="solution-nav">Solution</li>
-          <li id="pareto-front-nav">Pareto Front</li>
+          <li class="nav-tab" data-tab=".solution-page">Solution</li>
+          <li class="nav-tab" data-tab=".pareto-front-page">Pareto Front</li>
+          <li class="nav-tab" data-tab=".dendrogram-page">Dendrogram</li>
         </ul>
-      </div>
+      </nav>
 
-      <div id="content">
+      <main>
 
-        <div id="solution-page" class="graph">
-          <svg id="solution-graph"></svg>  
-        </div>
+        <ul class="pages">
 
-        <div id="pareto-front-page" class="graph">
-          <svg id="pareto-front-graph"></svg>
-        </div>
+          <li>
+            <div class="solution-page tab active-tab graph">
+              <svg id="solution-graph"></svg>  
+            </div>
+          </li>
+
+          <li>
+            <div class="pareto-front-page tab graph">
+              <svg id="pareto-front-graph"></svg>
+            </div>
+          </li>
+
+          <li>
+            <div class="dendrogram-page tab graph">
+              <div id="dendrogram">
+                <script src="js/d3.v3.js" charset="utf-8"></script>
+                <script src="js/newick.js"></script>
+                <script src="js/dendrogram.js"></script>
+              </div>
+            </div>
+          </li>
+
+        </ul>
       
-      </div>
+      </main>
 
       <script src="js/jquery.js"></script>
       <script src="js/bootstrap.js"></script>
-      <script src="js/d3.v3.js" charset="utf-8"></script>
+      
       <script src="js/solution.js"></script>
       <script src="js/solutionfront.js"></script>
       <script src="js/application.js"></script>

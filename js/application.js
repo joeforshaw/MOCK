@@ -1,11 +1,4 @@
-$("#pareto-front-page").hide();
-
-$("#solution-nav").on("click", function() {
-  $("#pareto-front-page").hide();
-  $("#solution-page").show();
-});
-
-$("#pareto-front-nav").on("click", function() {
-  $("#solution-page").hide();
-  $("#pareto-front-page").show();
+$(".nav-tab").on("click", function() {
+  $(".active-tab").removeClass("active-tab");
+  $($(this).data("tab")).addClass("active-tab");
 });

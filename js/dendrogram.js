@@ -10,6 +10,11 @@ var cluster = d3.layout.cluster()
 var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.x, d.y]; });
 
+function elbow(d, i) {
+  return "M" + d.source.x + "," + d.source.y
+      + "H" + d.target.x + "V" + d.target.y ;
+}
+
 var wrap = d3.select("#dendrogram").append("svg")
     .attr("width", r * 3)
     .attr("height", r * 2 + 50)
@@ -41,7 +46,7 @@ d3.text("life.txt", function(text) {
       .data(cluster.links(nodes))
     .enter().append("path")
       .attr("class", "link")
-      .attr("d", diagonal);
+      .attr("d", elbow);
 
   var node = vis.selectAll("g.node")
       .data(nodes.filter(function(n) { return n.x !== undefined; }))

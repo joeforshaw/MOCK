@@ -32,7 +32,7 @@ var solutionFrontSVG = d3.select("#pareto-front-graph")
 var dsv = d3.dsv(" ", "text/plain");
 
 // Solution front data
-dsv("data/joe.example.solution.pf", function(error, solutionData) {
+dsv("/algo/data/joe.example.solution.pf", function(error, solutionData) {
     solutionData.forEach(function(d) {
         d.Connectivity = +d.Connectivity;
         d.Deviation    = +d.Deviation;
@@ -71,7 +71,7 @@ dsv("data/joe.example.solution.pf", function(error, solutionData) {
     });
 
     // Control data
-    dsv("data/joe.example.control.pf", function(error, controlData) {
+    dsv("/algo/data/joe.example.control.pf", function(error, controlData) {
         controlData.forEach(function(d) {
             d.Connectivity = +d.Connectivity;
             d.Deviation    = +d.Deviation;

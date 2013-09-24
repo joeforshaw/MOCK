@@ -25,7 +25,7 @@ var solutionSVG = d3.select("#solution-graph")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 var dsv = d3.dsv(" ", "text/plain");
-dsv("data/joe.example.data", function(error, data) {
+dsv("/algo/data/joe.example.data", function(error, data) {
     data.forEach(function(d) {
         d.First = +d.First;
         d.Second = +d.Second;

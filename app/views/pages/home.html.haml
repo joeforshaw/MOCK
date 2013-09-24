@@ -1,0 +1,23 @@
+
+%header>
+  %h1 Multiobjective Clustering Visualisation
+
+%nav>
+  %ul.nav
+    %li.nav-tab{ :data => { :tab => ".solution-page"}} Solution
+    %li.nav-tab{ :data => { :tab => ".pareto-front-page" }} Pareto Front
+    %li.nav-tab{ :data => { :tab => ".dendrogram-page" }} Dendrogram
+
+%main
+  %ul.pages
+    %li
+      .solution-page.tab.active-tab.graph
+        <svg id="solution-graph"></svg>  
+
+    %li
+      .pareto-front-page.tab.graph
+        <svg id="pareto-front-graph"></svg>
+
+    %li
+      .dendrogram-page.tab.graph
+        #dendrogram

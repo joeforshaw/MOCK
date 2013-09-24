@@ -1,0 +1,83 @@
+MOCK: Multiobjective Clustering with Automatic K-Determination
+--------------------------------------------------------------
+
+Short documentation. For additional information, questions and 
+feedback, please write an email to J.Handl@postgrad.umist.ac.uk
+
+The core of multiobjective clustering is currently implemented in
+C++, with a Java interface. If you don't want to use the Java 
+Interface, but directly run the C++ code, you only need to do some 
+slight modifications to pesa2CLUST.C and the Makefile (the C++ 
+code is currently compiled as a library). 
+
+The communication between the C++ code and the Java
+interface is mostly done by text files, so all of the relevant
+output/solutions are actually written to files. The interface
+allows you an interactive exploration of the different solutions,
+however the currently used algorithm for graph layout becomes
+quite slow for data sets larger than 1000, and in those cases
+you might want to directly look at the text files.
+
+In particular the following output files are relevant:
+
+1) X-solution.pf: Solution front 
+(Format: <solution_id> <number_of_clusters> <connectivity> 
+<overall_deviation> <fmeasure>)
+
+2) X-control.pf: Control front
+(Format: <solution_id> <number_of_clusters> <connectivity> 
+<overall_deviation> <fmeasure>)
+
+3) X-Y.all: Individual solutions
+This gives the cluster labels for an individual clustering solutions,
+where e.g. 1-2.all is the solutions corresponding to the solution with
+solution_id "2" in "solution.pf" in the first run.
+(Format: <item_id> <item_cluster_label> <distance_to_cluster_centre>)
+
+4) X-Y.solution: Individual solutions including original data
+This gives the cluster labels for an individual clustering solutions,
+where e.g. 1-2.all is the solutions corresponding to the solution with
+solution_id "2" in "solution.pf" in the first run. The actual data is 
+included.
+(Format: <item_var1> ... <item_varD><item_id> <item_cluster_label>)
+
+Note that F-Measure values are computed with respect to the 
+partitioning imposed by <item_cluster_label>. Hence, F_measure
+values are meaning less if the real class memberships are not 
+known (e.g. in the case when <item_cluster_label> gives the unique 
+identifier for each data item).
+
+Setup to run MOCK under Linux/Windows:
+
+1) Unzip mock.zip
+
+2) Download java (j2se sdk) from http://java.sun.com/j2se/1.4.2/download.html
+(if you don't have it already installed), install it and configure the 
+environment variables PATH, CLASSPATH and LD_LIBRARY_PATH. 
+
+3) Compile the C++ source code. Under Linux: A Makefile is provided. After adapting -I/usr/lib/java/include -I/usr/lib/java/include/linux to point to the appropriate directories, you simply need to type "make mock". 
+
+Under Windows: Compile as a DLL to obtain
+the file mock.dll. Assuming that you install java to C:/j2sdk1.4.0/, you 
+will need to set the following compiler options:
+-I C:/j2sdk1.4.0/include/ -I C:/j2sdk1.4.0/include/win32
+
+3) To run mock open a shell/dos-window, enter the directory mock-vis 
+and type "java -Djava.library.path="." mockvis"
+
+4) You can then find more instructions under the menu Info->Help. Details
+on the working of the algorithm are available in the two papers
+provided in the subfolder "papers".
+
+5) A number of sample data sets can be found in the subfolder "data"
+
+
+Disclaimer:
+Note that MOCK is under development, so the code currently isn't as 
+readable, robust or efficient as I would like it to be. If you have 
+any problems understanding/using the code, please don't hesitate 
+to contact me!
+
+
+
+

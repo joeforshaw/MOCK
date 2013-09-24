@@ -11,5 +11,7 @@ module MOCK
     
     config.assets.paths << "#{Rails.root}/app/assets/fonts"
     
+    config.assets.initialize_on_precompile = false
+    
   end
 end

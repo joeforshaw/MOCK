@@ -145,6 +145,6 @@ template<class T> const int tmatrix <T>::getsize() {
     return size;
 }
 
-template class tmatrix<float>;
+inline template class tmatrix<float>;
 
 #endif

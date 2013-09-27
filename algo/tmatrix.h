@@ -32,7 +32,7 @@ dissimilarity matrix is symmetric)
 ***************************************************/
 
 
-#ifndef TMATRIX_JH_2003
+// #ifndef TMATRIX_JH_2003
 #define TMATRIX_JH_2003
 #include <iostream>
 
@@ -145,6 +145,6 @@ template<class T> const int tmatrix <T>::getsize() {
     return size;
 }
 
-template class tmatrix<float>;
+inline template class tmatrix<float>;
 
-#endif
+// #endif

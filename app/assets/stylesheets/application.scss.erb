@@ -22,46 +22,52 @@ body, h1, h2, h3, li, ul {
   padding: 0;
 }
 
+body {
+  background: rgb(250,250,250);
+}
+
 header {
   background: rgb(240,240,240);
-  border-bottom: 4px solid rgb(210,210,210);
   font-size: 2em;
 }
 
 header h1 {
   font-weight: normal;
-  color: rgb(82,83,73);
+  color: rgb(80,80,80);
   font-family: Lato;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  max-width: 1200px;
   margin: 0 auto;
 }
 
 header h1, nav ul, main {
-  max-width: 1200px;
+  width: 1200px;
   margin: 0 auto;
-  padding-left: 1em;
-  padding-right: 1em; 
+  padding-left: 50px;
+  padding-right: 50px; 
 }
 
 nav {
-  background-color: rgb(220,220,220);
+  border-top: 4px solid rgb(200,200,200);
+  background-color: rgb(210,210,210);
   font-size: 18px;
   line-height: 20px;
 }
 
 nav ul {
   list-style-type: none;
-  padding: 0.5em 0;
 }
 
 nav ul li {
-  color: rgb(131,173,190);
-  display: inline;
+  color: rgb(80,80,80);
+  display: inline-block;
   list-style: none;
-  margin: 0 20px 0 0;
   cursor: pointer;
+  padding: 0.5em 1em;
+  -webkit-transition: all 0.2s ease-in;
+}
+nav ul li:hover {
+  background: rgb(200,200,200);
 }
 
 body {
@@ -88,19 +94,17 @@ main .pages li {
 
 .graph {
   text-align: center;
-  width: 80%;
   padding: 20px 0;
-  margin: 0 10%;
 }
 
 .axis path, .axis line {
   fill: none;
-  stroke: #000;
+  stroke: rgb(0,0,0);
   shape-rendering: crispEdges;
 }
 
 .dot {
-  stroke: #000;
+  stroke: rgb(0,0,0);
 }
 
 .line {

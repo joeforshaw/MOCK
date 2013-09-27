@@ -635,6 +635,7 @@ int main(int argc, char **argv) {
   N = 1;
   double av[21][2];
   ctr = 0;
+  out2 << "ID K Connectivity Deviation\n";
   for (int ct=0; ct<CT; ct++) {
     for (int i=0; i<ct_epsize[ct];i++ ) {
       control[ctr*STEP+2] = sqrt((control[ctr*STEP+2]-c_min0[ct])/(c_max0[ct]-c_min0[ct]));

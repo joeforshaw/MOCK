@@ -120,8 +120,8 @@ public class mockvis implements Runnable {
 
     public void show() {
 	try {
-	    BufferedReader in = new BufferedReader(new FileReader(jobnbr+"-solution.pf"));
-	    BufferedReader in2 = new BufferedReader(new FileReader(jobnbr+"-attainment.pf"));
+	    BufferedReader in = new BufferedReader(new FileReader("data/"+jobnbr+"-solution.pf"));
+	    BufferedReader in2 = new BufferedReader(new FileReader("data/"+jobnbr+"-attainment.pf"));
 	    String line;
 	    String line2;
 	    int [][] solution = new int[1000][2];
@@ -132,7 +132,7 @@ public class mockvis implements Runnable {
 	    final int [] selected = new int[1000];
 	    
 	    
-	    BufferedReader in3 = new BufferedReader(new FileReader(jobnbr+"-recommendation.pf"));
+	    BufferedReader in3 = new BufferedReader(new FileReader("data/"+jobnbr+"-recommendation.pf"));
 	    int n_ctr = 0;
 	    while ((line = in3.readLine()) != null) {
 		int end = line.indexOf(' ');

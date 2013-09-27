@@ -48,8 +48,8 @@ dsv("/algo/data/joe.example.solution.pf", function(error, solutionData) {
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis)
       .append("text")
-        .attr("class", "label")
-        .attr("x", width)
+        .attr("class", "solution-front-label")
+        .attr("x", 40 + width / 2)
         .attr("y", -6)
         .style("text-anchor", "end")
         .text("Connectivity");
@@ -59,9 +59,10 @@ dsv("/algo/data/joe.example.solution.pf", function(error, solutionData) {
         .attr("class", "y axis")
         .call(yAxis)
       .append("text")
-        .attr("class", "label")
-        .attr("transform", "rotate(-90)")
+        .attr("class", "solution-front-label")
+        .attr("x", 50 + height / -2)
         .attr("y", 6)
+        .attr("transform", "rotate(-90)")
         .attr("dy", ".71em")
         .style("text-anchor", "end")
         .text("Overall Deviation");

@@ -602,7 +602,7 @@ int main(int argc, char **argv) {
   // Normalization of objective values
 
   char name[100];
-  sprintf(name, "%s.method%d.run%d.pf",filename,setting,jobnbr);
+  sprintf(name, "data/%s.method%d.run%d.pf",filename,setting,jobnbr);
   ofstream out1(name);
   
   int N = 1;
@@ -629,7 +629,7 @@ int main(int argc, char **argv) {
   }
   out1.close();
 
-  sprintf(name, "%s.method%d.run%d.control.pf",filename,setting,jobnbr);
+  sprintf(name, "data/%s.method%d.run%d.control.pf",filename,setting,jobnbr);
 
   ofstream out2(name);
   N = 1;
@@ -711,7 +711,7 @@ int main(int argc, char **argv) {
    }
 
 
-  sprintf(name, "%d-attainment.pf",jobnbr);
+  sprintf(name, "data/%d-attainment.pf",jobnbr);
   ofstream att(name);
 
   int besti = -1;
@@ -770,7 +770,7 @@ int main(int argc, char **argv) {
     }
   }
 
-  sprintf(name, "%s.method%d.run%d.rec.pf",filename,setting,jobnbr);
+  sprintf(name, "data/%s.method%d.run%d.rec.pf",filename,setting,jobnbr);
   ofstream rec(name);
 
   

@@ -301,7 +301,7 @@ void gaclust::print(clustering * clust, int ** nnlist, int knn, double ** ind) {
   if (maxj < 25) {
 
     char name[130];
-    sprintf(name, "%s.method%d.run%d.solution%d.part", par->filename,par->s, jobnbr, prindex);
+    sprintf(name, "data/%s.method%d.run%d.solution%d.part", par->filename,par->s, jobnbr, prindex);
     prindex++;
     //    cerr << prindex << endl;
     ofstream out_k(name);

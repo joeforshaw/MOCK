@@ -1,5 +1,5 @@
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 1000 - margin.left - margin.right,
+    width = 1200 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 var x = d3.scale.linear()
@@ -72,7 +72,7 @@ dsv("/algo/data/joe.example.solution.pf", function(error, solutionData) {
     });
 
     // Control data
-    dsv("/algo/data/joe.example.control.pf", function(error, controlData) {
+    dsv("/algo/data/wine2.dat.method1.run1.control.pf", function(error, controlData) {
         controlData.forEach(function(d) {
             d.Connectivity = +d.Connectivity;
             d.Deviation    = +d.Deviation;
@@ -87,14 +87,14 @@ dsv("/algo/data/joe.example.solution.pf", function(error, solutionData) {
         solutionFrontSVG.append("path")
             .datum(controlData)
             .attr("class", "line")
-            .attr("d", line)  
-            .style("stroke", "rgb(213,214,215)")
+            .attr("d", line)
+            .style("stroke", "rgb(213,214,215)");
 
         // Draw solution front line
         solutionFrontSVG.append("path")
             .datum(solutionData)
             .attr("class", "line")
-            .attr("d", line)
+            .attr("d", line);
     });
 
 });

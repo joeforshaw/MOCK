@@ -11,10 +11,56 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130924153127) do
+ActiveRecord::Schema.define(version: 20130930145855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cluster_datapoints", force: true do |t|
+    t.integer  "cluster_id"
+    t.integer  "datapoint_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "clusters", force: true do |t|
+    t.integer  "solution_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "datapoints", force: true do |t|
+    t.integer  "dataset_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "datasets", force: true do |t|
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "datavalues", force: true do |t|
+    t.float    "value"
+    t.integer  "datapoint_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "runs", force: true do |t|
+    t.float    "runtime"
+    t.integer  "dataset_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "solutions", force: true do |t|
+    t.integer  "run_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -27,6 +73,7 @@ ActiveRecord::Schema.define(version: 20130924153127) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

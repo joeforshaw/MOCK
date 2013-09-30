@@ -1,7 +1,6 @@
 class Datapoint < ActiveRecord::Base
-
   belongs_to :dataset
-  belongs_to :cluster
-  has_many   :datavalues
-
+  has_many :cluster_datapoints
+  has_many :clusters, :through => :cluster_datapoints
+  has_many :datavalues
 end

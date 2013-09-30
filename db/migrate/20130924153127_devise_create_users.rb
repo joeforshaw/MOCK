@@ -31,8 +31,6 @@ class DeviseCreateUsers < ActiveRecord::Migration
       # t.datetime :locked_at
 
       t.string :name
-      t.has_many :datasets
-      t.has_many :runs
 
       t.timestamps
     end

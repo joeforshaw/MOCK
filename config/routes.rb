@@ -1,14 +1,11 @@
 MOCK::Application.routes.draw do
   devise_for :users
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # get '/home' => 'pages#home'
 
   # You can have the root of your site routed with "root"
   root 'pages#home'
 
-  # Example of regular route:
+  get 'datasets/new' => 'datasets#new'
+
   #   get 'products/:id' => 'catalog#view'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)

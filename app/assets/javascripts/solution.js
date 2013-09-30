@@ -1,5 +1,5 @@
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 1200 - margin.left - margin.right,
+    width = 1100 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 var x = d3.scale.linear()
@@ -40,7 +40,7 @@ dsv("/algo/data/joe.example.data", function(error, data) {
         .attr("transform", "translate(0," + height + ")")
         .call(xAxis)
       .append("text")
-        .attr("class", "label")
+        .attr("class", "graph-label")
         .attr("x", width)
         .attr("y", -6)
         .style("text-anchor", "end")
@@ -50,7 +50,7 @@ dsv("/algo/data/joe.example.data", function(error, data) {
         .attr("class", "y axis")
         .call(yAxis)
       .append("text")
-        .attr("class", "label")
+        .attr("class", "graph-label")
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
         .attr("dy", ".71em")

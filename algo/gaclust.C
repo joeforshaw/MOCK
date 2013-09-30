@@ -293,7 +293,7 @@ void gaclust::print(clustering * clust, int ** nnlist, int knn, double ** ind) {
   for (int j=0; j<clust->num; j++) {
     for (int i=0; i<par->binsize; i++) {
       if (clust->partition[i] == j) {
-	maxj=j;
+	      maxj=j;
       }
     }
   }
@@ -303,22 +303,31 @@ void gaclust::print(clustering * clust, int ** nnlist, int knn, double ** ind) {
     char name[130];
     sprintf(name, "data/%s.method%d.run%d.solution%d.part", par->filename,par->s, jobnbr, prindex);
     prindex++;
-    //    cerr << prindex << endl;
+    // cerr << prindex << endl;
     ofstream out_k(name);
     
-    for (int j=0; j<clust->num; j++) {
+    // for (int j=0; j<clust->num; j++) {
       for (int i=0; i<par->binsize; i++) {
-	//	if (clust->partition[i] == j) {
-	  for (int k=0;k<par->bindim; k++) {
-	    out_k << (*bin)[i][k] << " ";
-	  }
-	  out_k << clust->partition[i] << " " << ind[i][0] << " " << ind[i][1] << std::endl;
-	  //}
-	
+        // if (clust->partition[i] == j) {
+          for (int k=0;k<par->bindim; k++) {
+            out_k << (*bin)[i][k] << " ";
+          }
+          out_k << clust->partition[i] << std::endl; 
       }
-      //      out_k << std::endl;
-      //out_k << std::endl;
-    }  
+    // }
+
+    // for (int j=0; j<clust->num; j++) {
+    //   for (int i=0; i<par->binsize; i++) {
+  	 //    // if (clust->partition[i] == j) {
+    //   	  for (int k=0;k<par->bindim; k++) {
+    //   	    out_k << (*bin)[i][k] << " ";
+    //   	  }
+    //       out_k << clust->partition[i] << " " << ind[i][0] << " " << ind[i][1] << std::endl;
+	   //    // }
+    //   }
+    //   // out_k << std::endl;
+    //   // out_k << std::endl;
+    // }  
   }
 
 

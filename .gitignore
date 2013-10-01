@@ -17,7 +17,7 @@
 # Ignore Sublime Text files
 *.sublime*
 
-.DS_Store
+*.DS_Store*
 
 /algo/data/*
 

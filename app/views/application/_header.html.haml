@@ -2,7 +2,25 @@
   %h1 Multiobjective Clustering Visualisation
 
 %nav
-  %ul.nav
-    %li.nav-tab{ :data => { :tab => ".solution-page"}} Solution
-    %li.nav-tab{ :data => { :tab => ".pareto-front-page" }} Pareto Front
-    %li.nav-tab{ :data => { :tab => ".dendrogram-page" }} Dendrogram
+  %ul
+    %li.nav-tab
+      = link_to "Data", datasets_path
+    %li.nav-tab
+      = link_to "Runs", runs_path
+    %li.nav-tab
+      %a Solution
+    %li.nav-tab
+      %a Pareto Front
+    %li.nav-tab
+      %a Dendrogram
+    %li.nav-tab.sign-up-in
+      - if user_signed_in?
+        = link_to "Log Out", destroy_user_session_path, :method => "delete"
+      - else
+        = link_to "Log In", new_user_session_path
+    %li.nav-tab.sign-up-in
+      - if user_signed_in?
+        = link_to current_user.name, edit_user_registration_path
+      - else
+        = link_to "Register", new_user_registration_path
+    

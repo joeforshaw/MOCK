@@ -1,1 +1,10 @@
-%p= @datasets
+%h2 Data
+
+- if @datasets.empty?
+  %p
+    No data found. Do you want to
+    = link_to "upload a new data file", datasets_new_path
+    ?
+- else
+  %p= @datasets
+

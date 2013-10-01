@@ -20,7 +20,7 @@
         = link_to "Log In", new_user_session_path
     %li.nav-tab.sign-up-in
       - if user_signed_in?
-        = link_to current_user.name
+        = link_to current_user.name, edit_user_registration_path
       - else
         = link_to "Register", new_user_registration_path
     

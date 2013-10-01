@@ -1,5 +1,9 @@
 
-%h2 Create new Dataset
+%h2 Upload Data
 %form
-  %label{:for => "upload-input"} Select a Datafile to upload
-  %input{:type => "file", :accept => "csv"}
+  %ul
+    %li
+      %label{:for => "dataset-upload"} Select a data file
+      %input{:type => "file", :id=>"dataset-upload", :accept => "csv"}
+    %li
+      %input{:type => "submit", :value => "Upload Data File"}

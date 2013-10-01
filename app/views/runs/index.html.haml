@@ -1,6 +1,6 @@
 %h2 Runs
 
-- if @runs.empty?
+- if @runs.nil? or @runs.empty?
   %p
     This looks like your first time running MOCK. To begin, follow the instructions below:
   %ol
@@ -9,7 +9,6 @@
       = link_to "try uploading a new data file", datasets_new_path
       )
     %li
-      
-
+      Select a MOCK run from the list below to see the results
 - else
   %p= @datasets

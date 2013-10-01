@@ -1,6 +1,6 @@
 %h2 Data
 
-- if @datasets.empty?
+- if @datasets.nil? or @datasets.empty?
   %p
     No data found. Do you want to
     = link_to "upload a new data file", datasets_new_path

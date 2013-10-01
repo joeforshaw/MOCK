@@ -1,9 +1,10 @@
-
-%h2 Upload Data
-%form
-  %ul
-    %li
-      %label{:for => "dataset-upload"} Select a data file
-      %input{:type => "file", :id=>"dataset-upload", :accept => "csv"}
-    %li
-      %input{:type => "submit", :value => "Upload Data File"}
+.dataset-new
+  %h2 Upload Data
+  = form_for @dataset do |f|
+    %ul
+      %li
+        %label{:for => "dataset-upload"} Select a data file
+        = f.file_field :file
+        / %input{:type => "file", :id => "dataset-upload", :accept => "csv"}
+      %li
+        %input{:type => "submit", :value => "Upload Data File"}

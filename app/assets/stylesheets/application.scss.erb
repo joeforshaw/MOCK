@@ -32,76 +32,82 @@ body {
   font-size: 16px;
   font-family: Lato Light, sans-serif, Helvetica, Arial;
   color: rgb(57,57,55);
-}
+  
+  header {
+    background: rgb(240,240,240);
+    
+    h1 {
+      font-weight: normal;
+      color: rgb(80,80,80);
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
+      margin: 0 auto;
+      font-size: 2.5em;
+    }
+    
+  }
+  
+  header, nav, main {
+    margin: 0 auto;
+    padding-left: 50px;
+    padding-right: 50px;
+    min-width: 800px;
+  }
+  
+  nav {
+    border-top: 4px solid rgb(200,200,200);
+    background-color: rgb(210,210,210);
+    line-height: 20px;
 
-header {
-  background: rgb(240,240,240);
-}
+    ul {
+      list-style-type: none;
 
-header h1 {
-  font-weight: normal;
-  color: rgb(80,80,80);
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  margin: 0 auto;
-  font-size: 2.5em;
-}
+      li {
+        list-style: none;
+        display: inline-block;
 
-header, nav, main {
-  margin: 0 auto;
-  padding-left: 50px;
-  padding-right: 50px;
-  min-width: 800px;
-}
+        a {
+          padding: 0.5em 1em;
+          display: inline-block;
+          -webkit-transition: all 0.2s ease-in;
+          text-decoration: none;
+          color: rgb(80,80,80);
+        }
 
-nav {
-  border-top: 4px solid rgb(200,200,200);
-  background-color: rgb(210,210,210);
-  line-height: 20px;
-}
+        a:hover {
+          background: rgb(200,200,200);
+        }
+        
+      }
+      
+      li:first-child {
+        margin-left: -1em;
+      }
 
-nav ul {
-  list-style-type: none;
-}
+      li.sign-up-in {
+        float: right;
 
-nav ul li {
-  list-style: none;
-  display: inline-block;
+        a {
+          border-bottom: 4px solid rgb(170,170,170);
+          margin-top: -4px;
+        }
 
-}
+      }
 
-nav ul li:first-child {
-  margin-left: -1em;
-}
+    }
 
-nav ul li a {
-  padding: 0.5em 1em;
-  display: inline-block;
-  -webkit-transition: all 0.2s ease-in;
-  text-decoration: none;
-  color: rgb(80,80,80);
-}
+  } 
 
-nav ul li a:hover {
-  background: rgb(200,200,200);
-}
+  main {
+    padding-top: 2em;
+    padding-bottom: 2em;
 
-nav ul li.sign-up-in {
-  float: right;
-}
+    .pages li {
+      list-style: none;
+    }
 
-nav ul li.sign-up-in a {
-  border-bottom: 4px solid rgb(170,170,170);
-  margin-top: -4px;
-}
+  }
 
-main {
-  padding-top: 2em;
-  padding-bottom: 2em;
-}
-
-main .pages li {
-  list-style: none;
 }
 
 .tab {

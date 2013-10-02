@@ -7,6 +7,8 @@ MOCK::Application.routes.draw do
   get 'datasets/new' => 'datasets#new'
   get 'datasets' => 'datasets#index'
 
+  post 'datasets/create' => 'datasets#create'
+
   get 'runs' => 'runs#index'
 
   #   get 'products/:id' => 'catalog#view'

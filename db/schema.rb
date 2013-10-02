@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20130930145855) do
   end
 
   create_table "datasets", force: true do |t|
+    t.string   "name"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"

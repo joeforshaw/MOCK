@@ -1,10 +1,10 @@
 %h2 Data
+= link_to "Upload a new data file", datasets_new_path
 
 - if @datasets.nil? or @datasets.empty?
   %p
-    No data found. Do you want to
-    = link_to "upload a new data file", datasets_new_path
-    ?
+    No data uploaded.
 - else
-  %p= @datasets
+  - @datasets.each do |dataset|
+    %p= dataset.name
 

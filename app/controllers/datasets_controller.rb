@@ -1,16 +1,22 @@
 class DatasetsController < ApplicationController
 
   def new
-    @dataset = Dataset.new
+    if user_signed_in?
+      @dataset = Dataset.new
+    else
+      redirect_to :new_user_session
+    end
   end
 
   def create
-    puts "Poops"
-    uploaded_io = params[:dataset][:file]
-    File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'w') do |file|
-      file.write(uploaded_io.read)
+    if user_signed_in?
+      uploaded_io = params[:dataset][:file]
+      Dataset.new(
+        :user_id => current_user.id,
+        :name => params[:dataset][:name]
+      ).save
+      redirect_to :datasets
     end
-    # redirect_to :datasets
   end
 
   def index

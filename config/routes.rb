@@ -5,7 +5,8 @@ MOCK::Application.routes.draw do
   root 'pages#home'
 
   get 'datasets/new' => 'datasets#new'
-  get 'datasets' => 'datasets#index'
+  get 'datasets'     => 'datasets#index'
+  get 'datasets/:id' => 'datasets#show', :as => :dataset
 
   post 'datasets/create' => 'datasets#create'
 

@@ -2,9 +2,10 @@
 = link_to "Upload a new data file", datasets_new_path
 
 - if @datasets.nil? or @datasets.empty?
-  %p
-    No data uploaded.
+  %p No data uploaded.
 - else
-  - @datasets.each do |dataset|
-    %p= dataset.name
+  %ul
+    - @datasets.each do |dataset|
+      %li
+        = link_to dataset.name, dataset
 

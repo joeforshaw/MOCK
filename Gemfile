@@ -34,3 +34,5 @@ gem 'pg'
 gem 'devise'
 
 gem 'haml'
+
+gem 'gon'

@@ -6,9 +6,14 @@
   %ol
     %li
       Select a data file from below that you want to use (if you can't see any,
-      = link_to "try uploading a new data file", datasets_new_path
+      = link_to "try uploading a new data file", new_dataset_path
       )
     %li
       Select a MOCK run from the list below to see the results
-- else
-  %p= @datasets
+
+- if !@datasets.nil? and !@datasets.empty?
+  %h2 Choose a Dataset
+  %ul
+    - @datasets.each do |dataset|
+      %li
+        = link_to dataset.name, dataset

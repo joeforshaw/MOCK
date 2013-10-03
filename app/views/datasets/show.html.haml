@@ -1,0 +1,11 @@
+.dataset-show
+
+  %h2= @dataset.name
+
+  = link_to "Run MOCK on this Dataset", new_run_path
+
+  %table
+    - @dataset.datapoints.each do |datapoint|
+      %tr
+        - datapoint.datavalues.each do |datavalue|
+          %td= "#{datavalue.value} "

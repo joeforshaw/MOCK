@@ -1,5 +1,3 @@
-require 'csv'
-
 class DatasetsController < ApplicationController
 
   def new
@@ -34,7 +32,7 @@ class DatasetsController < ApplicationController
           end
         end
       end
-      redirect_to :datasets
+      redirect_to dataset
     end
   end
 
@@ -45,7 +43,15 @@ class DatasetsController < ApplicationController
   end
 
   def show
-    @dataset = Dataset.find(params[:id])
+    if user_signed_in?
+      @dataset = Dataset.find_by_id_and_user_id(params[:id], current_user.id)
+      respond_to do |format|
+        format.html
+        format.csv { render text: @dataset.to_csv }
+      end
+    else
+      throw Exception
+    end
   end
 
 end

@@ -1,3 +1,5 @@
+
+
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 1100 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -24,10 +26,14 @@ var solutionSVG = d3.select("#solution-graph")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+d3.text("/algo/data/joe.example.data", function(text) {
+  console.log(d3.csv.parseRows(text));
+});
+
 var dsv = d3.dsv(" ", "text/plain");
 dsv("/algo/data/joe.example.data", function(error, data) {
     data.forEach(function(d) {
-        d.First = +d.First;
+        d.First  = +d.First;
         d.Second = +d.Second;
     });
 

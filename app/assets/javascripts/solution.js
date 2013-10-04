@@ -26,20 +26,20 @@ var solutionSVG = d3.select("#solution-graph")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.text("/algo/data/joe.example.data", function(text) {
-  console.log(d3.csv.parseRows(text));
-});
+d3.text(gon.dataset_path /*"/algo/data/joe.example.data"*/, function(text) {
 
-var dsv = d3.dsv(" ", "text/plain");
-dsv("/algo/data/joe.example.data", function(error, data) {
-    data.forEach(function(d) {
-        d.First  = +d.First;
-        d.Second = +d.Second;
+    var dataDsv = d3.dsv(" ", "text/plain");
+    var data = dataDsv.parseRows(text).map(function(row) {
+        return row.map(function(value) {
+            return +value;
+        });
     });
 
-    x.domain(d3.extent(data, function(d) { return d.First; })).nice();
+    var numberOfColumns = data[0].length;
 
-    y.domain(d3.extent(data, function(d) { return d.Second; })).nice();
+    x.domain(d3.extent(data, function(d) { return d[0]; })).nice();
+
+    y.domain(d3.extent(data, function(d) { return d[1]; })).nice();
 
     solutionSVG.append("g")
         .attr("class", "x axis")
@@ -68,9 +68,9 @@ dsv("/algo/data/joe.example.data", function(error, data) {
       .enter().append("circle")
         .attr("class", "dot")
         .attr("r", 3.5)
-        .attr("cx", function(d) { return x(d.First); })
-        .attr("cy", function(d) { return y(d.Second); })
-        .style("fill", function(d) { return color(d.Class); });
+        .attr("cx", function(d) { return x(d[0]); })
+        .attr("cy", function(d) { return y(d[1]); })
+        .style("fill", function(d) { return color(d[numberOfColumns - 1]); });
 
     var legend = solutionSVG.selectAll(".legend")
         .data(color.domain())
@@ -90,4 +90,5 @@ dsv("/algo/data/joe.example.data", function(error, data) {
     //     .attr("dy", ".35em")
     //     .style("text-anchor", "end")
     //     .text(function(d) { return d; });
+
 });

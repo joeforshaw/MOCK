@@ -2,7 +2,7 @@
 
   %h2= @dataset.name
 
-  = link_to "Run MOCK on this Dataset", new_run_path
+  = link_to "Run MOCK on this Dataset", create_run_path(:dataset => @dataset.id)
 
   %table
     - @dataset.datapoints.each do |datapoint|

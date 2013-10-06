@@ -73,6 +73,8 @@ class conf {
      int imax;
      int jmax;
 
+     int userid;
+     int runid;
 
      double mind;
      double maxd;

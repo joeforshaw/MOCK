@@ -13,16 +13,17 @@ class DatasetsController < ApplicationController
       # Create Dataset
       dataset = Dataset.new(
         :user_id => current_user.id,
-        :name => params[:dataset][:name]
+        :name => params[:dataset][:name],
+        :rows => params[:dataset][:file].tempfile.readlines.size
       )
       if dataset.save
         CSV.foreach(params[:dataset][:file].tempfile) do |line|
+          columns = line.split(' ')[0].size
           # Create Datapoint
           datapoint = Datapoint.new(:dataset_id => dataset.id)
           if datapoint.save
             
-            datavalues = line[0].split(' ')
-            datavalues.each do |datavalue_string|
+            line.split(' ').each do |datavalue_string|
               # Create Datavalue
               Datavalue.new(
                 :value => datavalue_string.to_f,
@@ -32,6 +33,7 @@ class DatasetsController < ApplicationController
           end
         end
       end
+      dataset.update_attributes(:columns => columns)
       redirect_to dataset
     end
   end
@@ -43,14 +45,15 @@ class DatasetsController < ApplicationController
   end
 
   def show
-    if user_signed_in?
-      @dataset = Dataset.find_by_id_and_user_id(params[:id], current_user.id)
-      respond_to do |format|
-        format.html
-        format.csv { render text: @dataset.to_csv }
+    respond_to do |format|
+      format.html do
+        if user_signed_in?
+          @dataset = Dataset.find_by_id_and_user_id(params[:id], current_user.id)
+        end
       end
-    else
-      throw Exception
+      format.csv do
+        render text: Dataset.find(params[:id]).to_csv
+      end
     end
   end
 

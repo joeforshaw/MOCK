@@ -1,6 +1,11 @@
 %h2 Runs
 
-- if @runs.nil? or @runs.empty?
+- if !@runs.nil? and !@runs.empty?
+  %ul
+    - @runs.each do |run|
+      %li
+        = link_to "#{run.dataset.name} at #{run.created_at}", run
+- else
   %p
     This looks like your first time running MOCK. To begin, follow the instructions below:
   %ol
@@ -12,7 +17,8 @@
       Select a MOCK run from the list below to see the results
 
 - if !@datasets.nil? and !@datasets.empty?
-  %h2 Choose a Dataset
+  %h2 Perform another Run
+  %p Select a dataset from below:
   %ul
     - @datasets.each do |dataset|
       %li

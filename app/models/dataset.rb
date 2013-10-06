@@ -5,7 +5,6 @@ class Dataset < ActiveRecord::Base
 
   def to_csv
     CSV.generate do |csv|
-      # csv << column_names
       self.datapoints.each do |datapoint|
         datapoint_string = ""
         datapoint.datavalues.each do |datavalue|

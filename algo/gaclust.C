@@ -49,7 +49,6 @@ extern int L;
 extern int jobnbr;
 
 
-
 // size of the data set
 int gaclust::gensize() {
 
@@ -77,7 +76,8 @@ void gaclust::init(char * name) {
   pathname = name;
   
   bin = new databin<USED_DATA_TYPE>(par, pathname, size, dim); 
-
+  printf("user_id: %d\n", par->userid);
+  printf("run_id: %d\n", par->runid);
 }
 
 
@@ -301,7 +301,7 @@ void gaclust::print(clustering * clust, int ** nnlist, int knn, double ** ind) {
   if (maxj < 25) {
 
     char name[130];
-    sprintf(name, "data/%s.method%d.run%d.solution%d.part", par->filename,par->s, jobnbr, prindex);
+    sprintf(name, "algo/data/user.%d.method.%d.run.%d.solution.%d.part", par->userid, par->s, par->runid, prindex);
     prindex++;
     // cerr << prindex << endl;
     ofstream out_k(name);

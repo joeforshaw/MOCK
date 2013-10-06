@@ -314,11 +314,13 @@ int main(int argc, char **argv) {
   // default values
   par->normalize = false;
   par->distance = EUCLIDEAN;
+  par->userid = atoi(argv[6]);
+  par->runid = atoi(argv[7]);
 
 
 
   // Read in parameters from configuration file
-  ifstream in("System.conf");
+  ifstream in("algo/System.conf");
   char temp[1000];
   in >> temp;
   filename = temp;
@@ -602,7 +604,7 @@ int main(int argc, char **argv) {
   // Normalization of objective values
 
   char name[100];
-  sprintf(name, "data/%s.method%d.run%d.pf",filename,setting,jobnbr);
+  sprintf(name, "algo/data/user.%d.method.%d.run.%d.pf",par->userid,setting,par->runid);
   ofstream out1(name);
   
   int N = 1;
@@ -629,13 +631,12 @@ int main(int argc, char **argv) {
   }
   out1.close();
 
-  sprintf(name, "data/%s.method%d.run%d.control.pf",filename,setting,jobnbr);
+  sprintf(name, "algo/data/user.%d.method.%d.run.%d.control.pf",par->userid,setting,par->runid);
 
   ofstream out2(name);
   N = 1;
   double av[21][2];
   ctr = 0;
-  out2 << "ID K Connectivity Deviation\n";
   for (int ct=0; ct<CT; ct++) {
     for (int i=0; i<ct_epsize[ct];i++ ) {
       control[ctr*STEP+2] = sqrt((control[ctr*STEP+2]-c_min0[ct])/(c_max0[ct]-c_min0[ct]));
@@ -712,7 +713,7 @@ int main(int argc, char **argv) {
    }
 
 
-  sprintf(name, "data/%d-attainment.pf",jobnbr);
+  sprintf(name, "algo/data/%d-attainment.pf",jobnbr);
   ofstream att(name);
 
   int besti = -1;
@@ -771,7 +772,7 @@ int main(int argc, char **argv) {
     }
   }
 
-  sprintf(name, "data/%s.method%d.run%d.rec.pf",filename,setting,jobnbr);
+  sprintf(name, "algo/data/user.%d.method.%d.run.%d.rec.pf",par->userid,setting,par->runid);
   ofstream rec(name);
 
   

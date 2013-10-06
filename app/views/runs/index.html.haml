@@ -4,7 +4,7 @@
   %ul
     - @runs.each do |run|
       %li
-        = link_to "#{run.dataset.name} at #{run.created_at}", run
+        = link_to "#{run.dataset.name} - #{time_ago_in_words run.created_at} ago", run
 - else
   %p
     This looks like your first time running MOCK. To begin, follow the instructions below:

@@ -10,7 +10,7 @@ MOCK::Application.routes.draw do
 
   post 'datasets/create' => 'datasets#create', :as => :create_dataset
 
-  get 'runs/create' => 'runs#create', :as => :create_run
+  get 'runs/new' => 'runs#new', :as => :new_run
   get 'runs'        => 'runs#index',  :as => :runs
   get 'runs/:id'    => 'runs#show',   :as => :run
 

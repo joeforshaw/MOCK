@@ -713,7 +713,7 @@ int main(int argc, char **argv) {
    }
 
 
-  sprintf(name, "algo/data/%d-attainment.pf",jobnbr);
+  sprintf(name, "algo/data/user.%d.method.%d.run.%d.attainment.pf", par->userid, par->s, par->runid);
   ofstream att(name);
 
   int besti = -1;

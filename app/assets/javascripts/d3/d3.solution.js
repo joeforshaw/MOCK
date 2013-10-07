@@ -26,7 +26,7 @@ var solutionSVG = d3.select("#solution-graph")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.text(gon.dataset_path, function(text) {
+d3.text(gon.solution_path, function(text) {
 
     var dataDsv = d3.dsv(" ", "text/plain");
     var data = dataDsv.parseRows(text).map(function(row) {

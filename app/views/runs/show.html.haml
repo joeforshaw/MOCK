@@ -1,18 +1,3 @@
-%ul.pages
-  %li
-    .solution-page.tab.active-tab.graph
-      %svg#solution-graph
-
-  %li
-    .pareto-front-page.tab.graph
-      %svg#pareto-front-graph
-
-  %li
-    .dendrogram-page.tab.graph
-      #dendrogram
-
-= include_gon
-= javascript_include_tag "d3/d3.js"
-= javascript_include_tag "d3/d3.dendrogram.js"
-= javascript_include_tag "d3/d3.solution.js"
-= javascript_include_tag "d3/d3.solutionfront.js"
+%ul.run-show
+  - @run.solutions.order(:generated_solution_id).each do |solution|
+    %li= link_to solution.generated_solution_id, solution

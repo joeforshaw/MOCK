@@ -12,8 +12,20 @@ class RunsController < ApplicationController
       File.open(temp_file_name, 'w') {|f| f.write(@dataset.to_csv) }
       `algo/MOCK 1 1 #{temp_file_name} #{@dataset.rows} #{@dataset.columns - 1} #{current_user.id} #{@run.id}`
       
+      # Get a list of the names of all solution files generated
+      solution_files = []
+      Dir.foreach("algo/data") do |filename|
+        split_filename = filename.split('.')
+        if split_filename.size == 9 && split_filename[1].to_i == current_user.id && split_filename[5].to_i == @run.id
+          solution = Solution.new(
+            :run_id => @run.id,
+            :generated_solution_id => split_filename[7].to_i
+          )
+          solution.save
+        end
+      end
     end
-
+    
   end
 
   def index
@@ -25,7 +37,6 @@ class RunsController < ApplicationController
 
   def show
     @run = Run.find(params[:id])
-    gon.dataset_path = "#{dataset_path(@run.dataset.id)}.csv"
   end
 
 end

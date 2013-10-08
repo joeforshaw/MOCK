@@ -19,9 +19,11 @@ class RunsController < ApplicationController
         if split_filename.size == 9 && split_filename[1].to_i == current_user.id && split_filename[5].to_i == @run.id
           solution = Solution.new(
             :run_id => @run.id,
-            :generated_solution_id => split_filename[7].to_i
+            :generated_solution_id => (split_filename[7].to_i + 1)
           )
-          solution.save
+          if solution.save
+
+          end
         end
       end
     end

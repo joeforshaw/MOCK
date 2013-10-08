@@ -16,11 +16,14 @@ class DatasetsController < ApplicationController
         :name => params[:dataset][:name],
         :rows => params[:dataset][:file].tempfile.readlines.size
       )
-      dataset_columns = 0;
+      dataset_columns = -1;
       if dataset.save
         sequence_id = 1;
         CSV.foreach(params[:dataset][:file].tempfile) do |line|
-          dataset_columns = line.first.split(' ').size
+          # Calculate number of columns
+          if dataset_id < 0
+            dataset_columns = line.first.split(' ').size
+          end
           # Create Datapoint
           datapoint = Datapoint.new(
             :dataset_id  => dataset.id,

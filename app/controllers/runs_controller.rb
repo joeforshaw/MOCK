@@ -13,17 +13,38 @@ class RunsController < ApplicationController
       `algo/MOCK 1 1 #{temp_file_name} #{@dataset.rows} #{@dataset.columns - 1} #{current_user.id} #{@run.id}`
       
       # Get a list of the names of all solution files generated
-      solution_files = []
       Dir.foreach("algo/data") do |filename|
+
         split_filename = filename.split('.')
+
         if split_filename.size == 9 && split_filename[1].to_i == current_user.id && split_filename[5].to_i == @run.id
+          
           solution = Solution.new(
             :run_id => @run.id,
             :generated_solution_id => (split_filename[7].to_i + 1)
           )
+
           if solution.save
+            clusters = Set.new []
+            File.open("algo/data/#{solution.mock_file_name}", "r+") do |file|
+              puts file.inspect
+              CSV.foreach(file) do |line|
+                cluster_id = line.first.split(' ').last.to_i
+                if !clusters.add?(cluster_id).nil?
+                  cluster = Cluster.new(
+                    :solution_id => solution.id,
+                    :generated_cluster_id => cluster_id
+                  )
+                  cluster.save
+                end
+
+                
+                
+              end
+            end
 
           end
+
         end
       end
     end

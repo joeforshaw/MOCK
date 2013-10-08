@@ -21,7 +21,7 @@ class DatasetsController < ApplicationController
         sequence_id = 1;
         CSV.foreach(params[:dataset][:file].tempfile) do |line|
           # Calculate number of columns
-          if dataset_id < 0
+          if dataset_columns < 0
             dataset_columns = line.first.split(' ').size
           end
           # Create Datapoint
@@ -30,7 +30,7 @@ class DatasetsController < ApplicationController
             :sequence_id => sequence_id
           )
           sequence_id += 1
-
+          
           if datapoint.save
             line.first.split(' ').each do |datavalue_string|
               # Create Datavalue

@@ -16,24 +16,31 @@ class DatasetsController < ApplicationController
         :name => params[:dataset][:name],
         :rows => params[:dataset][:file].tempfile.readlines.size
       )
+      dataset_columns = 0;
       if dataset.save
+        sequence_id = 1;
         CSV.foreach(params[:dataset][:file].tempfile) do |line|
-          columns = line.split(' ')[0].size
+          dataset_columns = line.first.split(' ').size
           # Create Datapoint
-          datapoint = Datapoint.new(:dataset_id => dataset.id)
+          datapoint = Datapoint.new(
+            :dataset_id  => dataset.id,
+            :sequence_id => sequence_id
+          )
+          sequence_id += 1
+
           if datapoint.save
-            
-            line.split(' ').each do |datavalue_string|
+            line.first.split(' ').each do |datavalue_string|
               # Create Datavalue
-              Datavalue.new(
+              datavalue = Datavalue.new(
                 :value => datavalue_string.to_f,
                 :datapoint_id => datapoint.id
-              ).save
+              )
+              datavalue.save
             end
           end
         end
       end
-      dataset.update_attributes(:columns => columns)
+      dataset.update_attributes(:columns => dataset_columns)
       redirect_to dataset
     end
   end

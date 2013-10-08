@@ -1,3 +1,3 @@
 class Datavalue < ActiveRecord::Base
-  belongs_to :datapoint
+  belongs_to :datapoint, dependent: :destroy
 end

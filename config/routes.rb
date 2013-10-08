@@ -4,15 +4,14 @@ MOCK::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'pages#home'
 
-  get 'datasets/new' => 'datasets#new',   :as => :new_dataset
-  get 'datasets'     => 'datasets#index', :as => :datasets
-  get 'datasets/:id' => 'datasets#show',  :as => :dataset
-
+  get  'datasets/new'    => 'datasets#new',    :as => :new_dataset
+  get  'datasets'        => 'datasets#index',  :as => :datasets
+  get  'datasets/:id'    => 'datasets#show',   :as => :dataset
   post 'datasets/create' => 'datasets#create', :as => :create_dataset
 
-  get 'runs/new' => 'runs#new', :as => :new_run
-  get 'runs'        => 'runs#index',  :as => :runs
-  get 'runs/:id'    => 'runs#show',   :as => :run
+  get 'runs/new' => 'runs#new',   :as => :new_run
+  get 'runs'     => 'runs#index', :as => :runs
+  get 'runs/:id' => 'runs#show',  :as => :run
 
   get 'solutions/:id' => 'solutions#show', :as => :solution
 

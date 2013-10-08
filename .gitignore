@@ -24,3 +24,5 @@
 *.o
 
 /algo/MOCK
+
+.DS_Store

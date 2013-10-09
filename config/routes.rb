@@ -15,6 +15,8 @@ MOCK::Application.routes.draw do
 
   get 'solutions/:id' => 'solutions#show', :as => :solution
 
+  get 'clusters/:id' => 'clusters#show', :as => :cluster
+
   #   get 'products/:id' => 'catalog#view'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)

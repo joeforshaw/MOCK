@@ -1,0 +1,9 @@
+%h2 Cluster Datapoints
+
+%p= "Number of Datapoints: #{@cluster.datapoints.size}"
+
+%ul
+  - @cluster.datapoints.each do |datapoint|
+    %li
+      - datapoint.datavalues.each do |datavalue|
+        = datavalue.value

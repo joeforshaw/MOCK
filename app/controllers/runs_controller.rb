@@ -26,34 +26,40 @@ class RunsController < ApplicationController
           if solution.save
 
             clusters = Set.new []
+
+            # Open file of current solution
             File.open("algo/data/#{solution.mock_file_name}", "r+") do |file|
 
+              # For each datapoint in this solution
               @run.dataset.datapoints.each do |datapoint|
 
-                cluster_id = line.first.split(' ').last.to_i
-                if !clusters.add?(cluster_id).nil?
+                # Get cluster assignment of datapoint
+                generated_cluster_id = file.readline.first.split(' ').last.to_i
+
+                # Create cluster if its first time we've seen it
+                if !clusters.add?(generated_cluster_id).nil?
 
                   cluster = Cluster.new(
                     :solution_id => solution.id,
-                    :generated_cluster_id => cluster_id
+                    :generated_cluster_id => generated_cluster_id
                   )
                   cluster.save
 
                 end
+
+                cluster_id = Cluster.find_by(
+                  :solution_id          => solution.id,
+                  :generated_cluster_id => generated_cluster_id
+                ).id
+                cluster_datapoint = ClusterDatapoint.new(
+                  :datapoint_id => datapoint.id,
+                  :cluster_id   => cluster_id
+                )
+                cluster_datapoint.save
+
               end
             end
-
-            # Add associations between datapoints and clusters
-            @run.dataset.datapoints.each do |datapoint|
-              cluster_datapoint = ClusterDatapoint.new(
-                :datapoint_id => datapoint.id,
-                :cluster_id   => datapointToCluster[datapoint.id]
-              )
-              cluster_datapoint.save
-            end
-
           end
-
         end
       end
     end

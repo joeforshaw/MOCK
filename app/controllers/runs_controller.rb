@@ -51,11 +51,12 @@ class RunsController < ApplicationController
 
       solutions = @run.solutions
       solutions.each do |solution|
+        clusters_for_solution = Cluster.where(:solution_id => solution.id)
         File.open("algo/data/#{solution.mock_file_name}", "r+") do |file|
           datapoints = @run.dataset.datapoints
           datapoints.each do |datapoint|
             generated_cluster_id = file.readline.split(' ').last.to_i
-            cluster = Cluster.find_by(:solution_id => solution.id, :generated_cluster_id => generated_cluster_id)
+            cluster = clusters_for_solution.where(:generated_cluster_id => generated_cluster_id).first
             cluster_datapoints << ClusterDatapoint.new(:cluster_id => cluster.id, :datapoint_id => datapoint.id)
           end
         end
@@ -64,6 +65,8 @@ class RunsController < ApplicationController
       ClusterDatapoint.import cluster_datapoints
 
     end
+
+    redirect_to @run
     
   end
 

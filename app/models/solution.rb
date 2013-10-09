@@ -8,12 +8,15 @@ class Solution < ActiveRecord::Base
 
   def to_csv
     CSV.generate do |csv|
-      self.datapoints.order(:sequence_id).each do |datapoint|
-        datapoint_string = ""
-        datapoint.datavalues.each do |datavalue|
-          datapoint_string << "#{datavalue.value} "
+      self.clusters.each do |cluster|
+        cluster.datapoints.each do |datapoint|
+          datapoint_string = ""
+          datapoint.datavalues.each do |datavalue|
+            datapoint_string << "#{datavalue.value} "
+          end
+          datapoint_string << "#{cluster.generated_cluster_id}"
+          csv << [datapoint_string]
         end
-        csv << [datapoint_string]
       end
     end
   end

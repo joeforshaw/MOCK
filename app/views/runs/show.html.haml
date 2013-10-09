@@ -1,3 +1,5 @@
+%h2 Run Solutions
+
 %ul.run-show
   - @run.solutions.order(:generated_solution_id).each do |solution|
     %li= link_to solution.generated_solution_id, solution

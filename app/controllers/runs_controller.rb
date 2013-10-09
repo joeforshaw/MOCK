@@ -12,7 +12,10 @@ class RunsController < ApplicationController
       temp_file_name = "tmp/user.#{current_user.id}.dataset.#{@dataset.id}.csv"
       File.open(temp_file_name, 'w') {|f| f.write(@dataset.to_csv) }
       `algo/MOCK 1 1 #{temp_file_name} #{@dataset.rows} #{@dataset.columns - 1} #{current_user.id} #{@run.id}`
-      # Get a list of the names of all solution files generated
+
+      solutions = []
+      clusters = []
+      cluster_datapoints = []
       Dir.foreach("algo/data") do |filename|
 
         split_filename = filename.split('.')
@@ -25,43 +28,41 @@ class RunsController < ApplicationController
 
           if solution.save
 
-            clusters = Set.new []
-
-            # Open file of current solution
+            # Create clusters
             File.open("algo/data/#{solution.mock_file_name}", "r+") do |file|
-
-              # For each datapoint in this solution
-              @run.dataset.datapoints.each do |datapoint|
-
-                # Get cluster assignment of datapoint
-                generated_cluster_id = file.readline.first.split(' ').last.to_i
-
-                # Create cluster if its first time we've seen it
-                if !clusters.add?(generated_cluster_id).nil?
-
-                  cluster = Cluster.new(
-                    :solution_id => solution.id,
-                    :generated_cluster_id => generated_cluster_id
-                  )
-                  cluster.save
-
-                end
-
-                cluster_id = Cluster.find_by(
-                  :solution_id          => solution.id,
-                  :generated_cluster_id => generated_cluster_id
-                ).id
-                cluster_datapoint = ClusterDatapoint.new(
-                  :datapoint_id => datapoint.id,
-                  :cluster_id   => cluster_id
-                )
-                cluster_datapoint.save
-
+              
+              # Collect cluster ids from files
+              generated_cluster_ids = Set.new
+              CSV.foreach(file) do |line|
+                generated_cluster_ids.add(line.first.split(' ').last.to_i)
               end
+
+              # Create Cluster records
+              generated_cluster_ids.each do |generated_cluster_id|
+                clusters << Cluster.new(:solution_id => solution.id, :generated_cluster_id => generated_cluster_id)
+              end
+
             end
           end
         end
       end
+
+      Cluster.import clusters
+
+      solutions = @run.solutions
+      solutions.each do |solution|
+        File.open("algo/data/#{solution.mock_file_name}", "r+") do |file|
+          datapoints = @run.dataset.datapoints
+          datapoints.each do |datapoint|
+            generated_cluster_id = file.readline.split(' ').last.to_i
+            cluster = Cluster.find_by(:solution_id => solution.id, :generated_cluster_id => generated_cluster_id)
+            cluster_datapoints << ClusterDatapoint.new(:cluster_id => cluster.id, :datapoint_id => datapoint.id)
+          end
+        end
+      end
+
+      ClusterDatapoint.import cluster_datapoints
+
     end
     
   end

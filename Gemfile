@@ -36,3 +36,7 @@ gem 'devise'
 gem 'haml'
 
 gem 'gon'
+
+gem 'activerecord-import'
+
+gem 'debugger'

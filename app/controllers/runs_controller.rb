@@ -28,7 +28,7 @@ class RunsController < ApplicationController
             clusters = Set.new []
             File.open("algo/data/#{solution.mock_file_name}", "r+") do |file|
 
-              CSV.foreach(file) do |line|
+              @run.dataset.datapoints.each do |datapoint|
 
                 cluster_id = line.first.split(' ').last.to_i
                 if !clusters.add?(cluster_id).nil?
@@ -42,16 +42,6 @@ class RunsController < ApplicationController
                 end
               end
             end
-
-            # Build a hash of datapoint cluster assignments
-            datapointToCluster = {}
-            solution.clusters.each do |cluster|
-              cluster.datapoints.each do |datapoint|
-                datapointToCluster[datapoint.id] = cluster.generated_cluster_id
-              end
-            end
-
-            puts "datapointToCluster: #{datapointToCluster.inspect}"
 
             # Add associations between datapoints and clusters
             @run.dataset.datapoints.each do |datapoint|

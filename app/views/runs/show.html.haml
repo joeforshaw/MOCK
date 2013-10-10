@@ -1,5 +1,13 @@
 %h2 Run Solutions
 
+%ul
+  %li
+    .pareto-front-page.tab.graph
+      %svg#pareto-front-graph
+
 %ul.run-show
   - @run.solutions.order(:generated_solution_id).each do |solution|
     %li= link_to solution.generated_solution_id, solution
+
+= javascript_include_tag "d3/d3.js"
+= javascript_include_tag "d3/d3.solutionfront.js"

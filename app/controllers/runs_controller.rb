@@ -14,6 +14,7 @@ class RunsController < ApplicationController
       `algo/MOCK 1 1 #{temp_file_name} #{@dataset.rows} #{@dataset.columns - 1} #{current_user.id} #{@run.id}`
 
       solutions = []
+      control_solutions = []
       clusters = []
       cluster_datapoints = []
       Dir.foreach("algo/data") do |filename|
@@ -44,9 +45,21 @@ class RunsController < ApplicationController
 
             end
           end
+        elsif split_filename[6] == "control"
+          File.open("algo/data/#{@run.control_file_name}", "r+") do |file|
+            CSV.foreach(file) do |line|
+              split_line = line.first.split(' ')
+              control_solutions << ControlSolution.new(
+                :run_id       => @run.id,
+                :connectivity => split_line[2].to_f,
+                :deviation    => split_line[3].to_f
+              )
+            end
+          end
         end
       end
 
+      ControlSolution.import control_solutions
       Cluster.import clusters
 
       solutions = @run.solutions

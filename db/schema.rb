@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131009180515) do
+ActiveRecord::Schema.define(version: 20131011130613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,14 @@ ActiveRecord::Schema.define(version: 20131009180515) do
   end
 
   add_index "clusters", ["solution_id"], name: "index_clusters_on_solution_id", using: :btree
+
+  create_table "control_solutions", force: true do |t|
+    t.integer  "run_id"
+    t.float    "connectivity"
+    t.float    "deviation"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "datapoints", force: true do |t|
     t.integer  "dataset_id"

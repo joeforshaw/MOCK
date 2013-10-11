@@ -9,11 +9,14 @@ MOCK::Application.routes.draw do
   get  'datasets/:id'    => 'datasets#show',   :as => :dataset
   post 'datasets/create' => 'datasets#create', :as => :create_dataset
 
-  get 'runs/new' => 'runs#new',   :as => :new_run
-  get 'runs'     => 'runs#index', :as => :runs
-  get 'runs/:id' => 'runs#show',  :as => :run
-
-  get 'solutions/:id' => 'solutions#show', :as => :solution
+  get 'runs/new'         => 'runs#new',   :as => :new_run
+  get 'runs'             => 'runs#index', :as => :runs
+  get 'runs/:id'         => 'runs#show',  :as => :run
+  
+  get 'runs/:id/controls'  => 'control_solutions#index', :as => :control_solutions
+  get 'runs/:id/solutions' => 'solutions#index',         :as => :solutions
+  
+  get 'solutions/:id'    => 'solutions#show',  :as => :solution
 
   get 'clusters/:id' => 'clusters#show', :as => :cluster
 

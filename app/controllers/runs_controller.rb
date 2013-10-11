@@ -20,40 +20,43 @@ class RunsController < ApplicationController
       Dir.foreach("algo/data") do |filename|
 
         split_filename = filename.split('.')
-        if split_filename.size == 9 && split_filename[1].to_i == current_user.id && split_filename[5].to_i == @run.id
-          
-          solution = Solution.new(
-            :run_id => @run.id,
-            :generated_solution_id => (split_filename[7].to_i + 1)
-          )
+        if split_filename[1].to_i == current_user.id && split_filename[5].to_i == @run.id
+          if split_filename.size == 9
+            
+            solution = Solution.new(
+              :run_id => @run.id,
+              :generated_solution_id => (split_filename[7].to_i + 1)
+            )
 
-          if solution.save
+            if solution.save
 
-            # Create clusters
-            File.open("algo/data/#{solution.mock_file_name}", "r+") do |file|
-              
-              # Collect cluster ids from files
-              generated_cluster_ids = Set.new
-              CSV.foreach(file) do |line|
-                generated_cluster_ids.add(line.first.split(' ').last.to_i)
+              # Create clusters
+              File.open("algo/data/#{solution.mock_file_name}", "r+") do |file|
+                
+                # Collect cluster ids from files
+                generated_cluster_ids = Set.new
+                CSV.foreach(file) do |line|
+                  generated_cluster_ids.add(line.first.split(' ').last.to_i)
+                end
+
+                # Create Cluster records
+                generated_cluster_ids.each do |generated_cluster_id|
+                  clusters << Cluster.new(:solution_id => solution.id, :generated_cluster_id => generated_cluster_id)
+                end
+
               end
-
-              # Create Cluster records
-              generated_cluster_ids.each do |generated_cluster_id|
-                clusters << Cluster.new(:solution_id => solution.id, :generated_cluster_id => generated_cluster_id)
-              end
-
             end
-          end
-        elsif split_filename[6] == "control"
-          File.open("algo/data/#{@run.control_file_name}", "r+") do |file|
-            CSV.foreach(file) do |line|
-              split_line = line.first.split(' ')
-              control_solutions << ControlSolution.new(
-                :run_id       => @run.id,
-                :connectivity => split_line[2].to_f,
-                :deviation    => split_line[3].to_f
-              )
+          elsif split_filename[6] == "control"
+            # Process control data
+            File.open("algo/data/#{@run.control_file_name}", "r+") do |file|
+              CSV.foreach(file) do |line|
+                split_line = line.first.split(' ')
+                control_solutions << ControlSolution.new(
+                  :run_id       => @run.id,
+                  :connectivity => split_line[2].to_f,
+                  :deviation    => split_line[3].to_f
+                )
+              end
             end
           end
         end
@@ -92,6 +95,8 @@ class RunsController < ApplicationController
 
   def show
     @run = Run.find(params[:id])
+    gon.solution_front_path = "#{solutions_path(@run.id)}.csv"
+    gon.solution_control_front_path = "#{control_solutions_path(@run.id)}.csv"
   end
 
 end

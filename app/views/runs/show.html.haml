@@ -9,5 +9,6 @@
   - @run.solutions.order(:generated_solution_id).each do |solution|
     %li= link_to solution.generated_solution_id, solution
 
+= include_gon
 = javascript_include_tag "d3/d3.js"
 = javascript_include_tag "d3/d3.solutionfront.js"

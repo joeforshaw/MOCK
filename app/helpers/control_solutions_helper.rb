@@ -1,0 +1,2 @@
+module ControlSolutionsHelper
+end

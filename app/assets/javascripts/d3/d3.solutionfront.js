@@ -20,8 +20,8 @@ var yAxis = d3.svg.axis()
 
 var line = d3.svg.line()
     .interpolate("step-after")
-    .x(function(d) { return x(d.Deviation); })
-    .y(function(d) { return y(d.Connectivity); });
+    .x(function(d) { return x(d[0]); })
+    .y(function(d) { return y(d[1]); });
 
 var solutionFrontSVG = d3.select("#pareto-front-graph")
     .attr("width", width + margin.left + margin.right)
@@ -32,10 +32,13 @@ var solutionFrontSVG = d3.select("#pareto-front-graph")
 var dsv = d3.dsv(" ", "text/plain");
 
 // Solution front data
-dsv("/algo/data/joe.example.solution.pf", function(error, solutionData) {
-    solutionData.forEach(function(d) {
-        d.Connectivity = +d.Connectivity;
-        d.Deviation    = +d.Deviation;
+d3.text(gon.solution_front_path, function(text) {
+
+    var solutionDsv = d3.dsv(" ", "text/plain");
+    var solutionData = solutionDsv.parseRows(text).map(function(row) {
+        return row.map(function(value) {
+            return +value;
+        });
     });
 
     // Set x and y domains between 0 and 1
@@ -68,19 +71,22 @@ dsv("/algo/data/joe.example.solution.pf", function(error, solutionData) {
         .text("Overall Deviation");
 
     solutionData.sort(function(a, b) {
-        return d3.ascending(a.Deviation, b.Deviation);
+        return d3.ascending(a[0], b[0]);
     });
 
     // Control data
-    dsv("/algo/data/wine2.dat.method1.run1.control.pf", function(error, controlData) {
-        controlData.forEach(function(d) {
-            d.Connectivity = +d.Connectivity;
-            d.Deviation    = +d.Deviation;
+    d3.text(gon.solution_control_front_path, function(text) {
+
+        var controlDsv = d3.dsv(" ", "text/plain");
+        var controlData = controlDsv.parseRows(text).map(function(row) {
+            return row.map(function(value) {
+                return +value;
+            });
         });
 
         // Sort control data
         controlData.sort(function(a, b) {
-            return d3.ascending(a.Deviation, b.Deviation);
+            return d3.ascending(a[0], b[0]);
         });
 
         // Draw control line

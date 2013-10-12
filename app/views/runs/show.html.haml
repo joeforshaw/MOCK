@@ -1,12 +1,12 @@
-.pareto-front-page.tab.graph
-  %svg#pareto-front-graph
-
 %h2 Run Solutions
 
 %p
   - @run.solutions.order(:generated_solution_id).each do |solution|
     = link_to solution.generated_solution_id, solution
     = " "
+
+.pareto-front-page.tab.graph
+  %svg#pareto-front-graph
 
 / Uncomment to test
 / - objective_file = File.open("algo/data/#{@run.objective_file_name}")

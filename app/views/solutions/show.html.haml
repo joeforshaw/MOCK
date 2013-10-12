@@ -1,16 +1,15 @@
 %h2 Solution Clusters
 
+%p
+  - @solution.clusters.order(:generated_cluster_id).each do |cluster|
+    = link_to cluster.generated_cluster_id, cluster
+    = " "
 
 .solution-page.tab.active-tab.graph
   %svg#solution-graph
 
 //.dendrogram-page.tab.graph
 //  #dendrogram
-
-%p
-  - @solution.clusters.order(:generated_cluster_id).each do |cluster|
-    = link_to cluster.generated_cluster_id, cluster
-    = " "
 
 = include_gon
 = javascript_include_tag "d3/d3.js"

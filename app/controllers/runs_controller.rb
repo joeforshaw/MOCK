@@ -17,15 +17,33 @@ class RunsController < ApplicationController
       control_solutions = []
       clusters = []
       cluster_datapoints = []
-      Dir.foreach("algo/data") do |filename|
+      objective_file = CSV.open("algo/data/#{@run.objective_file_name}")
 
+      # Sort data files
+      data_files = Dir.entries("algo/data").sort do |a, b|
+        a_split = a.split('.')
+        b_split = b.split('.')
+        if a_split.size < 9
+          1
+        elsif b_split.size < 9
+          -1
+        else
+          a_split[7].to_i <=> b_split[7].to_i
+        end
+      end
+
+      data_files.each do |filename|
         split_filename = filename.split('.')
         if split_filename[1].to_i == current_user.id && split_filename[5].to_i == @run.id
           if split_filename.size == 9
             
+            objective_line_string = objective_file.readline.first.split(' ')
+
             solution = Solution.new(
               :run_id => @run.id,
-              :generated_solution_id => (split_filename[7].to_i + 1)
+              :generated_solution_id => (split_filename[7].to_i + 1),
+              :connectivity => objective_line_string[2].to_f,
+              :deviation => objective_line_string[3].to_f
             )
 
             if solution.save
@@ -60,7 +78,7 @@ class RunsController < ApplicationController
             end
           end
         end
-      end
+      end   
 
       ControlSolution.import control_solutions
       Cluster.import clusters

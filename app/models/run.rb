@@ -4,12 +4,16 @@ class Run < ActiveRecord::Base
   has_many :solutions
   has_many :control_solutions
 
-  def solution_csv
+  def objective_csv
     CSV.generate do |csv|
       self.solutions.each do |solution|
         csv << ["#{solution.connectivity} #{solution.deviation}"]
       end
     end
+  end
+
+  def objective_file_name
+    "user.#{self.user.id}.method.1.run.#{self.id}.pf"
   end
 
   def control_file_name

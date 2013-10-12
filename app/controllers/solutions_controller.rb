@@ -6,7 +6,7 @@ class SolutionsController < ApplicationController
       format.html do
       end
       format.csv do
-        render text: run.solution_csv
+        render text: run.objective_csv
       end
     end
   end

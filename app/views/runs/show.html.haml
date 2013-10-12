@@ -5,9 +5,17 @@
     .pareto-front-page.tab.graph
       %svg#pareto-front-graph
 
-%ul.run-show
+%p
   - @run.solutions.order(:generated_solution_id).each do |solution|
-    %li= link_to solution.generated_solution_id, solution
+    link_to solution.generated_solution_id, solution
+
+/ Uncomment to test
+/ - objective_file = File.open("algo/data/#{@run.objective_file_name}")
+/ %ul
+/   - @run.solutions.order(:generated_solution_id).each do |solution|
+/     - split_line = objective_file.readline.split(" ")
+/     %li
+/       %p= "#{solution.connectivity}, #{solution.deviation} - #{split_line[2]}, #{split_line[3]}"
 
 = include_gon
 = javascript_include_tag "d3/d3.js"

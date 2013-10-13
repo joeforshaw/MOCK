@@ -37,9 +37,9 @@ d3.text(gon.solution_path, function(text) {
 
     var numberOfColumns = data[0].length;
 
-    x.domain(d3.extent(data, function(d) { return d[0]; })).nice();
+    x.domain(d3.extent(data, function(d) { return d[1]; })).nice();
 
-    y.domain(d3.extent(data, function(d) { return d[1]; })).nice();
+    y.domain(d3.extent(data, function(d) { return d[2]; })).nice();
 
     solutionSVG.append("g")
         .attr("class", "x axis")
@@ -67,9 +67,9 @@ d3.text(gon.solution_path, function(text) {
         .data(data)
       .enter().append("circle")
         .attr("class", "dot")
-        .attr("r", 3.5)
-        .attr("cx", function(d) { return x(d[0]); })
-        .attr("cy", function(d) { return y(d[1]); })
+        .attr("r", 3)
+        .attr("cx", function(d) { return x(d[1]); })
+        .attr("cy", function(d) { return y(d[2]); })
         .style("fill", function(d) { return color(d[numberOfColumns - 1]); });
 
     var legend = solutionSVG.selectAll(".legend")

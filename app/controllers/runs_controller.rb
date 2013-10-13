@@ -117,6 +117,7 @@ class RunsController < ApplicationController
     @run = Run.find(params[:id])
     gon.solution_front_path = "#{solutions_path(@run.id)}.csv"
     gon.solution_control_front_path = "#{control_solutions_path(@run.id)}.csv"
+    gon.solution_path = "#{solution_path(nil)}"
   end
 
 end

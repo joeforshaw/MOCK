@@ -6,8 +6,8 @@ class Run < ActiveRecord::Base
 
   def objective_csv
     CSV.generate do |csv|
-      self.solutions.each do |solution|
-        csv << ["#{solution.connectivity} #{solution.deviation}"]
+      self.solutions.order(:connectivity).each do |solution|
+        csv << ["#{solution.id} #{solution.connectivity} #{solution.deviation}"]
       end
     end
   end
@@ -22,8 +22,8 @@ class Run < ActiveRecord::Base
 
   def control_solution_csv
     CSV.generate do |csv|
-      self.control_solutions.each do |control_solution|
-        csv << ["#{control_solution.connectivity} #{control_solution.deviation}"]
+      self.control_solutions.order(:connectivity).each do |control_solution|
+        csv << ["#{control_solution.id} #{control_solution.connectivity} #{control_solution.deviation}"]
       end
     end
   end

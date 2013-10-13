@@ -20,8 +20,8 @@ var yAxis = d3.svg.axis()
 
 var line = d3.svg.line()
     .interpolate("step-after")
-    .x(function(d) { return x(d[0]); })
-    .y(function(d) { return y(d[1]); });
+    .x(function(d) { return x(d[1]); })
+    .y(function(d) { return y(d[2]); });
 
 var solutionFrontSVG = d3.select("#pareto-front-graph")
     .attr("width", width + margin.left + margin.right)
@@ -70,10 +70,6 @@ d3.text(gon.solution_front_path, function(text) {
         .style("text-anchor", "end")
         .text("Overall Deviation");
 
-    solutionData.sort(function(a, b) {
-        return d3.ascending(a[0], b[0]);
-    });
-
     // Control data
     d3.text(gon.solution_control_front_path, function(text) {
 
@@ -82,11 +78,6 @@ d3.text(gon.solution_front_path, function(text) {
             return row.map(function(value) {
                 return +value;
             });
-        });
-
-        // Sort control data
-        controlData.sort(function(a, b) {
-            return d3.ascending(a[0], b[0]);
         });
 
         // Draw control line
@@ -101,6 +92,19 @@ d3.text(gon.solution_front_path, function(text) {
             .datum(solutionData)
             .attr("class", "line")
             .attr("d", line);
-    });
+
+        // Add points to solution front line
+        solutionFrontSVG.selectAll(".solution-front-point")
+                .data(solutionData).enter()
+                .append("a")
+                .attr("xlink:href", function(d) { return gon.solution_path + d[0]; })
+                .append("circle")
+                .attr("class", "solution-front-point")
+                .attr("r", 1.5)
+                .attr("cx", function(d) { return x(d[1]); })
+                .attr("cy", function(d) { return y(d[2]); })
+           
+
+        });
 
 });

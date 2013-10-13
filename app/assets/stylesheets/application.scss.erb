@@ -118,14 +118,6 @@ body {
 
 }
 
-.tab {
-  // display: none;
-}
-
-.page {
-  display: inline-block;
-}
-
 .graph {
   text-align: center;
 }
@@ -136,12 +128,21 @@ body {
   shape-rendering: crispEdges;
 }
 
-.dot {
-  // stroke: rgb(0,0,0);
+.solution-point {
+  -webkit-transition: opacity 0.2s;
 }
 
 .solution-front-point {
   pointer-events: all;
+  cursor: pointer;
+  fill: transparent;
+  -webkit-transition: fill 0.1s;
+}
+.solution-front-point:hover {
+  fill: rgb(100,100,100);
+}
+
+.solution-legend {
   cursor: pointer;
 }
 

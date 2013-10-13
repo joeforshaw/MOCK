@@ -1,5 +1,3 @@
-
-
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -66,23 +64,26 @@ d3.text(gon.solution_path, function(text) {
     solutionSVG.selectAll(".dot")
         .data(data)
       .enter().append("circle")
-        .attr("class", "dot")
+        .attr("class", "solution-point")
         .attr("r", 3)
         .attr("cx", function(d) { return x(d[1]); })
         .attr("cy", function(d) { return y(d[2]); })
-        .style("fill", function(d) { return color(d[numberOfColumns - 1]); });
+        .attr("data-cluster", function(d) { return d[d.length - 1]; })
+        .style("fill", function(d) { return color(d[d.length - 1]); });
+        
 
-    var legend = solutionSVG.selectAll(".legend")
+    var legend = solutionSVG.selectAll(".solution-legend")
         .data(color.domain())
       .enter().append("g")
-        .attr("class", "legend")
         .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
     legend.append("rect")
         .attr("x", width - 18)
         .attr("width", 18)
         .attr("height", 18)
-        .style("fill", color);
+        .style("fill", function(d, i) { return color(i); })
+        .attr("class", "solution-legend")
+        .attr("data-cluster", function(d, i) { return i; });
 
     // legend.append("text")
     //     .attr("x", width - 24)
@@ -91,4 +92,21 @@ d3.text(gon.solution_path, function(text) {
     //     .style("text-anchor", "end")
     //     .text(function(d) { return d; });
 
+});
+
+$(document).ready(function() {
+
+    $(".solution-legend").click(function() {
+        var legendCluster = $(this).data("cluster");
+
+        // Highlight corresponding cluster points
+        $(".solution-point").each(function() {
+            console.log(legendCluster + " vs. " + $(this).data("cluster"));
+            if (legendCluster != $(this).data("cluster")) {
+                $(this).css("opacity", 0.05);
+            } else {
+                $(this).css("opacity", 1);
+            }
+        });
+    });
 });

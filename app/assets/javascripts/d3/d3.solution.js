@@ -96,17 +96,30 @@ d3.text(gon.solution_path, function(text) {
 
 $(document).ready(function() {
 
+    // Cluster filter when clicking legend boxes
     $(".solution-legend").click(function() {
+        
+        var isReset = false;
+        if (!$(this).hasClass("selected")) {
+            $(".solution-legend.selected").removeClass("selected");
+            $(this).addClass("selected");
+        } else {
+            isReset = true;
+            $(".solution-legend.selected").removeClass("selected");
+        }
+
+        // Get cluster number of clicked legend
         var legendCluster = $(this).data("cluster");
 
         // Highlight corresponding cluster points
         $(".solution-point").each(function() {
-            console.log(legendCluster + " vs. " + $(this).data("cluster"));
-            if (legendCluster != $(this).data("cluster")) {
-                $(this).css("opacity", 0.05);
-            } else {
+            
+            if (isReset || legendCluster === $(this).data("cluster")) {
                 $(this).css("opacity", 1);
+            } else {
+                $(this).css("opacity", 0.1);
             }
         });
     });
+
 });

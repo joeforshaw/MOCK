@@ -94,7 +94,7 @@ d3.text(gon.solution_front_path, function(text) {
             .attr("d", line);
 
         // Add points to solution front line
-        solutionFrontSVG.selectAll(".solution-front-point")
+        solutionFrontSVG.selectAll("solution-front-point")
             .data(solutionData).enter()
             .append("a")
             .attr("xlink:href", function(d) { return gon.solution_path + d[0]; })
@@ -103,7 +103,7 @@ d3.text(gon.solution_front_path, function(text) {
             .attr("r", 5)
             .attr("cx", function(d) { return x(d[1]); })
             .attr("cy", function(d) { return y(d[2]); });
-           
-        });
+
+    });
 
 });

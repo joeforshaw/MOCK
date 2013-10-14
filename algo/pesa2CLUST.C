@@ -619,12 +619,12 @@ int main(int argc, char **argv) {
         solution[ctr*STEP+3] = sqrt((solution[ctr*STEP+3]-s_min1[0])/(s_max1[0]-s_min1[0]));  
       }
       if (solution[ctr*STEP+1] <= 25) {
-	      out1 << ctr << " " << solution[ctr*STEP+1] << " " << solution[ctr*STEP+2] << " " << solution[ctr*STEP+3] << " " << st_ep[st][i].f << " "; //
-	      out1 << st_ep[st][i].sil << " ";
-	      for (k=0;k<7;k++) {
-	        out1 << st_ep[st][i].e[k] << " ";
-	      }
-	      out1 << endl;
+        out1 << ctr << " " << solution[ctr*STEP+1] << " " << solution[ctr*STEP+2] << " " << solution[ctr*STEP+3] << endl;
+        // out1 << st_ep[st][i].sil << " ";
+	      // for (k=0;k<7;k++) {
+	      //   out1 << st_ep[st][i].e[k] << " ";
+	      // }
+	      // out1 << endl;
       }
       ctr++;
     }

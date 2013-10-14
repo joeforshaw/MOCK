@@ -100,7 +100,7 @@ class RunsController < ApplicationController
 
     end
 
-    FileUtils.rm_rf(Dir.glob('algo/data/*'))
+    # FileUtils.rm_rf(Dir.glob('algo/data/*'))
 
     redirect_to @run
     

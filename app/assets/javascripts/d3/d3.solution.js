@@ -1,5 +1,5 @@
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
+var margin = {top: 20, right: 0, bottom: 30, left: 30},
+    width = 960 - margin.left + margin.right,
     height = 500 - margin.top - margin.bottom;
 
 var x = d3.scale.linear()
@@ -62,7 +62,7 @@ d3.text(gon.solution_path, function(text) {
     var legend = solutionSVG.selectAll(".solution-legend")
         .data(color.domain())
       .enter().append("g")
-        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+        .attr("transform", function(d, i) { return "translate(28," + i * 22 + ")"; });
 
     legend.append("rect")
         .attr("x", width - 18)
@@ -79,34 +79,34 @@ d3.text(gon.solution_path, function(text) {
     //     .style("text-anchor", "end")
     //     .text(function(d) { return d; });
 
-});
+    $(document).ready(function() {
 
-$(document).ready(function() {
-
-    // Cluster filter when clicking legend boxes
-    $(".solution-legend").click(function() {
-        
-        var isReset = false;
-        if (!$(this).hasClass("selected")) {
-            $(".solution-legend.selected").removeClass("selected");
-            $(this).addClass("selected");
-        } else {
-            isReset = true;
-            $(".solution-legend.selected").removeClass("selected");
-        }
-
-        // Get cluster number of clicked legend
-        var legendCluster = $(this).data("cluster");
-
-        // Highlight corresponding cluster points
-        $(".solution-point").each(function() {
+        // Cluster filter when clicking legend boxes
+        $(".solution-legend").click(function() {
             
-            if (isReset || legendCluster === $(this).data("cluster")) {
-                $(this).css("opacity", 1);
+            var isReset = false;
+            if (!$(this).hasClass("selected")) {
+                $(".solution-legend.selected").removeClass("selected");
+                $(this).addClass("selected");
             } else {
-                $(this).css("opacity", 0.1);
+                isReset = true;
+                $(".solution-legend.selected").removeClass("selected");
             }
+
+            // Get cluster number of clicked legend
+            var legendCluster = $(this).data("cluster");
+
+            // Highlight corresponding cluster points
+            $(".solution-point").each(function() {
+                
+                if (isReset || legendCluster === $(this).data("cluster")) {
+                    $(this).css("opacity", 1);
+                } else {
+                    $(this).css("opacity", 0.1);
+                }
+            });
         });
+
     });
 
 });

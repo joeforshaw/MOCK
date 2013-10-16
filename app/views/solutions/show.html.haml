@@ -1,9 +1,6 @@
 %h2 Solution Clusters
 
-%p
-  - @solution.clusters.order(:generated_cluster_id).each do |cluster|
-    = link_to cluster.generated_cluster_id, cluster
-    = " "
+%p Click on the legend boxes to filter clusters
 
 .solution-page.tab.active-tab.graph
   %svg#solution-graph

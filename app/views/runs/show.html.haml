@@ -1,9 +1,6 @@
 %h2 Run Solutions
 
-%p
-  - @run.solutions.order(:generated_solution_id).each do |solution|
-    = link_to solution.generated_solution_id, solution
-    = " "
+%p Pick a point on the blue line to view the solution
 
 .pareto-front-page.tab.graph
   %svg#pareto-front-graph

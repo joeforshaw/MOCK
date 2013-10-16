@@ -15,8 +15,6 @@ class RunsController < ApplicationController
 
       solutions = []
       control_solutions = []
-      clusters = []
-      cluster_datapoints = []
       objective_file = CSV.open("algo/data/#{@run.objective_file_name}")
 
       # Sort data files
@@ -39,31 +37,13 @@ class RunsController < ApplicationController
             
             objective_line_string = objective_file.readline.first.split(' ')
 
-            solution = Solution.new(
+            solutions << Solution.new(
               :run_id => @run.id,
               :generated_solution_id => (split_filename[7].to_i + 1),
               :connectivity => objective_line_string[2].to_f,
               :deviation => objective_line_string[3].to_f
             )
 
-            if solution.save
-
-              # Create clusters
-              File.open("algo/data/#{solution.mock_file_name}", "r+") do |file|
-                
-                # Collect cluster ids from files
-                generated_cluster_ids = Set.new
-                CSV.foreach(file) do |line|
-                  generated_cluster_ids.add(line.first.split(' ').last.to_i)
-                end
-
-                # Create Cluster records
-                generated_cluster_ids.each do |generated_cluster_id|
-                  clusters << Cluster.new(:solution_id => solution.id, :generated_cluster_id => generated_cluster_id)
-                end
-
-              end
-            end
           elsif split_filename[6] == "control"
             # Process control data
             File.open("algo/data/#{@run.control_file_name}", "r+") do |file|
@@ -80,27 +60,10 @@ class RunsController < ApplicationController
         end
       end   
 
+      Solution.import solutions
       ControlSolution.import control_solutions
-      Cluster.import clusters
-
-      solutions = @run.solutions
-      solutions.each do |solution|
-        clusters_for_solution = Cluster.where(:solution_id => solution.id)
-        File.open("algo/data/#{solution.mock_file_name}", "r+") do |file|
-          datapoints = @run.dataset.datapoints
-          datapoints.each do |datapoint|
-            generated_cluster_id = file.readline.split(' ').last.to_i
-            cluster = clusters_for_solution.where(:generated_cluster_id => generated_cluster_id).first
-            cluster_datapoints << ClusterDatapoint.new(:cluster_id => cluster.id, :datapoint_id => datapoint.id)
-          end
-        end
-      end
-
-      ClusterDatapoint.import cluster_datapoints
 
     end
-
-    FileUtils.rm_rf(Dir.glob('algo/data/*'))
 
     redirect_to @run
     

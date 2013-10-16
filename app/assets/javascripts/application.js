@@ -11,4 +11,16 @@
 // about supported directives.
 //
 //= require jquery
-//= require_tree .
+//= require jquery.svg.min.js
+//= require jquery.svgdom.min
+//= require newick
+//= require clusters
+//= require control_solutions
+//= require datasets
+//= require pages
+//= require runs
+//= require solutions
+//= require d3/d3
+//= require d3/d3.dendrogram
+//= require d3/d3.solution
+//= require d3/d3.solutionfront

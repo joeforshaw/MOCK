@@ -16,6 +16,7 @@ class SolutionsController < ApplicationController
     gon.solution_path = "#{solution_path(@solution.id)}.csv"
 
     if @solution.clusters.size > 0
+
       respond_to do |format|
         format.html do          
         end
@@ -23,6 +24,7 @@ class SolutionsController < ApplicationController
           render text: @solution.to_csv
         end
       end
+      
     else
 
       clusters = []

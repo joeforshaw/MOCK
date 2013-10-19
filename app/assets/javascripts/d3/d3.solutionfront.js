@@ -69,7 +69,7 @@ d3.text(gon.solution_front_path, function(text) {
         .attr("dy", ".71em")
         .style("text-anchor", "end")
         .text("Overall Deviation");
-
+    
     // Control data
     d3.text(gon.solution_control_front_path, function(text) {
 

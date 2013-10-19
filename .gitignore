@@ -26,3 +26,5 @@
 /algo/MOCK
 
 .DS_Store
+
+config/database.yml

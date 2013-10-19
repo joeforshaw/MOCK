@@ -1,9 +1,5 @@
 require File.expand_path('../boot', __FILE__)
 
-print "=> Compiling MOCK..."
-`make --directory=algo clean && make --directory=algo MOCK`
-puts "Done"
-
 require 'csv'
 
 require 'rails/all'

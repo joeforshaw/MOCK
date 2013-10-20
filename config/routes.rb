@@ -9,10 +9,12 @@ MOCK::Application.routes.draw do
   get  'datasets/:id'    => 'datasets#show',   :as => :dataset
   post 'datasets/create' => 'datasets#create', :as => :create_dataset
 
-  get 'runs/new'         => 'runs#new',   :as => :new_run
-  get 'runs'             => 'runs#index', :as => :runs
-  get 'runs/:id'         => 'runs#show',  :as => :run
-  
+  get  'runs/new'      => 'runs#new',      :as => :new_run
+  get  'runs'          => 'runs#index',    :as => :runs
+  get  'runs/complete.js' => 'runs#complete'
+  get  'runs/:id'      => 'runs#show',     :as => :run
+  post 'runs/create'   => 'runs#create',   :as => :create_run
+
   get 'runs/:id/controls'  => 'control_solutions#index', :as => :control_solutions
   get 'runs/:id/solutions' => 'solutions#index',         :as => :solutions
   

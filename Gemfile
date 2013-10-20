@@ -26,14 +26,20 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+# Database
 gem 'pg'
 
+# For users
 gem 'devise'
 
+# Haml views
 gem 'haml'
 
+# Passing arguments to d3
 gem 'gon'
 
+# Adding records in bulk
 gem 'activerecord-import'
 
-gem 'debugger'
+# For loading icon
+gem 'spinjs-rails'

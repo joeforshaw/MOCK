@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery.svg.min.js
 //= require jquery.svgdom.min
+//= require jquery.spin
 //= require newick
 //= require clusters
 //= require control_solutions
@@ -24,3 +25,4 @@
 //= require d3/d3.dendrogram
 //= require d3/d3.solution
 //= require d3/d3.solutionfront
+

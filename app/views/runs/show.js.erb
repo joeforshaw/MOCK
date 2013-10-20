@@ -1,0 +1,7 @@
+$(document).ready(function() {
+
+  <% if @run.completed? %>
+    window.location = "<%= run_path(params[:id]) %>";
+  <% end %>
+
+});

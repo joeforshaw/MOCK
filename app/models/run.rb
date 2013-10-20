@@ -28,4 +28,8 @@ class Run < ActiveRecord::Base
     end
   end
 
+  def completed?
+    self.completed
+  end
+
 end

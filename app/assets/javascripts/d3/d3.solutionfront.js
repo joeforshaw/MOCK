@@ -31,6 +31,8 @@ var solutionFrontSVG = d3.select("#pareto-front-graph")
 
 var dsv = d3.dsv(" ", "text/plain");
 
+$(".solution-front").spin();
+
 // Solution front data
 d3.text(gon.solution_front_path, function(text) {
 
@@ -69,9 +71,11 @@ d3.text(gon.solution_front_path, function(text) {
         .attr("dy", ".71em")
         .style("text-anchor", "end")
         .text("Overall Deviation");
-    
+
     // Control data
     d3.text(gon.solution_control_front_path, function(text) {
+
+        $(".solution-front").spin(false);
 
         var controlDsv = d3.dsv(" ", "text/plain");
         var controlData = controlDsv.parseRows(text).map(function(row) {

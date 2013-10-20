@@ -60,7 +60,7 @@ class DatasetsController < ApplicationController
     respond_to do |format|
       format.html do
         if user_signed_in?
-          @dataset = Dataset.find_by_id_and_user_id(params[:id], current_user.id)
+          @dataset = Dataset.find(params[:id])
         end
       end
       format.csv do

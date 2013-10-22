@@ -1,7 +1,7 @@
 .content.dataset-index
   .heading-wrapper.clearfix
     %h2 Datasets
-    .create-dataset= link_to "Upload a new dataset", new_dataset_path, :class => "orange"
+    .create-dataset= link_to "Upload a new dataset", new_dataset_path, :class => "orange-button"
 
   - if @datasets.nil? or @datasets.empty?
     %p No data uploaded.
@@ -12,6 +12,7 @@
           %a.dataset-link{:href => dataset_path(dataset.id) }
             %li.clearfix
               %p.dataset-name= dataset.name
-              .dataset-icon
-                = button_to "X", destroy_dataset_path(dataset), :method => :delete, :class => "dataset-delete"
+              .delete-icon
+                = button_to "X", destroy_dataset_path(dataset), :method => :delete, :class => "delete-button", :onclick => "return confirm('Are you sure you want to delete #{dataset.name}?')"
+              = button_to "Run MOCK on this dataset", create_run_path(:dataset => dataset.id), :class => "dataset-create-button", :onclick => "return confirm('Are you sure you want to run MOCK on #{dataset.name}?')"
 

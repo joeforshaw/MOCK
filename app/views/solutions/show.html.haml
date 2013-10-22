@@ -1,11 +1,12 @@
-%h2 Solution Clusters
+.solution-show
+  .heading-wrapper.clearfix
+    %h2 Solution Clusters
+    = link_to "Back", @solution.run, :class => "back-button orange-button"
 
-= link_to "Back", @solution.run
+  %p Click on the legend boxes to filter clusters
 
-%p Click on the legend boxes to filter clusters
+  .solution
+    %svg#solution-graph
 
-.solution
-  %svg#solution-graph
-
-//.dendrogram-page.tab.graph
-//  #dendrogram
+  //.dendrogram-page.tab.graph
+  //  #dendrogram

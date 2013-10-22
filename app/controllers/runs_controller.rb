@@ -23,6 +23,7 @@ class RunsController < ApplicationController
 
   def destroy
     Run.destroy(params[:id])
+    redirect_to :runs
   end
 
   def create

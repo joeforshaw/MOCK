@@ -1,3 +1,46 @@
 // Place all the styles related to the runs controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.run-index {
+
+  .heading-wrapper {
+    
+    .datasets-button {
+      float: right;
+    }
+
+  }
+
+  ul.runs {
+    list-style-type: none;
+
+    a {
+      color: rgb(57,57,55);
+      text-decoration: none;
+      padding: 0.5em 0;
+      margin-bottom: 1em;
+      display: block;
+      background-color: rgb(240,240,240);
+      border-bottom: 4px solid rgb(230,230,230);
+
+      li {
+        margin: 0 0.5em;
+
+        .run-dataset {
+          margin-right: 0.5em;
+          float: left;
+        }
+
+        .run-date {
+          color: rgb(170,170,170);
+          float: right;
+        }
+
+      }
+
+    }
+
+  } 
+
+}

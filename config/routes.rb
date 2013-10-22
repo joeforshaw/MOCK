@@ -17,6 +17,7 @@ MOCK::Application.routes.draw do
   get  'runs/complete' => 'runs#complete'
   get  'runs/:id'      => 'runs#show',     :as => :run
   post 'runs/create'   => 'runs#create',   :as => :create_run
+  delete 'runs/:id/destroy' => 'runs#destroy', :as => :destroy_run
 
   get 'runs/:id/controls'  => 'control_solutions#index', :as => :control_solutions
   get 'runs/:id/solutions' => 'solutions#index',         :as => :solutions

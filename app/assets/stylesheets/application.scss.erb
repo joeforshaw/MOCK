@@ -56,15 +56,30 @@ body {
 
   a {
     text-decoration: none;
-    color: rgb(57,57,55);
   }
 
-  a.orange {
+  .orange {
     color: rgb(241,194,50);
     -webkit-transition: all 0.1s ease-in;
   }
-  a.orange:hover {
-    color: rgb(221,174,40);
+  .orange:hover {
+    color: rgb(251,204,60);
+  }
+
+  .orange-button {
+    border: 0px solid;
+    display: inline-block;
+    background-color: rgb(241,194,50);
+    color: rgb(250,250,250);
+    border-bottom: 4px solid rgb(231,184,40);
+    padding: 0 1em;
+    font-size: 20px;
+    font-family: Lato Light;
+    line-height: 2em;
+    -webkit-transition: all 0.1s ease-in;
+  }
+  .orange-button:hover {
+    background-color: rgb(251,204,60);
   }
 
   .width-wrapper {
@@ -138,166 +153,43 @@ body {
     padding-top: 2em;
     padding-bottom: 2em;
 
-    .content {
+    h2 {
+      line-height: 1.5em;
+    }
 
-      .heading-wrapper {
+    .heading-wrapper {
 
-        margin-bottom: 1em;
+      margin-bottom: 1em;
 
-        h2 {
-          float: left;
-        }
+      h2 {
+        float: left;
+      }
 
+    }
+
+    .delete-icon {
+      float: right;
+      margin-left: 1em;
+
+      .delete-button {
+        -webkit-transition: color 0.2s;
+        cursor: pointer;
+        padding: 0;
+        margin: 0;
+        font-size: 1em;
+        border-style: none;
+        background: transparent;
+        color: rgb(170,170,170);
+      }
+
+      .delete-button:hover {
+        color: rgb(80,80,80);
       }
 
     }
 
     .pages li {
       list-style: none;
-    }
-
-    .dataset-new {
-
-      .form-wrapper {
-        width: 400px;
-        margin: 0 auto;
-        padding: 2em 2em;
-        background-color: rgb(240,240,240);
-        // border-bottom: 4px solid rgb(210,210,210);
-
-        h2 {
-          margin-bottom: 1em;
-        }
-
-        form {
-
-          input {
-            border: 0px solid;
-            margin-bottom: 1em;
-          }
-
-          label {
-            display: inline-block;
-            margin-bottom: 0.5em;
-          }
-
-          .dataset-name {
-            box-sizing: border-box;
-            background-color: rgb(250,250,250);
-            padding: 0.5em;
-            line-height: 20px;
-            font-size: 1em;
-            font-family: Lato Light;
-            width: 100%;
-            margin-bottom: 2em;
-          }
-
-          #dataset-upload {
-            position: absolute;
-            left: -9999px;
-          }
-
-          .dataset-filename {
-            display: inline-block;
-            padding: 0.5em;
-          }
-
-          .dataset-upload-wrapper {
-            width: 50%;
-            display: inline-block;
-
-            .dataset-upload-label {
-                cursor: pointer;
-                background-color: rgb(241,194,50);
-                color: rgb(250,250,250);
-                padding: 0.5em 1em;
-                margin-bottom: 1em;
-                display: block;
-                text-align: center;
-                border-bottom: 4px solid rgb(231,184,40);
-            }
-          }
-
-          .submit-item {
-            text-align: center;
-
-            .dataset-submit {
-              background-color: rgb(241,194,50);
-              font-size: 1em;
-              font-family: Lato Light;
-              color: rgb(250,250,250);
-              padding: 0.5em 1em;
-              margin: 1em 0 0 0;
-              border-bottom: 4px solid rgb(231,184,40);
-              cursor: pointer;
-              width: 100%;
-            }
-          }
-        }
-
-      }
-
-    }
-
-    .dataset-index {
-
-      .datasets {
-        list-style-type: none;
-      }
-
-      .create-dataset {
-        float: right;
-        line-height: 1.5em;
-      }
-
-      .dataset-wrapper {
-        margin-bottom: 1em;
-        background-color: rgb(240,240,240);
-        border-bottom: 4px solid rgb(230,230,230);
-
-        a {
-          color: rgb(57,57,55);
-          text-decoration: none;
-          padding: 0.5em 0;
-          display: block;
-
-          li {
-            margin: 0 1em;
-
-            .dataset-name {
-              float: left;
-            }
-
-            .dataset-icon {
-              float: right;
-      
-              .dataset-delete {
-                -webkit-transition: color 0.2s;
-                cursor: pointer;
-                padding: 0;
-                margin: 0;
-                font-size: 1em;
-                border-style: none;
-                background: transparent;
-                color: rgb(170,170,170);
-              }
-
-              .dataset-delete:hover {
-                color: rgb(80,80,80);
-              }
-
-            }
-
-          }
-
-        }
-
-      }
-
-    }
-
-    .dataset-show tr {
-      text-align: right;
     }
 
     .run-create {

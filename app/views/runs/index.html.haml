@@ -1,25 +1,26 @@
-%h2 Runs
+.run-index
+  .heading-wrapper.clearfix
+    %h2 Runs
+    .datasets-button= link_to "Perform a MOCK run", datasets_path, :class => "orange-button"
 
-- if !@runs.nil? and !@runs.empty?
-  %ul
-    - @runs.each do |run|
-      %li
-        = link_to "#{run.dataset.name} - #{time_ago_in_words run.created_at} ago", run
-- else
-  %p
-    This looks like your first time running MOCK. To begin, follow the instructions below:
-  %ol
-    %li
-      Select a data file from below that you want to use (if you can't see any,
-      = link_to "try uploading a new data file", new_dataset_path
-      )
-    %li
-      Select a MOCK run from the list below to see the results
+  - if !@runs.nil? and !@runs.empty?
+    %ul.runs
+      - @runs.each do |run|
+        %a{:href => run_path(run) }
+          %li.clearfix
+            %p.run-name
+              %span.run-dataset= "#{run.dataset.name}"
+              .delete-icon
+                = button_to "X", destroy_run_path(run), :method => :delete, :class => "delete-button", :onclick => "return confirm('Are you sure you want to delete this run?')"
+              %span.run-date= "Performed at #{run.created_at.strftime("%H:%M %-d/%-m/%Y")}"
 
-- if !@datasets.nil? and !@datasets.empty?
-  %h2 Perform another Run
-  %p Select a dataset from below:
-  %ul
-    - @datasets.each do |dataset|
+  - else
+    %p
+      This looks like your first time running MOCK. To begin, follow the instructions below:
+    %ol
       %li
-        = link_to dataset.name, dataset
+        Select a data file from below that you want to use (if you can't see any,
+        = link_to "try uploading a new data file", new_dataset_path
+        )
+      %li
+        Select a MOCK run from the list below to see the results

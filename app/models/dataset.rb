@@ -1,7 +1,7 @@
 class Dataset < ActiveRecord::Base
   belongs_to :user
-  has_many :runs
-  has_many :datapoints
+  has_many :runs, :dependent => :destroy
+  has_many :datapoints, :dependent => :destroy
 
   def to_csv
     CSV.generate do |csv|

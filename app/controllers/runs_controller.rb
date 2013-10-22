@@ -1,21 +1,28 @@
 class RunsController < ApplicationController
 
+  before_filter :authenticate_user!
+
   def new
     @dataset = Dataset.new    
   end
 
   def index
-    if user_signed_in?
-      @datasets = current_user.datasets
-      @runs = current_user.runs.order("created_at DESC")
-    end
+    @body_classes << "runs-body"
+    @datasets = current_user.datasets
+    @runs = current_user.runs.order("created_at DESC")
   end
 
   def show
     @run = Run.find(params[:id])
-    gon.solution_front_path = "#{solutions_path(@run.id)}.csv"
-    gon.solution_control_front_path = "#{control_solutions_path(@run.id)}.csv"
-    gon.solution_path = "#{solution_path(nil)}"
+    if @run.completed?
+      gon.solution_front_path = "#{solutions_path(@run.id)}.csv"
+      gon.solution_control_front_path = "#{control_solutions_path(@run.id)}.csv"
+      gon.solution_path = "#{solution_path(nil)}"
+    end
+  end
+
+  def destroy
+    Run.destroy(params[:id])
   end
 
   def create
@@ -29,6 +36,7 @@ class RunsController < ApplicationController
     if @run.save
 
       mock_thread = Thread.new do
+        start_time = Time.now
 
         temp_file_name = "tmp/user.#{current_user.id}.dataset.#{@dataset.id}.csv"
         File.open(temp_file_name, 'w') {|f| f.write(@dataset.to_csv) }
@@ -84,7 +92,7 @@ class RunsController < ApplicationController
         Solution.import solutions
         ControlSolution.import control_solutions
 
-        @run.update_attributes(:completed => true)
+        @run.update_attributes(:completed => true, :runtime => Time.now - start_time)
       end # End of Thread
       # redirect_to @run
     end

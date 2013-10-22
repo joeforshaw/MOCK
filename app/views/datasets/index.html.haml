@@ -1,11 +1,17 @@
-%h2 Datasets
-= link_to "Upload a new data file", new_dataset_path
+.content.dataset-index
+  .heading-wrapper.clearfix
+    %h2 Datasets
+    .create-dataset= link_to "Upload a new dataset", new_dataset_path, :class => "orange"
 
-- if @datasets.nil? or @datasets.empty?
-  %p No data uploaded.
-- else
-  %ul
-    - @datasets.each do |dataset|
-      %li
-        = link_to dataset.name, dataset
+  - if @datasets.nil? or @datasets.empty?
+    %p No data uploaded.
+  - else
+    %ul.datasets
+      - @datasets.each do |dataset|
+        .dataset-wrapper
+          %a.dataset-link{:href => dataset_path(dataset.id) }
+            %li.clearfix
+              %p.dataset-name= dataset.name
+              .dataset-icon
+                = button_to "X", destroy_dataset_path(dataset), :method => :delete, :class => "dataset-delete"
 

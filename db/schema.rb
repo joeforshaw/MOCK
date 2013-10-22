@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131019185724) do
+ActiveRecord::Schema.define(version: 20131021125432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,8 @@ ActiveRecord::Schema.define(version: 20131019185724) do
     t.integer  "sequence_id"
   end
 
+  add_index "datapoints", ["dataset_id"], name: "index_datapoints_on_dataset_id", using: :btree
+
   create_table "datasets", force: true do |t|
     t.string   "name"
     t.integer  "user_id"
@@ -62,6 +64,8 @@ ActiveRecord::Schema.define(version: 20131019185724) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "datavalues", ["datapoint_id"], name: "index_datavalues_on_datapoint_id", using: :btree
 
   create_table "runs", force: true do |t|
     t.float    "runtime"

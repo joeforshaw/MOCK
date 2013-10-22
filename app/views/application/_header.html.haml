@@ -4,17 +4,17 @@
 
 %nav
   .width-wrapper
-    %ul
-      %li.nav-tab
+    %ul.clearfix
+      %li.nav-tab.datasets-tab
         = link_to "Datasets", datasets_path
-      %li.nav-tab
+      %li.nav-tab.runs-tab
         = link_to "Runs", runs_path
-      %li.nav-tab.sign-up-in
+      %li.nav-tab.log-out-in-tab
         - if user_signed_in?
           = link_to "Log Out", destroy_user_session_path, :method => "delete"
         - else
           = link_to "Log In", new_user_session_path
-      %li.nav-tab.sign-up-in
+      %li.nav-tab.user-register-tab
         - if user_signed_in?
           = link_to current_user.name, edit_user_registration_path
         - else

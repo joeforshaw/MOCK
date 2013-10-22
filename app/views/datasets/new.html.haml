@@ -1,12 +1,16 @@
 .dataset-new
-  %h2 Upload a Dataset
-  = form_for @dataset, :url => create_dataset_path(@dataset) do |f|
-    %ul
-      %li
-        %label{:for => "dataset-name"} Name
-        = f.text_field :name, :id => "dataset-name"
-      %li
-        %label{:for => "dataset-upload"} Select a data file
-        = f.file_field :file, :id => "dataset-upload"
-      %li
-        = f.submit "Upload Data File"
+  .form-wrapper
+    %h2 Upload a Dataset
+    = form_for @dataset, :url => create_dataset_path(@dataset) do |f|
+      %ul
+        %li
+          %label{:for => "dataset-name"} Name of Dataset
+          .text-fi
+            = f.text_field :name, :class => "dataset-name"
+        %li
+          .dataset-upload-wrapper
+            %label.dataset-upload-label{:for => "dataset-upload"} Choose a File
+          %span.dataset-filename No file chosen
+          = f.file_field :file, :id => "dataset-upload"
+        %li.submit-item
+          = f.submit "Submit", :class => "dataset-submit"

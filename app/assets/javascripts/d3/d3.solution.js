@@ -1,3 +1,6 @@
+var xDimension = 1;
+var yDimension = 2;
+
 var margin = {top: 20, right: 0, bottom: 30, left: 30},
     width = 960 - margin.left + margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -39,9 +42,9 @@ d3.text(gon.solution_path, function(text) {
 
     var numberOfColumns = data[0].length;
 
-    x.domain(d3.extent(data, function(d) { return d[1]; })).nice();
+    x.domain(d3.extent(data, function(d) { return d[xDimension]; })).nice();
 
-    y.domain(d3.extent(data, function(d) { return d[2]; })).nice();
+    y.domain(d3.extent(data, function(d) { return d[yDimension]; })).nice();
 
     solutionSVG.append("g")
         .attr("class", "x axis")
@@ -57,8 +60,8 @@ d3.text(gon.solution_path, function(text) {
       .enter().append("circle")
         .attr("class", "solution-point")
         .attr("r", 3)
-        .attr("cx", function(d) { return x(d[1]); })
-        .attr("cy", function(d) { return y(d[2]); })
+        .attr("cx", function(d) { return x(d[xDimension]); })
+        .attr("cy", function(d) { return y(d[yDimension]); })
         .attr("data-cluster", function(d) { return d[d.length - 1]; })
         .style("fill", function(d) { return color(d[d.length - 1]); });
         
@@ -83,34 +86,30 @@ d3.text(gon.solution_path, function(text) {
     //     .style("text-anchor", "end")
     //     .text(function(d) { return d; });
 
-    $(document).ready(function() {
 
-        // Cluster filter when clicking legend boxes
-        $(".solution-legend").click(function() {
+    // Cluster filter when clicking legend boxes
+    $(".solution-legend").click(function() {
+        
+        var isReset = false;
+        if (!$(this).hasClass("selected")) {
+            $(".solution-legend.selected").removeClass("selected");
+            $(this).addClass("selected");
+        } else {
+            isReset = true;
+            $(".solution-legend.selected").removeClass("selected");
+        }
+
+        // Get cluster number of clicked legend
+        var legendCluster = $(this).data("cluster");
+
+        // Highlight corresponding cluster points
+        $(".solution-point").each(function() {
             
-            var isReset = false;
-            if (!$(this).hasClass("selected")) {
-                $(".solution-legend.selected").removeClass("selected");
-                $(this).addClass("selected");
+            if (isReset || legendCluster === $(this).data("cluster")) {
+                $(this).css("opacity", 1);
             } else {
-                isReset = true;
-                $(".solution-legend.selected").removeClass("selected");
+                $(this).css("opacity", 0.1);
             }
-
-            // Get cluster number of clicked legend
-            var legendCluster = $(this).data("cluster");
-
-            // Highlight corresponding cluster points
-            $(".solution-point").each(function() {
-                
-                if (isReset || legendCluster === $(this).data("cluster")) {
-                    $(this).css("opacity", 1);
-                } else {
-                    $(this).css("opacity", 0.1);
-                }
-            });
         });
-
     });
-
 });

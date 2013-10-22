@@ -1,8 +1,8 @@
 class Run < ActiveRecord::Base
   belongs_to :dataset
   belongs_to :user
-  has_many :solutions
-  has_many :control_solutions
+  has_many :solutions, :dependent => :destroy
+  has_many :control_solutions, :dependent => :destroy
 
   def objective_csv
     CSV.generate do |csv|

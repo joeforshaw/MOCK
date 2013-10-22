@@ -1,5 +1,6 @@
 MOCK::Application.routes.draw do
-  devise_for :users
+
+  devise_for :users, :controllers => { :registrations => "users/registrations", :sessions => "users/sessions" }
 
   # You can have the root of your site routed with "root"
   root 'pages#home'
@@ -8,10 +9,12 @@ MOCK::Application.routes.draw do
   get  'datasets'        => 'datasets#index',  :as => :datasets
   get  'datasets/:id'    => 'datasets#show',   :as => :dataset
   post 'datasets/create' => 'datasets#create', :as => :create_dataset
+  delete 'datasets/:id/destroy' => 'datasets#destroy', :as => :destroy_dataset
+
 
   get  'runs/new'      => 'runs#new',      :as => :new_run
   get  'runs'          => 'runs#index',    :as => :runs
-  get  'runs/complete.js' => 'runs#complete'
+  get  'runs/complete' => 'runs#complete'
   get  'runs/:id'      => 'runs#show',     :as => :run
   post 'runs/create'   => 'runs#create',   :as => :create_run
 
@@ -21,6 +24,8 @@ MOCK::Application.routes.draw do
   get 'solutions/:id'    => 'solutions#show',  :as => :solution
 
   get 'clusters/:id' => 'clusters#show', :as => :cluster
+
+  resources :clusters
 
   #   get 'products/:id' => 'catalog#view'
 

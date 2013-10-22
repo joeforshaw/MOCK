@@ -1,5 +1,7 @@
 class SolutionsController < ApplicationController
 
+  before_filter :authenticate_user!
+
   def index
     run = Run.find(params[:id])
     respond_to do |format|

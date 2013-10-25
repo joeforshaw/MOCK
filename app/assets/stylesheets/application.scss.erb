@@ -8,6 +8,9 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ * Orange - rgb(241,194,50)
+ * Purple - rgb(149,68,165)
+ *
  *= require_self
  *= require_tree .
  */
@@ -239,8 +242,9 @@ body {
   -webkit-transition: fill 0.1s;
   z-index: 100;
 }
-.solution-front-point:hover {
-  fill: rgb(100,100,100);
+.solution-front-point:hover,
+.last-solution {
+  fill: rgb(149,68,165);
 }
 
 .solution-legend {

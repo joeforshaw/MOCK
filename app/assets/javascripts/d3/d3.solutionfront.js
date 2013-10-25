@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    $('#solution-front-graph').svg();
+
+    var xDimension = 1;
+    var yDimension = 2;
 
     var horizontalPadding = (document.width - 960) / 2;
 
@@ -26,10 +30,10 @@ $(document).ready(function() {
 
     var line = d3.svg.line()
         .interpolate("step-after")
-        .x(function(d) { return x(d[1]); })
-        .y(function(d) { return y(d[2]); });
+        .x(function(d) { return x(d[xDimension]); })
+        .y(function(d) { return y(d[yDimension]); });
 
-    var solutionFrontSVG = d3.select("#pareto-front-graph")
+    var solutionFrontSVG = d3.select("#solution-front-graph svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -108,13 +112,24 @@ $(document).ready(function() {
             solutionFrontSVG.selectAll("solution-front-point")
                 .data(solutionData).enter()
                 .append("a")
+                .attr("class", "solution-front-link")
                 .attr("xlink:href", function(d) { return gon.solution_path + d[0]; })
                 .append("circle")
-                .attr("class", "solution-front-point")
                 .attr("r", 5)
-                .attr("cx", function(d) { return x(d[1]); })
-                .attr("cy", function(d) { return y(d[2]); });
+                .attr("cx", function(d) { return x(d[xDimension]); })
+                .attr("cy", function(d) { return y(d[yDimension]); })
+                .on('mouseover', function(d){
+                    $(".last-solution").removeClass("last-solution");
+                })
+                .attr("class", function(d) { return "solution-front-point " + d[0] });
+
+            $("." + gon.last_solution).addClass("last-solution");
 
         });
     });
 });
+
+function updateLastSolution() {
+    gon.unwatch('last_solution', updateLastSolution);
+    alert(gon.last_solution);
+}

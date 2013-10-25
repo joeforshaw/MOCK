@@ -16,6 +16,7 @@ class SolutionsController < ApplicationController
   def show
     @body_classes << "graph-body"
     @solution = Solution.find(params[:id])
+
     gon.solution_path = "#{solution_path(@solution.id)}.csv"
 
     if @solution.clusters.size > 0

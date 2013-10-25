@@ -1,7 +1,7 @@
 .solution-show
   .heading-wrapper.clearfix
     %h2 Solution Clusters
-    = link_to "Back", @solution.run, :class => "back-button orange-button"
+    = link_to "Back", run_path(:id => @solution.run.id, :last_solution => @solution.id), :class => "back-button orange-button"
 
   %p Click on the legend boxes to filter clusters
 

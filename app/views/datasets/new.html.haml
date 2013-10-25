@@ -10,7 +10,7 @@
         %li
           .dataset-upload-wrapper
             %label.dataset-upload-label{:for => "dataset-upload"} Choose a File
-          %span.dataset-filename No file chosen
-          = f.file_field :file, :id => "dataset-upload"
+          %span.dataset-filename Only .csv, .tsv or .ssv
+          = f.file_field :file, :id => "dataset-upload", accept: "text/csv"
         %li.submit-item
           = f.submit "Submit", :class => "dataset-submit"

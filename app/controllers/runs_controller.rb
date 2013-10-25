@@ -13,6 +13,7 @@ class RunsController < ApplicationController
   end
 
   def show
+    @body_classes << "graph-body"
     @run = Run.find(params[:id])
     if @run.completed?
       gon.solution_front_path = "#{solutions_path(@run.id)}.csv"

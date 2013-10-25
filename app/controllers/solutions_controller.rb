@@ -14,6 +14,7 @@ class SolutionsController < ApplicationController
   end
 
   def show
+    @body_classes << "graph-body"
     @solution = Solution.find(params[:id])
     gon.solution_path = "#{solution_path(@solution.id)}.csv"
 
@@ -28,7 +29,6 @@ class SolutionsController < ApplicationController
       end
       
     else
-
       clusters = []
       cluster_datapoints = []
 

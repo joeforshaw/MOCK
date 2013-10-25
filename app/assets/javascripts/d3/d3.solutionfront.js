@@ -1,113 +1,120 @@
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+$(document).ready(function() {
 
-var x = d3.scale.linear()
-    .range([0, width]);
+    var horizontalPadding = (document.width - 960) / 2;
 
-var y = d3.scale.linear()
-    .range([height, 0]);
+    var margin     = {top: 30, right: horizontalPadding, bottom: 30, left: horizontalPadding},
+        pageWidth  = document.width,
+        width      = 960,
+        pageHeight = document.height,
+        height     = 500;
 
-var color = d3.scale.category10();
+    var x = d3.scale.linear()
+        .range([0, width]);
 
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
+    var y = d3.scale.linear()
+        .range([height, 0]);
 
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
+    var color = d3.scale.category10();
 
-var line = d3.svg.line()
-    .interpolate("step-after")
-    .x(function(d) { return x(d[1]); })
-    .y(function(d) { return y(d[2]); });
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
 
-var solutionFrontSVG = d3.select("#pareto-front-graph")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
 
-var dsv = d3.dsv(" ", "text/plain");
+    var line = d3.svg.line()
+        .interpolate("step-after")
+        .x(function(d) { return x(d[1]); })
+        .y(function(d) { return y(d[2]); });
 
-$(".solution-front").spin();
+    var solutionFrontSVG = d3.select("#pareto-front-graph")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// Solution front data
-d3.text(gon.solution_front_path, function(text) {
+    var dsv = d3.dsv(" ", "text/plain");
 
-    var solutionDsv = d3.dsv(" ", "text/plain");
-    var solutionData = solutionDsv.parseRows(text).map(function(row) {
-        return row.map(function(value) {
-            return +value;
-        });
-    });
+    $(".solution-front").spin();
 
-    // Set x and y domains between 0 and 1
-    x.domain([0, 1]);
-    y.domain([0, 1]);
+    // Solution front data
+    d3.text(gon.solution_front_path, function(text) {
 
-    // Draw x-axis
-    solutionFrontSVG.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis)
-      .append("text")
-        .attr("class", "graph-label")
-        .attr("x", 40 + width / 2)
-        .attr("y", -6)
-        .style("text-anchor", "end")
-        .text("Connectivity");
-
-    // Draw y-axis
-    solutionFrontSVG.append("g")
-        .attr("class", "y axis")
-        .call(yAxis)
-      .append("text")
-        .attr("class", "graph-label")
-        .attr("x", 50 + height / -2)
-        .attr("y", 6)
-        .attr("transform", "rotate(-90)")
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("Overall Deviation");
-
-    // Control data
-    d3.text(gon.solution_control_front_path, function(text) {
-
-        $(".solution-front").spin(false);
-
-        var controlDsv = d3.dsv(" ", "text/plain");
-        var controlData = controlDsv.parseRows(text).map(function(row) {
+        var solutionDsv = d3.dsv(" ", "text/plain");
+        var solutionData = solutionDsv.parseRows(text).map(function(row) {
             return row.map(function(value) {
                 return +value;
             });
         });
 
-        // Draw control line
-        solutionFrontSVG.append("path")
-            .datum(controlData)
-            .attr("class", "line")
-            .attr("d", line)
-            .style("stroke", "rgb(213,214,215)");
+        // Set x and y domains between 0 and 1
+        x.domain([0, 1]);
+        y.domain([0, 1]);
 
-        // Draw solution front line
-        solutionFrontSVG.append("path")
-            .datum(solutionData)
-            .attr("class", "line")
-            .attr("d", line);
+        // Draw x-axis
+        solutionFrontSVG.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
+          .append("text")
+            .attr("class", "graph-label")
+            .attr("x", 40 + width / 2)
+            .attr("y", -6)
+            .style("text-anchor", "end")
+            .text("Connectivity");
 
-        // Add points to solution front line
-        solutionFrontSVG.selectAll("solution-front-point")
-            .data(solutionData).enter()
-            .append("a")
-            .attr("xlink:href", function(d) { return gon.solution_path + d[0]; })
-            .append("circle")
-            .attr("class", "solution-front-point")
-            .attr("r", 5)
-            .attr("cx", function(d) { return x(d[1]); })
-            .attr("cy", function(d) { return y(d[2]); });
+        // Draw y-axis
+        solutionFrontSVG.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+          .append("text")
+            .attr("class", "graph-label")
+            .attr("x", 50 + height / -2)
+            .attr("y", 6)
+            .attr("transform", "rotate(-90)")
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Overall Deviation");
 
+        // Control data
+        d3.text(gon.solution_control_front_path, function(text) {
+
+            $(".solution-front").spin(false);
+
+            var controlDsv = d3.dsv(" ", "text/plain");
+            var controlData = controlDsv.parseRows(text).map(function(row) {
+                return row.map(function(value) {
+                    return +value;
+                });
+            });
+
+            // Draw control line
+            solutionFrontSVG.append("path")
+                .datum(controlData)
+                .attr("class", "line")
+                .attr("d", line)
+                .style("stroke", "rgb(220,220,220)");
+
+            // Draw solution front line
+            solutionFrontSVG.append("path")
+                .datum(solutionData)
+                .attr("class", "line")
+                .attr("d", line)
+                .style("stroke", "rgb(241,194,50)");
+
+            // Add points to solution front line
+            solutionFrontSVG.selectAll("solution-front-point")
+                .data(solutionData).enter()
+                .append("a")
+                .attr("xlink:href", function(d) { return gon.solution_path + d[0]; })
+                .append("circle")
+                .attr("class", "solution-front-point")
+                .attr("r", 5)
+                .attr("cx", function(d) { return x(d[1]); })
+                .attr("cy", function(d) { return y(d[2]); });
+
+        });
     });
-
 });

@@ -4,11 +4,11 @@
     %title MOCK Visualisation Tool
     = stylesheet_link_tag "application", media: "all"
     = csrf_meta_tags
-    = include_gon :watch => true
-    = javascript_include_tag "application"
+    = include_gon
   %body{ :class => @body_classes }
     = render "header"
     %main
       .width-wrapper
         = yield
     = render "footer"
+    = javascript_include_tag "application"

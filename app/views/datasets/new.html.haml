@@ -4,13 +4,13 @@
     = form_for @dataset, :url => create_dataset_path(@dataset) do |f|
       %ul
         %li
-          %label{:for => "dataset-name"} Name of Dataset
+          %label.text-field-label{:for => "name-input"} Name of Dataset
           .text-field
-            = f.text_field :name, :class => "dataset-name"
+            = f.text_field :name, :class => "text-field-input", :id => "name-input"
         %li
-          .dataset-upload-wrapper
-            %label.dataset-upload-label{:for => "dataset-upload"} Choose a File
-          %span.dataset-filename Only .csv, .tsv or .ssv
-          = f.file_field :file, :id => "dataset-upload", accept: "text/csv"
-        %li.submit-item
-          = f.submit "Submit", :class => "dataset-submit"
+          .file-field
+            %label.file-field-label{:for => "file-input"} Choose a File
+          %span.file-field-text Only .csv
+          = f.file_field :file, :class => "file-field-input", :id => "file-input", accept: "text/csv"
+        %li.submit-field
+          = f.submit "Submit", :class => "submit-field-input"

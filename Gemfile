@@ -43,3 +43,6 @@ gem 'activerecord-import'
 
 # For loading icon
 gem 'spinjs-rails'
+
+# Multidimensional scaling
+gem 'rmds'

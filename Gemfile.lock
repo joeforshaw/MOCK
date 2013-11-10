@@ -88,6 +88,7 @@ GEM
     rake (10.1.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    rmds (0.2)
     sass (3.2.10)
     sass-rails (4.0.0)
       railties (>= 4.0.0.beta, < 5.0)
@@ -136,6 +137,7 @@ DEPENDENCIES
   jquery-rails
   pg
   rails (= 4.0.0)
+  rmds
   sass-rails (~> 4.0.0)
   sdoc
   spinjs-rails

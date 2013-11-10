@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    var xDimension = 1;
-    var yDimension = 2;
+    var xDimension = 0;
+    var yDimension = 1;
 
     var horizontalPadding = (document.width - 960) / 2;
 

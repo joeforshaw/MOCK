@@ -28,3 +28,7 @@
 .DS_Store
 
 config/database.yml
+
+/algo/biclustering/*
+
+algo/temp

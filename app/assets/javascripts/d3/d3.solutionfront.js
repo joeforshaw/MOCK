@@ -4,12 +4,12 @@ $(document).ready(function() {
     var xDimension = 1;
     var yDimension = 2;
 
-    var horizontalPadding = (document.width - 960) / 2;
+    var horizontalPadding = ($(window).width() - 960) / 2;
 
     var margin     = {top: 30, right: horizontalPadding, bottom: 30, left: horizontalPadding},
-        pageWidth  = document.width,
+        pageWidth  = $(window).width(),
         width      = 960,
-        pageHeight = document.height,
+        pageHeight = $(window).height(),
         height     = 500;
 
     var x = d3.scale.linear()
@@ -18,7 +18,7 @@ $(document).ready(function() {
     var y = d3.scale.linear()
         .range([height, 0]);
 
-    var color = d3.scale.category10();
+    var color = d3.scale.category20();
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -32,6 +32,8 @@ $(document).ready(function() {
         .interpolate("step-after")
         .x(function(d) { return x(d[xDimension]); })
         .y(function(d) { return y(d[yDimension]); });
+
+    console.log(width, margin.left, margin.right, margin, horizontalPadding, document.width);
 
     var solutionFrontSVG = d3.select("#solution-front-graph svg")
         .attr("width", width + margin.left + margin.right)

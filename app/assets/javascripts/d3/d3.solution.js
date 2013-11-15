@@ -2,12 +2,12 @@ $(document).ready(function() {
     var xDimension = 0;
     var yDimension = 1;
 
-    var horizontalPadding = (document.width - 960) / 2;
+    var horizontalPadding = ($(window).width() - 960) / 2;
 
     var margin     = {top: 30, right: horizontalPadding, bottom: 30, left: horizontalPadding},
-        pageWidth  = document.width,
+        pageWidth  = $(window).width(),
         width      = 960,
-        pageHeight = document.height,
+        pageHeight = $(window).height(),
         height     = 500;
 
     var x = d3.scale.linear()

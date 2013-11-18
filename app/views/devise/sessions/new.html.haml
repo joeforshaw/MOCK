@@ -1,0 +1,22 @@
+.form-wrapper
+  %h2 Sign in
+
+  = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+    %div
+      = f.label :email, :class => "text-field-label"
+      = f.email_field :email, :autofocus => true, :class => "text-field-input"
+
+    %div
+      = f.label :password, :class => "text-field-label"
+      = f.password_field :password, :class => "text-field-input"
+
+    - if devise_mapping.rememberable?
+      %div
+        = f.check_box :remember_me, :class => "check-box-input"
+        = f.label :remember_me, :class => "check-box-label"
+
+    .submit-field
+      = f.submit "Log In", :class => "submit-field-input"
+
+  .clearfix
+    = render "devise/shared/links"

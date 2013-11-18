@@ -9,13 +9,13 @@ class Solution < ActiveRecord::Base
   def to_csv
     CSV.generate do |csv|
       self.clusters.each do |cluster|
-        cluster.datapoints.each do |datapoint|
-          datapoint_string = ""
-          datapoint.datavalues.each do |datavalue|
-            datapoint_string << "#{datavalue.value} "
+        cluster.datapoints.order(:sequence_id).each do |datapoint|
+          datavalues = []
+          datapoint.datavalues.order(:id).each do |datavalue|
+            datavalues << datavalue.value
           end
-          datapoint_string << "#{cluster.generated_cluster_id}"
-          csv << [datapoint_string]
+          datavalues << cluster.generated_cluster_id
+          csv << [datavalues.join(" ")]
         end
       end
     end

@@ -5,12 +5,12 @@ class Dataset < ActiveRecord::Base
 
   def to_csv
     CSV.generate do |csv|
-      self.datapoints.each do |datapoint|
-        datapoint_string = ""
-        datapoint.datavalues.each do |datavalue|
-          datapoint_string << "#{datavalue.value} "
+      self.datapoints.order(:sequence_id).each do |datapoint|
+        datavalues = []
+        datapoint.datavalues.order(:id).each do |datavalue|
+          datavalues << datavalue.value
         end
-        csv << [datapoint_string]
+        csv << [datavalues.join(" ")]
       end
     end
   end

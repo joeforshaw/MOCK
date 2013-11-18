@@ -39,6 +39,7 @@ description:
 #include "tmatrix.h"
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include "math.h"
 #include "pesa2.h"
 #include "gasdev.h"
@@ -478,14 +479,14 @@ template <class BINTYPE>databin <BINTYPE>::databin(conf * c, char * name, int si
     }
 
     for (int i=0; i<par->bindim; i++) {
-	mean[i] = 0;
-	std[i] = 0;
+      mean[i] = 0;
+      std[i] = 0;
     }
     
 
     USED_DATA_TYPE ** temp = new USED_DATA_TYPE*[par->binsize];
     for (int i=0; i<par->binsize; i++) {
-	temp[i] = new USED_DATA_TYPE[par->bindim];
+      temp[i] = new USED_DATA_TYPE[par->bindim];
     }
 
     // Begin external
@@ -493,32 +494,44 @@ template <class BINTYPE>databin <BINTYPE>::databin(conf * c, char * name, int si
     par->num_cluster = 0;
     // End external
 
+    // while (!input.eof()) {
+    //   string line;
+    //   getline(input, line);
+    //   cout << line << endl;
+    // }
 
-    for (int i=0; i<par->binsize; i++) {
-	for (int j=0; j<par->bindim; j++) {
-	  if ( !input.eof() ) {
-	    input >> temp[i][j];
-	    //	    cerr << temp[i][j] << " ";
-	    mean[j] += temp[i][j];
-	  }
-	  else {
-	    cerr << "Error in input line " << i << " " << " at column " << j << endl;
-	    cerr << "Size = " << par->binsize << " and dimensionality = " << par->bindim << " given do not correspond to the real size of input file " << name << endl;
-	    exit(0);
-	  }
-	}
+    int i = 0;
+    while (!input.eof()) {
+      string line;
+      getline(input, line);  
 
-	// Begin external
-	input >> label[i];
-	//	cerr << label[i] << endl;
-	strcpy(templabel,label[i]);
-	color[i] = find(templabel, classlabels, labelctr);
-	par->size_cluster[color[i]]++;
-	par->num_cluster = (int)max(par->num_cluster, color[i]+1);
-	// End external
+      int k = 0;
+      stringstream ssin(line);
+      string arr[par->bindim];
+      while (ssin.good() && k < par->bindim){
+        ssin >> arr[k];
+        ++k;
+      }
 
+      for (int j = 0; j<par->bindim; j++) {
+        if (!input.eof()) {
+          double value = ::atof(arr[j].c_str());
+          temp[i][j] = value;
+          mean[j] += temp[i][j];
+        }
+      }
 
+    	// Begin external
+    	// input >> label[i];
+    	// strcpy(templabel,label[i]);
+    	color[i] = find(templabel, classlabels, labelctr);
+    	par->size_cluster[color[i]]++;
+    	par->num_cluster = (int)max(par->num_cluster, color[i]+1);
+    	// End external
+
+      i++;
     }
+
     int dummy;
     input >> dummy;
     if ( !input.eof() ) {

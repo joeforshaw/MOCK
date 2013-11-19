@@ -16,6 +16,7 @@ class SolutionsController < ApplicationController
   def show
     @body_classes << "graph-body"
     @solution = Solution.find(params[:id])
+    @dataset = @solution.run.dataset
 
     gon.solution_path = "#{solution_path(@solution.id)}.csv"
     gon.is_solution = true;

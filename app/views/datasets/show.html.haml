@@ -1,13 +1,13 @@
 .dataset-show
-  .heading-wrapper.clearfix
+  .graph-width-wrapper.heading-wrapper.clearfix
     %h2= @dataset.name
     .create-run= button_to "Run MOCK on this Dataset", create_run_path(:dataset => @dataset.id), :class => "orange-button", :onclick => "return confirm('Are you sure you want to run MOCK on #{@dataset.name}?')"
 
   .solution
     %svg#solution-graph
 
-  / %table
-  /   - @dataset.datapoints.order(:id).each do |datapoint|
-  /     %tr
-  /       - datapoint.datavalues.order(:id).each do |datavalue|
-  /         %td= "#{datavalue.value} "
+  .graph-width-wrapper
+    %p X Dimension
+    = select_tag :x_dimension, options_for_select(1..@dataset.columns, 1), :class => "dimension-select"
+    %p Y Dimension
+    = select_tag :y_dimension, options_for_select(1..@dataset.columns, 2), :class => "dimension-select"

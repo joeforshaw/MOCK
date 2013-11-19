@@ -1,6 +1,7 @@
 $(document).ready(function() {
-    var xDimension = 0;
-    var yDimension = 1;
+
+    var xDimension = $("select#x_dimension").val() - 1;
+    var yDimension = $("select#y_dimension").val() - 1;
 
     var horizontalPadding = ($(window).width() - 960) / 2;
 
@@ -52,13 +53,13 @@ $(document).ready(function() {
         y.domain(d3.extent(data, function(d) { return d[yDimension]; })).nice();
 
         solutionSVG.append("g")
-            .attr("class", "x axis")
+            .attr("class", "x-axis axis")
             .attr("width", width)
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis)
 
         solutionSVG.append("g")
-            .attr("class", "y axis")
+            .attr("class", "y-axis axis")
             .call(yAxis)
 
         solutionSVG.selectAll(".dot")
@@ -83,7 +84,24 @@ $(document).ready(function() {
                     return color(0);
                 }
             });
-            
+        
+        // On change event for X Dimension select
+        $("select#x_dimension").change(function() {
+            xDimension = $("select#x_dimension").val() - 1;
+            x.domain(d3.extent(data, function(d) { return d[xDimension]; })).nice();
+            xAxis.scale(x);
+            fadeInOutAxis(solutionSVG, xAxis, ".x-axis");
+            fadeInOut(solutionSVG, "circle", xDimension, yDimension, x, y);
+        });
+
+        // On change event for Y Dimension select
+        $("select#y_dimension").change(function() {
+            yDimension = $("select#y_dimension").val() - 1;
+            y.domain(d3.extent(data, function(d) { return d[yDimension]; })).nice();
+            yAxis.scale(y);
+            fadeInOutAxis(solutionSVG, yAxis, ".y-axis");
+            fadeInOut(solutionSVG, "circle", xDimension, yDimension, x, y);
+        });
 
         // Cluster filter when clicking legend boxes
         if (gon.is_solution) {
@@ -128,3 +146,26 @@ $(document).ready(function() {
         }
     });
 });
+
+function fadeInOut(svg, selector, xDimension, yDimension, x, y) {
+    svg.selectAll(selector)
+        .attr("cx", function(d) { return x(d[xDimension]); })
+        .attr("cy", function(d) { return y(d[yDimension]); });
+}
+
+function fadeInOutAxis(svg, xAxis, selector) {
+    svg.selectAll(selector + " g.tick.major")
+        .transition()
+        .duration(200)
+        .style("opacity", 0)
+        .each("end", function() {
+            svg.select(selector)
+                .call(xAxis);
+            svg.selectAll(selector + " g.tick.major")
+                .style("opacity", 0);
+            svg.selectAll(selector + " g.tick.major")
+                .transition()
+                .duration(200)
+                .style("opacity", 1);                        
+        });
+}

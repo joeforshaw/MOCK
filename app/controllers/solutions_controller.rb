@@ -18,6 +18,7 @@ class SolutionsController < ApplicationController
     @solution = Solution.find(params[:id])
 
     gon.solution_path = "#{solution_path(@solution.id)}.csv"
+    gon.is_solution = true;
 
     if @solution.clusters.size > 0
 

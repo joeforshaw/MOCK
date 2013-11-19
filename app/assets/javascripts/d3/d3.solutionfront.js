@@ -33,8 +33,6 @@ $(document).ready(function() {
         .x(function(d) { return x(d[xDimension]); })
         .y(function(d) { return y(d[yDimension]); });
 
-    console.log(width, margin.left, margin.right, margin, horizontalPadding, document.width);
-
     var solutionFrontSVG = d3.select("#solution-front-graph svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)

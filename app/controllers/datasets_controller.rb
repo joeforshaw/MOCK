@@ -33,12 +33,16 @@ class DatasetsController < ApplicationController
 
 
   def show
+    @body_classes << "graph-body"
+    @dataset = Dataset.find(params[:id])
+    gon.solution_path = "#{dataset_path(@dataset.id)}.csv"
+    gon.is_solution = false
     respond_to do |format|
       format.html do
-        @dataset = Dataset.find(params[:id])
+        @dataset
       end
       format.csv do
-        render text: Dataset.find(params[:id]).to_csv
+        render text: @dataset.to_csv
       end
     end
   end
@@ -112,11 +116,5 @@ class DatasetsController < ApplicationController
     return chosenDelimiter
 
   end
-
-
-  def parse_xml
-
-  end
-
 
 end

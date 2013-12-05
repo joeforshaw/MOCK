@@ -1,8 +1,13 @@
 class Run < ActiveRecord::Base
   belongs_to :dataset
   belongs_to :user
-  has_many :solutions, :dependent => :destroy
+  has_many :solutions,         :dependent => :destroy
   has_many :control_solutions, :dependent => :destroy
+
+  validates :runtime,    presence: true
+  validates :dataset_id, presence: true
+  validates :user_id,    presence: true
+  validates :completed,  inclusion: { in: [true, false] }
 
   def objective_csv
     CSV.generate do |csv|

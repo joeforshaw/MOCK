@@ -8,10 +8,12 @@ one:
   runtime: 0
   dataset_id: 1
   user:
-    email: "test1@email.com"
+    name:  "Joe"
+    email: "joe@test.com"
 
 two:
   runtime: 0
   dataset_id: 1
   user:
-    email: "test2@email.com"
+    name:  "Beth"
+    email: "beth@test.com"

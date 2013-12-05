@@ -1,6 +1,17 @@
 class Solution < ActiveRecord::Base
+  
   belongs_to :run
+
   has_many :clusters, :dependent => :destroy
+
+  validates :run_id,                presence:     true,
+                                    numericality: true
+  validates :generated_solution_id, presence:     true,
+                                    numericality: true
+  validates :connectivity,          presence:     true,
+                                    numericality: true
+  validates :deviation,             presence:     true,
+                                    numericality: true
 
   def mock_file_name
     "user.#{self.run.user.id}.method.1.run.#{self.run.id}.solution.#{self.generated_solution_id - 1}.part"

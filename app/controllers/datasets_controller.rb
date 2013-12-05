@@ -52,8 +52,9 @@ class DatasetsController < ApplicationController
     # Create Dataset
     dataset = Dataset.new(
       :user_id => current_user.id,
-      :name => params[:dataset][:name],
-      :rows => params[:dataset][:file].tempfile.readlines.size
+      :name    => params[:dataset][:name],
+      :columns => -1,
+      :rows    => params[:dataset][:file].tempfile.readlines.size
     )
     dataset_columns = -1;
     datavalues = []

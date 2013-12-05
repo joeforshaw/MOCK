@@ -1,7 +1,15 @@
 class Dataset < ActiveRecord::Base
+
   belongs_to :user
-  has_many :runs, :dependent => :destroy
+
+  has_many :runs,       :dependent => :destroy
   has_many :datapoints, :dependent => :destroy
+
+  validates :name,    presence:     true
+  validates :user_id, presence:     true,
+                      numericality: true
+  validates :columns, numericality: true
+  validates :rows,    numericality: true
 
   def to_csv
     CSV.generate do |csv|

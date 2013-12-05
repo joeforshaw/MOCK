@@ -9,6 +9,13 @@ class User < ActiveRecord::Base
          :validatable
 
   has_many :datasets, :dependent => :destroy
-  has_many :runs, :dependent => :destroy
+  has_many :runs,     :dependent => :destroy
+
+  validates :name,  presence:   true,
+                    length:     { maximum: 128 }
+
+  validates :email, presence:   true,
+                    uniqueness: true,
+                    length:     { minimum: 3 }
 
 end

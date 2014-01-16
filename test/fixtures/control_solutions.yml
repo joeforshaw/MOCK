@@ -5,11 +5,11 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  run_id:       1
+  run:          runs(:one)
   connectivity: 1.0
   deviation:    1.0
 
 two:
-  run_id:       2
+  run:          runs(:two)
   connectivity: 0.0
   deviation:    0.0

@@ -5,13 +5,13 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  name:    "Joe's Dataset"
-  user_id: 1
+  name: "Joe's Dataset"
+  user: users(:joe)
 
 two:
-  name:    "Joe's Second Dataset"
-  user_id: 1
+  name: "Joe's Second Dataset"
+  user: users(:joe)
 
 three:
-  name:    "Beth's Second Dataset"
-  user_id: 2
+  name: "Beth's Second Dataset"
+  user: users(:beth)

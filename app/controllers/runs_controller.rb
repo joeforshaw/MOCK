@@ -34,8 +34,10 @@ class RunsController < ApplicationController
     @dataset = Dataset.find(params[:dataset])
 
     @run = Run.new(
+      :runtime    => -1,
       :dataset_id => @dataset.id,
-      :user_id => current_user.id
+      :user_id    => current_user.id,
+      :completed  => false
     )
 
     if @run.save
@@ -43,13 +45,19 @@ class RunsController < ApplicationController
       mock_thread = Thread.new do
         start_time = Time.now
 
+        # Save dataset csv to a temp file
         temp_file_name = "tmp/user.#{current_user.id}.dataset.#{@dataset.id}.csv"
         File.open(temp_file_name, 'w') {|f| f.write(@dataset.to_csv) }
+        
+        # Run MOCK command
         puts "algo/MOCK 1 1 #{temp_file_name} #{@dataset.rows} #{@dataset.columns} #{current_user.id} #{@run.id}"
         `algo/MOCK 1 1 #{temp_file_name} #{@dataset.rows} #{@dataset.columns} #{current_user.id} #{@run.id}`
 
-        solutions = []
+        # Initialise solution and control solution arrays. These will be imported in bulk later on
+        solutions         = []
         control_solutions = []
+
+        # Open objective file
         objective_file = CSV.open("algo/data/#{@run.objective_file_name}")
 
         # Sort data files
@@ -65,6 +73,7 @@ class RunsController < ApplicationController
           end
         end
 
+        # Read data from each solution data file
         data_files.each do |filename|
           split_filename = filename.split('.')
           if split_filename[1].to_i == current_user.id && split_filename[5].to_i == @run.id
@@ -72,18 +81,21 @@ class RunsController < ApplicationController
               
               objective_line_string = objective_file.readline.first.split(' ')
 
+              # Add new solution to solution array
               solutions << Solution.new(
-                :run_id => @run.id,
+                :run_id                => @run.id,
                 :generated_solution_id => (split_filename[7].to_i + 1),
-                :connectivity => objective_line_string[2].to_f,
-                :deviation => objective_line_string[3].to_f
+                :connectivity          => objective_line_string[2].to_f,
+                :deviation             => objective_line_string[3].to_f
               )
 
             elsif split_filename[6] == "control"
-              # Process control data
+              
+              # Open control solution data file
               File.open("algo/data/#{@run.control_file_name}", "r+") do |file|
                 CSV.foreach(file) do |line|
                   split_line = line.first.split(' ')
+                  # Add control solution to array
                   control_solutions << ControlSolution.new(
                     :run_id       => @run.id,
                     :connectivity => split_line[2].to_f,
@@ -93,14 +105,20 @@ class RunsController < ApplicationController
               end
             end
           end
-        end   
+        end
 
+        # Save the solutions and control solutions to db in bulk
         Solution.import solutions
         ControlSolution.import control_solutions
 
-        @run.update_attributes(:completed => true, :runtime => Time.now - start_time)
-      end # End of Thread
-      # redirect_to @run
+        # Notify run is complete, also update run time
+        @run.update_attributes(
+          :completed => true,
+          :runtime   => Time.now - start_time
+        )
+      end
+    else
+      raise "Failed to save this Run to the database"
     end
 
   end

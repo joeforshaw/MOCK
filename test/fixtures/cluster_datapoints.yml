@@ -5,9 +5,9 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  cluster_id:   1
-  datapoint_id: 1
+  cluster:   clusters(:one)
+  datapoint: datapoints(:one)
 
 two:
-  cluster_id:   2
-  datapoint_id: 2
+  cluster:   clusters(:two)
+  datapoint: datapoints(:two)

@@ -6,14 +6,10 @@
 #
 one:
   runtime: 0
-  dataset_id: 1
-  user:
-    name:  "Joe"
-    email: "joe@test.com"
+  dataset: datasets(:one)
+  user:    users(:joe)
 
 two:
-  runtime: 0
-  dataset_id: 1
-  user:
-    name:  "Beth"
-    email: "beth@test.com"
+  runtime: 1
+  dataset: datasets(:two)
+  user:    users(:beth)

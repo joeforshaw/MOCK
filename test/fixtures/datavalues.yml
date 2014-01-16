@@ -5,9 +5,17 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  datapoint_id: 1
-  value:      1.0
+  datapoint: datapoints(:one)
+  value:     1.0
 
 two:
-  datapoint_id: 1
-  value:      1.0
+  datapoint: datapoints(:one)
+  value:     2.0
+
+three:
+  datapoint: datapoints(:two)
+  value:     3.0
+
+four:
+  datapoint: datapoints(:two)
+  value:     4.0

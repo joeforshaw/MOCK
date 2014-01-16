@@ -5,4 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  solution_id: 1
+  solution: solutions(:one)
+
+two:
+  solution: solutions(:two)

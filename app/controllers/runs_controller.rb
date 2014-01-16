@@ -52,7 +52,7 @@ class RunsController < ApplicationController
         # Run MOCK command
         puts "algo/MOCK 1 1 #{temp_file_name} #{@dataset.rows} #{@dataset.columns} #{current_user.id} #{@run.id}"
         `algo/MOCK 1 1 #{temp_file_name} #{@dataset.rows} #{@dataset.columns} #{current_user.id} #{@run.id}`
-
+        puts "Complete"
         # Initialise solution and control solution arrays. These will be imported in bulk later on
         solutions         = []
         control_solutions = []
@@ -75,6 +75,7 @@ class RunsController < ApplicationController
 
         # Read data from each solution data file
         data_files.each do |filename|
+          puts filename
           split_filename = filename.split('.')
           if split_filename[1].to_i == current_user.id && split_filename[5].to_i == @run.id
             if split_filename.size == 9
@@ -104,7 +105,7 @@ class RunsController < ApplicationController
                 end
               end
             end
-          end
+          end          
         end
 
         # Save the solutions and control solutions to db in bulk

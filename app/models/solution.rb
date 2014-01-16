@@ -1,7 +1,6 @@
 class Solution < ActiveRecord::Base
   
   belongs_to :run
-
   has_many :clusters, :dependent => :destroy
 
   validates :run_id,                presence:     true,

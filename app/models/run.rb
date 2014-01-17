@@ -3,6 +3,7 @@ class Run < ActiveRecord::Base
   belongs_to :user
   has_many :solutions,         :dependent => :destroy
   has_many :control_solutions, :dependent => :destroy
+  has_many :evidence_accumulation_solutions, :dependent => :destroy
 
   validates :runtime,    presence: true
   validates :dataset_id, presence: true

@@ -59,6 +59,8 @@ class RunsController < ApplicationController
           parse_data_file(filename, objective_file, current_user, @run)         
         end
 
+        create_evidence_accumulation_solution()
+
         # Notify run is complete and update run time
         @run.update_attributes(
           :completed => true,
@@ -142,6 +144,11 @@ class RunsController < ApplicationController
       end
     end
     return control_solutions
+  end
+
+  def create_evidence_accumulation_solution
+    ev_acc_solution = EvidenceAccumulationSolution.new(:run_id => @run.id)
+    ev_acc_solution.save
   end
 
 end

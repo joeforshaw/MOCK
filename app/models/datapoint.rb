@@ -11,4 +11,10 @@ class Datapoint < ActiveRecord::Base
   validates :sequence_id, presence:     true,
                           numericality: true
 
+  def get_cluster(solution)
+    clusters = self.clusters.where(:solution_id => solution.id)
+    puts clusters.size
+    return cluster.first
+  end
+
 end

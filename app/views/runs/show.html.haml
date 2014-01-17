@@ -8,6 +8,10 @@
   .solution-front
     #solution-front-graph
 
+  .graph-width-wrapper
+    - if !@parsing_status.nil?
+      %p= @parsing_status
+
 / Uncomment to test
 / - objective_file = File.open("algo/data/#{@run.objective_file_name}")
 / %ul

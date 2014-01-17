@@ -14,5 +14,5 @@
               %p.dataset-name= dataset.name
               .delete-icon
                 = button_to "X", destroy_dataset_path(dataset), :method => :delete, :class => "delete-button", :onclick => "return confirm('Are you sure you want to delete #{dataset.name}?')"
-              = button_to "Run MOCK on this dataset", create_run_path(:dataset => dataset.id), :class => "dataset-create-button", :onclick => "return confirm('Are you sure you want to run MOCK on #{dataset.name}?')"
+              = link_to "Run MOCK on this dataset", new_run_path(:dataset => dataset.id), :class => "dataset-create-button", :onclick => "return confirm('Are you sure you want to run MOCK on #{dataset.name}?')"
 

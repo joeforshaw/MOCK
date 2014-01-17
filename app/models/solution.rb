@@ -1,5 +1,7 @@
 class Solution < ActiveRecord::Base
   
+  require 'matrix'
+
   belongs_to :run
   has_many :clusters, :dependent => :destroy
 
@@ -12,8 +14,8 @@ class Solution < ActiveRecord::Base
   validates :deviation,             presence:     true,
                                     numericality: true
 
-  def mock_file_name
-    "user.#{self.run.user.id}.method.1.run.#{self.run.id}.solution.#{self.generated_solution_id - 1}.part"
+  def file_dir
+    "algo/data/user.#{self.run.user.id}.method.1.run.#{self.run.id}.solution.#{self.generated_solution_id - 1}.part"
   end
 
   def to_csv
@@ -30,5 +32,66 @@ class Solution < ActiveRecord::Base
       end
     end
   end
+
+  def save_data_file
+    if File.exist?(self.file_dir)
+      clusters = []
+      cluster_datapoints = []
+
+      # Create clusters
+      File.open(self.file_dir, "r+") do |file|
+        
+        # Collect cluster ids from files
+        generated_cluster_ids = Set.new
+        CSV.foreach(file) do |line|
+          generated_cluster_ids.add(line.first.split(' ').last.to_i)
+        end
+
+        # Create Cluster records
+        generated_cluster_ids.each do |generated_cluster_id|
+          clusters << Cluster.new(:solution_id => self.id, :generated_cluster_id => generated_cluster_id)
+        end
+
+      end
+
+      Cluster.import clusters
+
+      clusters_for_solution = Cluster.where(:solution_id => self.id)
+      File.open(self.file_dir, "r+") do |file|
+        datapoints = self.run.dataset.datapoints
+        datapoints.each do |datapoint|
+          generated_cluster_id = file.readline.split(' ').last.to_i
+          cluster = clusters_for_solution.where(:generated_cluster_id => generated_cluster_id).first
+          cluster_datapoints << ClusterDatapoint.new(:cluster_id => cluster.id, :datapoint_id => datapoint.id)
+        end
+      end
+
+      ClusterDatapoint.import cluster_datapoints
+
+      File.delete(self.file_dir)
+
+      self.update_attributes(:parsed => true)
+    end
+  end
+
+  def get_similarity_matrix
+    datapoints_size = self.run.dataset.datapoints.size
+    similarity_matrix = Array.new(datapoints_size) {Array.new(datapoints_size, 0)}
+
+    clusters = self.clusters
+    clusters.each do |cluster|
+      cluster_datapoints = cluster.datapoints
+      cluster_datapoints_size = cluster_datapoints.size
+      for i in (0..cluster_datapoints_size - 1)
+        for j in (0..cluster_datapoints_size - 1)
+          i_datapoint_index = cluster_datapoints[i].sequence_id - 1
+          j_datapoint_index = cluster_datapoints[j].sequence_id - 1
+          similarity_matrix[i_datapoint_index][j_datapoint_index] += 1
+        end
+      end
+    end
+    return similarity_matrix
+  end
+
 
 end

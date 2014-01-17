@@ -1,0 +1,11 @@
+.run-new
+  .form-wrapper
+    %h2= "Run MOCK on #{@dataset.name}"
+    = form_for @run, :url => create_run_path(@dataset) do |f|
+      %ul
+        = hidden_field_tag 'dataset', params[:dataset]
+        %li
+          = f.check_box :evidence_accumulation, :class => "check-box-input"
+          = f.label :evidence_accumulation, :class => "check-box-label"
+        %li.submit-field
+          = f.submit "Run MOCK", :class => "submit-field-input"

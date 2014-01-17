@@ -1,9 +1,10 @@
 class Run < ActiveRecord::Base
   belongs_to :dataset
   belongs_to :user
+  belongs_to :evidence_accumulation_solution
+
   has_many :solutions,         :dependent => :destroy
   has_many :control_solutions, :dependent => :destroy
-  has_many :evidence_accumulation_solutions, :dependent => :destroy
 
   validates :runtime,    presence: true
   validates :dataset_id, presence: true
@@ -36,6 +37,11 @@ class Run < ActiveRecord::Base
 
   def completed?
     self.completed
+  end
+
+  def execute(temp_file_name)
+    puts "algo/MOCK 1 1 #{temp_file_name} #{self.dataset.rows} #{self.dataset.columns} #{self.user.id} #{self.id}"
+    `algo/MOCK 1 1 #{temp_file_name} #{self.dataset.rows} #{self.dataset.columns} #{self.user.id} #{self.id}`
   end
 
 end

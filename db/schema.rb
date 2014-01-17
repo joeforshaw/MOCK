@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140116163112) do
+ActiveRecord::Schema.define(version: 20140117205759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 20140116163112) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "cluster_datapoints", ["cluster_id"], name: "index_cluster_datapoints_on_cluster_id", using: :btree
 
   create_table "clusters", force: true do |t|
     t.integer  "solution_id"
@@ -71,6 +73,7 @@ ActiveRecord::Schema.define(version: 20140116163112) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "run_id"
+    t.boolean  "completed"
   end
 
   create_table "runs", force: true do |t|
@@ -80,6 +83,9 @@ ActiveRecord::Schema.define(version: 20140116163112) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "completed"
+    t.boolean  "evidence_accumulation"
+    t.boolean  "parsed"
+    t.integer  "evidence_accumulation_solution_id"
   end
 
   create_table "solutions", force: true do |t|
@@ -89,6 +95,7 @@ ActiveRecord::Schema.define(version: 20140116163112) do
     t.integer  "generated_solution_id"
     t.float    "connectivity"
     t.float    "deviation"
+    t.boolean  "parsed"
   end
 
   create_table "users", force: true do |t|

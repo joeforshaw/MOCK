@@ -1,5 +1,5 @@
 class ClusterDatapoint < ActiveRecord::Base
-  belongs_to :cluster
+  belongs_to :cluster, :autosave => true
   belongs_to :datapoint
 
   validates :cluster_id,   presence:     true,

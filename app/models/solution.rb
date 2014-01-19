@@ -74,24 +74,4 @@ class Solution < ActiveRecord::Base
     end
   end
 
-  def get_similarity_matrix
-    datapoints_size = self.run.dataset.datapoints.size
-    similarity_matrix = Array.new(datapoints_size) {Array.new(datapoints_size, 0)}
-
-    clusters = self.clusters
-    clusters.each do |cluster|
-      cluster_datapoints = cluster.datapoints
-      cluster_datapoints_size = cluster_datapoints.size
-      for i in (0..cluster_datapoints_size - 1)
-        for j in (0..cluster_datapoints_size - 1)
-          i_datapoint_index = cluster_datapoints[i].sequence_id - 1
-          j_datapoint_index = cluster_datapoints[j].sequence_id - 1
-          similarity_matrix[i_datapoint_index][j_datapoint_index] += 1
-        end
-      end
-    end
-    return similarity_matrix
-  end
-
-
 end

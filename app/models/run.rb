@@ -44,4 +44,29 @@ class Run < ActiveRecord::Base
     `algo/MOCK 1 1 #{temp_file_name} #{self.dataset.rows} #{self.dataset.columns} #{self.user.id} #{self.id}`
   end
 
+  def get_parsing_status
+    solutions_parsed = self.solutions.where(:parsed => true).size.to_f
+    no_of_solutions = self.solutions.size.to_f
+    percentage_parsed = ((solutions_parsed / no_of_solutions) * 100.0).to_i
+    if percentage_parsed < 100
+      @parsing_status = "Solution parsing #{percentage_parsed}%"
+    else
+      @parsing_status = "Parsing complete"
+    end
+  end
+
+  def get_evidence_accumulation_status
+    if self.evidence_accumulation
+      if !self.parsed
+        return "Evidence accumulation waiting"
+      elsif !self.evidence_accumulation_solution.completed
+        return "Evidence accumulation running"
+      else
+        return "Evidence accumulation complete"
+      end
+    else
+      return nil
+    end
+  end
+
 end

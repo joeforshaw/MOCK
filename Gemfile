@@ -47,3 +47,8 @@ gem 'spinjs-rails'
 
 # Multidimensional scaling
 gem 'rmds'
+
+# For storing hierarchical agglomerative clustering node
+gem 'awesome_nested_set'
+
+gem 'rubytree'

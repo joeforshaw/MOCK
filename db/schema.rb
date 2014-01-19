@@ -11,10 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140117205759) do
+ActiveRecord::Schema.define(version: 20140119122905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "agglom_nodes", force: true do |t|
+    t.string  "name"
+    t.integer "parent_id"
+    t.integer "lft"
+    t.integer "rgt"
+    t.integer "depth"
+    t.float   "distance"
+    t.integer "datapoint_id"
+    t.integer "evidence_accumulation_solution_id"
+  end
 
   create_table "cluster_datapoints", force: true do |t|
     t.integer  "cluster_id"

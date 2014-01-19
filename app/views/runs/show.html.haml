@@ -11,6 +11,8 @@
   .graph-width-wrapper
     - if !@parsing_status.nil?
       %p= @parsing_status
+    - if !@evidence_accumulation_status.nil?
+      %p= @evidence_accumulation_status
 
 / Uncomment to test
 / - objective_file = File.open("algo/data/#{@run.objective_file_name}")

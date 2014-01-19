@@ -22,12 +22,9 @@ class RunsController < ApplicationController
       gon.solution_path = "#{solution_path(nil)}"
       gon.last_solution = params[:last_solution]
 
-      solutions_parsed = @run.solutions.where(:parsed => true).size.to_f
-      no_of_solutions = @run.solutions.size.to_f
-      percentage_parsed = ((solutions_parsed / no_of_solutions) * 100.0).to_i
-      if percentage_parsed < 100
-        @parsing_status = "Solution parsing #{percentage_parsed}%"
-      end
+      @parsing_status = @run.get_parsing_status
+      @evidence_accumulation_status = @run.get_evidence_accumulation_status
+
     end
   end
 
@@ -185,7 +182,7 @@ class RunsController < ApplicationController
       run.update_attributes(:parsed => true)
       
       if @run.evidence_accumulation
-        run.calculate_similarity_matrix
+        run.evidence_accumulation_solution.execute
       end
     end
   end

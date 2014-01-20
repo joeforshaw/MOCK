@@ -1,7 +1,7 @@
-var r = 960 / 2;
+var dimensions = { width: 1000, height: 2000 };
 
 var cluster = d3.layout.cluster()
-    .size([1000, 1])
+    .size([dimensions.width, 1])
     .sort(null)
     .value(function(d) { return d.length; })
     .children(function(d) { return d.branchset; })
@@ -16,8 +16,8 @@ function elbow(d, i) {
 }
 
 var wrap = d3.select("#dendrogram").append("svg")
-    .attr("width", r * 3)
-    .attr("height", r * 2)
+    .attr("width", dimensions.width)
+    .attr("height", dimensions.height)
     .style("-webkit-backface-visibility", "hidden");
 
 var vis = wrap.append("g");
@@ -32,9 +32,18 @@ function phylo(n, offset) {
       phylo(n, offset);
     });
   } else {
-    n.y = 2.6 * multiplier;
+    n.y = 5.7 * multiplier;
   }
 }
+
+// function phylo(n, offset) {
+//   if (n.length != null) offset += n.length * 230;
+//   n.y = offset;
+//   if (n.children)
+//     n.children.forEach(function(n) {
+//       phylo(n, offset);
+//     });
+// }
 
 d3.text(gon.evidence_accumulation_solution_path, function(text) {
   var x = newick.parse(text);
@@ -53,9 +62,11 @@ d3.text(gon.evidence_accumulation_solution_path, function(text) {
     .enter().append("g")
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+      .append("circle")
+        .attr("class", "join")
+        .attr("r", function(d) { return ('children' in d) ? 0 : 2 });
 
-  node.append("circle")
-      .attr("r", 1);
+  // console.log(nodes[5].children == undefined)
 
   // var label = vis.selectAll("text")
   //     .data(nodes.filter(function(d) { return d.x !== undefined && !d.children; }))

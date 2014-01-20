@@ -1,0 +1,2 @@
+module EvidenceAccumulationSolutionsHelper
+end

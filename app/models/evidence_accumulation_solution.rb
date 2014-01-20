@@ -3,15 +3,20 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
   require 'tree'
 
   belongs_to :run
-  has_many :agglom_nodes, :dependent => :delete_all
+
+  has_one :agglom_node, :dependent => :destroy
 
   validates :run_id, presence:     true,
                      numericality: true
 
+  def newick_format_path
+    return "/evidence_accumulation_solution/#{self.id}.newick"
+  end
+
   def execute
     dissimilarity_matrix = self.calculate_dissimilarity_matrix
-
-    self.hierarchical_clustering(dissimilarity_matrix)
+    root_node = self.hierarchical_clustering(dissimilarity_matrix)
+    root_agglom_node = save_tree(root_node, nil)
   end
 
   def calculate_dissimilarity_matrix
@@ -41,11 +46,6 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
     end
 
     self.update_attributes(:completed => true)
-
-    for i in (0..no_of_datapoints - 1)
-      puts dissimilarity_matrix[i].join(",")
-    end
-
     return dissimilarity_matrix
   end
 
@@ -55,7 +55,7 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
 
     # Put each datapoint into a cluster
     self.run.dataset.datapoints.each do |datapoint|
-      tree_nodes << Tree::TreeNode.new(node_id.to_s, datapoint)
+      tree_nodes << Tree::TreeNode.new(node_id.to_s, TreeNodeContent.new(datapoint,nil))
       node_id += 1
     end
 
@@ -66,7 +66,7 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
       tree_nodes.each do |node|
         tree_nodes.each do |other_node|
           if node.name != other_node.name
-            distance = complete_link_distance(node, other_node, dissimilarity_matrix)
+            distance = average_link_distance(node, other_node, dissimilarity_matrix)
             if distance < smallest_distance
               smallest_distance = distance
               closest_nodes = [node, other_node]
@@ -82,10 +82,14 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
       puts ""
 
       # Create a new cluster with the two closest clusters as it's children
-      parent_node = Tree::TreeNode.new(node_id.to_s, nil)
+      parent_node = Tree::TreeNode.new(node_id.to_s, TreeNodeContent.new(nil, nil))
       node_id += 1
-      parent_node << closest_nodes[0]
-      parent_node << closest_nodes[1]
+
+      for i in (0..1)
+        closest_nodes[i].content.distance = smallest_distance
+        parent_node << closest_nodes[i]
+      end
+
       tree_nodes << parent_node
       tree_nodes = tree_nodes - closest_nodes
     end
@@ -98,13 +102,13 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
     total_distance = 0.0
     node.each_leaf do |node|
       other_node.each_leaf do |other_node|
-
         no_of_datapoint_pairs += 1
-        total_distance += dissimiliarity_matrix[node.content.sequence_id - 1][other_node.content.sequence_id - 1]
+        total_distance += dissimiliarity_matrix[node.content.datapoint.sequence_id - 1][other_node.content.datapoint.sequence_id - 1]
       end
     end
     return total_distance / no_of_datapoint_pairs
   end
+
 
   def complete_link_distance(node, other_node, dissimiliarity_matrix)
     max_distance = -1.0
@@ -117,4 +121,23 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
     end
     return max_distance
   end
+
+  def save_tree(node, parent_agglom_node)
+    agglom_node = AgglomNode.new
+    if node.is_root?
+      agglom_node.evidence_accumulation_solution = self
+    end
+    if node.is_leaf?
+      agglom_node.datapoint = node.content.datapoint
+    end
+    agglom_node.parent = parent_agglom_node
+    agglom_node.distance = node.content.distance
+    agglom_node.save
+
+    node.children do |child_node|
+      save_tree(child_node, agglom_node)
+    end
+    return agglom_node
+  end
+
 end

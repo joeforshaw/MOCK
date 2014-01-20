@@ -36,7 +36,7 @@ function phylo(n, offset) {
   }
 }
 
-d3.text("/algo/data/life.txt", function(text) {
+d3.text(gon.evidence_accumulation_solution_path, function(text) {
   var x = newick.parse(text);
   var nodes = cluster.nodes(x);
   phylo(nodes[0], 0);

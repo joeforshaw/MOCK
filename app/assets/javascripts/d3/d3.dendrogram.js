@@ -24,25 +24,38 @@ var vis = wrap.append("g");
 
 // Calculates child link distance
 function phylo(n, offset) {
-  var multiplier = 270;
+  var multiplier = 150;
   if (n.length != null) offset += n.length * multiplier;
-  n.y = offset;
+  n.y = offset + 2;
   if (n.children) {
     n.children.forEach(function(n) {
       phylo(n, offset);
     });
-  } else {
-    n.y = 5.7 * multiplier;
   }
 }
 
-// function phylo(n, offset) {
-//   if (n.length != null) offset += n.length * 230;
-//   n.y = offset;
-//   if (n.children)
-//     n.children.forEach(function(n) {
-//       phylo(n, offset);
+function fixLeafPositions(nodes) {
+  var lowestY = 0;
+  nodes.forEach(function(n) {
+    if (n.y > lowestY) {
+      lowestY = n.y
+    }
+  });
+  nodes.forEach(function(n) {
+    if (!n.children) {
+      n.y = lowestY
+    }
+  })
+}
+
+// function colourChildren(node) {
+//   console.log(node);
+//   d3.select(node).style("stroke", "red");
+//   if (node.target.children) {
+//     node.target.children.forEach(function(child) {
+//       colourChildren(child);
 //     });
+//   }
 // }
 
 d3.text(gon.evidence_accumulation_solution_path, function(text) {
@@ -50,12 +63,18 @@ d3.text(gon.evidence_accumulation_solution_path, function(text) {
   var nodes = cluster.nodes(x);
   phylo(nodes[0], 0);
 
+  fixLeafPositions(nodes)
+
   // Create links between nodes
   var link = vis.selectAll("path.link")
       .data(cluster.links(nodes))
     .enter().append("path")
       .attr("class", "link")
-      .attr("d", elbow);
+      .attr("d", elbow)
+      // .on("mouseover", function(node) {
+      //   d3.select(this).style("stroke", "red");
+      //   colourChildren(node);
+      // })
 
   var node = vis.selectAll("g.node")
       .data(nodes.filter(function(n) { return n.x !== undefined; }))
@@ -64,17 +83,6 @@ d3.text(gon.evidence_accumulation_solution_path, function(text) {
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .append("circle")
         .attr("class", "join")
-        .attr("r", function(d) { return ('children' in d) ? 0 : 2 });
-
-  // console.log(nodes[5].children == undefined)
-
-  // var label = vis.selectAll("text")
-  //     .data(nodes.filter(function(d) { return d.x !== undefined && !d.children; }))
-  //   .enter().append("text")
-  //     .attr("dy", ".31em")
-  //     .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-  //     .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-  //     // .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (r - 170 + 8) + ")rotate(" + (d.x < 180 ? 0 : 180) + ")"; })
-  //     .text(function(d) { return d.name.replace(/_/g, ' '); });
+        .attr("r", function(d) { return (d.children && 'parent' in d) ? 0 : 2; });
 
 });

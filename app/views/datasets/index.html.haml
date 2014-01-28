@@ -8,11 +8,9 @@
   - else
     %ul.datasets
       - @datasets.each do |dataset|
-        .dataset-wrapper
-          %a.dataset-link{:href => dataset_path(dataset.id) }
-            %li.clearfix
-              %p.dataset-name= dataset.name
-              .delete-icon
-                = button_to "X", destroy_dataset_path(dataset), :method => :delete, :class => "delete-button", :onclick => "return confirm('Are you sure you want to delete #{dataset.name}?')"
-              = link_to "Run MOCK on this dataset", new_run_path(:dataset => dataset.id), :class => "dataset-create-button", :onclick => "return confirm('Are you sure you want to run MOCK on #{dataset.name}?')"
-
+        %li.dataset-wrapper
+          .delete-icon
+            = button_to "X", destroy_dataset_path(dataset), :method => :delete, :class => "delete-button", :onclick => "return confirm('Are you sure you want to delete #{dataset.name}?')"
+          .run-create-link
+            = link_to "Run MOCK", new_run_path(:dataset => dataset.id), :dataset => dataset.id
+          = link_to dataset.name, dataset

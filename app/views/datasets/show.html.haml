@@ -1,7 +1,7 @@
 .dataset-show
   .graph-width-wrapper.heading-wrapper.clearfix
     %h2= @dataset.name
-    .create-run= button_to "Run MOCK on this Dataset", create_run_path(:dataset => @dataset.id), :class => "orange-button", :onclick => "return confirm('Are you sure you want to run MOCK on #{@dataset.name}?')"
+    .create-run= link_to "Run MOCK on this Dataset", new_run_path(:dataset => @dataset.id), :class => "orange-button"
 
   .solution
     %svg#solution-graph

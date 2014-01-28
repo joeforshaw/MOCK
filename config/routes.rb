@@ -26,7 +26,7 @@ MOCK::Application.routes.draw do
 
   get 'clusters/:id' => 'clusters#show', :as => :cluster
 
-  get 'evidence_accumulation_solution/:id' => 'evidence_accumulation_solutions#show', :as => :evidence_accumulation
+  get 'evidence_accumulation_solution/:id' => 'evidence_accumulation_solutions#show', :as => :evidence_accumulation_solution
 
   resources :clusters
 

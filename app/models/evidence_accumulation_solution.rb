@@ -1,6 +1,7 @@
 class EvidenceAccumulationSolution < ActiveRecord::Base
 
   require 'tree'
+  require 'ruby-prof'
 
   belongs_to :run
 
@@ -50,6 +51,7 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
   end
 
   def hierarchical_clustering(dissimilarity_matrix)
+    # RubyProf.start
     tree_nodes = []
     node_id = 1
 
@@ -66,7 +68,7 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
       tree_nodes.each do |node|
         tree_nodes.each do |other_node|
           if node.name != other_node.name
-            distance = average_link_distance(node, other_node, dissimilarity_matrix)
+            distance = get_distance(node, other_node, dissimilarity_matrix)
             if distance < smallest_distance
               smallest_distance = distance
               closest_nodes = [node, other_node]
@@ -93,7 +95,23 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
       tree_nodes << parent_node
       tree_nodes = tree_nodes - closest_nodes
     end
+
+    # result = RubyProf.stop
+    # printer = RubyProf::FlatPrinter.new(result)
+    # printer.print(STDOUT)
+
     return tree_nodes[0]
+  end
+
+
+  def get_distance(node, other_node, dissimiliarity_matrix)
+    if node.content.cached_distances.has_key?(other_node.name)
+      return node.content.cached_distances[other_node.name]
+    elsif other_node.content.cached_distances.has_key?(node.name)
+      return other_node.content.cached_distances[node.name]
+    else
+      return average_link_distance(node, other_node, dissimiliarity_matrix)
+    end
   end
 
 
@@ -106,7 +124,9 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
         total_distance += dissimiliarity_matrix[node.content.datapoint.sequence_id - 1][other_node.content.datapoint.sequence_id - 1]
       end
     end
-    return total_distance / no_of_datapoint_pairs
+    distance = total_distance / no_of_datapoint_pairs
+    node.content.cached_distances[other_node.name] = distance
+    return distance
   end
 
 

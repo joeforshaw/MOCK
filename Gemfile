@@ -52,3 +52,5 @@ gem 'rmds'
 gem 'awesome_nested_set'
 
 gem 'rubytree'
+
+gem 'ruby-prof'

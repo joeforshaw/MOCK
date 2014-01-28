@@ -24,6 +24,7 @@ class RunsController < ApplicationController
 
       @parsing_status = @run.get_parsing_status
       @evidence_accumulation_status = @run.get_evidence_accumulation_status
+      @evidence_accumulation_solution = @run.evidence_accumulation_solution
 
     end
   end
@@ -86,6 +87,9 @@ class RunsController < ApplicationController
           :runtime   => Time.now - start_time
         )
       end
+
+      mock_thread.priority = -1
+
     else
       raise "Failed to save this Run to the database"
     end
@@ -173,7 +177,7 @@ class RunsController < ApplicationController
 
 
   def begin_solution_parsing_thread(run)
-    begin_solution_parsing_thread = Thread.new do
+    evidence_accumulation_thread = Thread.new do
       run.solutions.each do |solution|
         if !solution.parsed
           solution.save_data_file
@@ -185,6 +189,7 @@ class RunsController < ApplicationController
         run.evidence_accumulation_solution.execute
       end
     end
+    evidence_accumulation_thread.priority = -100
   end
 
 end

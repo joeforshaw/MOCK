@@ -18,14 +18,13 @@
     a {
       color: rgb(57,57,55);
       text-decoration: none;
-      padding: 0.5em 0;
       margin-bottom: 1em;
       display: block;
       background-color: rgb(240,240,240);
       border-bottom: 4px solid rgb(230,230,230);
 
       li {
-        margin: 0 0.5em;
+        padding: 0.5em 1em;
 
         .run-dataset {
           margin-right: 0.5em;

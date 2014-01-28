@@ -35,10 +35,6 @@ class Run < ActiveRecord::Base
     end
   end
 
-  def completed?
-    self.completed
-  end
-
   def execute(temp_file_name)
     puts "algo/MOCK 1 1 #{temp_file_name} #{self.dataset.rows} #{self.dataset.columns} #{self.user.id} #{self.id}"
     `algo/MOCK 1 1 #{temp_file_name} #{self.dataset.rows} #{self.dataset.columns} #{self.user.id} #{self.id}`

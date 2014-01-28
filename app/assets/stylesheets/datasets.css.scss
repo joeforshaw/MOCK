@@ -2,51 +2,23 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.dataset-create-button {
-  float: right;
-  border: 0px solid;
-  font-size: 1em;
-  font-family: Lato Light;
-  padding: 0;
-  margin: 0;
-  background-color: transparent;
-  color: rgb(241,194,50);
-  cursor: pointer;
-}
-
-.dataset-new {
-
-}
-
 .dataset-index {
-
-  .datasets {
-    list-style-type: none;
-  }
 
   .create-dataset {
     float: right;
-    display: block;
   }
 
-  .dataset-wrapper {
-    margin-bottom: 1em;
-    background-color: rgb(240,240,240);
-    border-bottom: 4px solid rgb(230,230,230);
+  .datasets {
+    list-style-type: none;
 
-    a {
-      color: rgb(57,57,55);
-      text-decoration: none;
-      padding: 0.5em 0;
-      display: block;
+    .dataset-wrapper {
+      margin-bottom: 1em;
+      background-color: rgb(240,240,240);
+      border-bottom: 4px solid rgb(230,230,230);
+      padding: 0.5em 1em;
 
-      li {
-        margin: 0 0.5em;
-
-        .dataset-name {
-          float: left;
-        }
-
+      .run-create-link {
+        float: right;
       }
 
     }

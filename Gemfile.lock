@@ -96,6 +96,7 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     rmds (0.2)
+    ruby-prof (0.14.2)
     rubytree (0.9.2)
       json (~> 1.8)
       structured_warnings (~> 0.1)
@@ -151,6 +152,7 @@ DEPENDENCIES
   rails (= 4.0.0)
   rails_12factor
   rmds
+  ruby-prof
   rubytree
   sass-rails (~> 4.0.0)
   sdoc

@@ -1,5 +1,5 @@
 class AddIndexToClusters < ActiveRecord::Migration
   def change
-    add_index :clusters, :cluster_id
+    add_index :clusters, :Cluster_id
   end
 end

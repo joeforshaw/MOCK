@@ -18,6 +18,7 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
     dissimilarity_matrix = self.calculate_dissimilarity_matrix
     root_node = self.hierarchical_clustering(dissimilarity_matrix)
     root_agglom_node = save_tree(root_node, nil)
+    self.update_attributes(:completed => true)
   end
 
   def calculate_dissimilarity_matrix
@@ -45,8 +46,6 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
         dissimilarity_matrix[i][j] = 1 - (dissimilarity_matrix[i][j] / no_of_solutions)
       end
     end
-
-    self.update_attributes(:completed => true)
     return dissimilarity_matrix
   end
 

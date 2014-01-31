@@ -54,3 +54,6 @@ gem 'awesome_nested_set'
 gem 'rubytree'
 
 gem 'ruby-prof'
+
+gem 'capistrano'
+gem 'rvm-capistrano'

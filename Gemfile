@@ -56,4 +56,7 @@ gem 'rubytree'
 gem 'ruby-prof'
 
 gem 'capistrano'
+
 gem 'rvm-capistrano'
+
+gem 'unicorn'

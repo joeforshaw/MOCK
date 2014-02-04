@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20140119122905) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "agglom_nodes", force: true do |t|
     t.string  "name"
     t.integer "parent_id"
@@ -42,8 +39,6 @@ ActiveRecord::Schema.define(version: 20140119122905) do
     t.datetime "updated_at"
     t.integer  "generated_cluster_id"
   end
-
-  add_index "clusters", ["solution_id"], name: "index_clusters_on_solution_id", using: :btree
 
   create_table "control_solutions", force: true do |t|
     t.integer  "run_id"

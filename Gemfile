@@ -62,5 +62,3 @@ gem 'rvm-capistrano'
 gem 'unicorn'
 
 gem 'therubyracer'
-
-gem 'mysql2'

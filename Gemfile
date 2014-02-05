@@ -55,4 +55,12 @@ gem 'rubytree'
 
 gem 'ruby-prof'
 
+gem 'capistrano'
+
+gem 'rvm-capistrano'
+
 gem 'unicorn'
+
+gem 'therubyracer'
+
+gem 'mysql2'

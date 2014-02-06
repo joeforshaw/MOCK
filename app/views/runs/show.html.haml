@@ -1,7 +1,7 @@
-.run-show{ :data => { :id => @run.id } } 
+.run-show{ :data => { :id => @run.id } }
   .graph-width-wrapper.heading-wrapper.clearfix
     %h2 Run Solutions
-  
+
   .graph-width-wrapper
     %p Pick a point on the blue line to view the solution
 
@@ -16,11 +16,3 @@
         = @evidence_accumulation_status
         - if !@evidence_accumulation_solution.nil? and @evidence_accumulation_solution.completed?
           = link_to "View", @evidence_accumulation_solution
-
-/ Uncomment to test
-/ - objective_file = File.open("algo/data/#{@run.objective_file_name}")
-/ %ul
-/   - @run.solutions.order(:generated_solution_id).each do |solution|
-/     - split_line = objective_file.readline.split(" ")
-/     %li
-/       %p= "#{solution.connectivity}, #{solution.deviation} - #{split_line[2]}, #{split_line[3]}"

@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    if (gon.is_run === null || !gon.is_run) {
+        return;
+    }
+
     $('#solution-front-graph').svg();
 
     var xDimension = 1;
@@ -113,7 +117,7 @@ $(document).ready(function() {
                 .data(solutionData).enter()
                 .append("a")
                 .attr("class", "solution-front-link")
-                .attr("xlink:href", function(d) { return gon.solution_path + d[0]; })
+                .attr("xlink:href", function(d) { return getSolutionPath(d) })
                 .append("circle")
                 .attr("r", 5)
                 .attr("cx", function(d) { return x(d[xDimension]); })
@@ -128,6 +132,14 @@ $(document).ready(function() {
         });
     });
 });
+
+function getSolutionPath(d) {
+    if (gon.evidence_accumulation) {
+        return gon.evidence_accumulation_path + "?solution=" + d[0];
+    } else {
+        return gon.solution_path + d[0];
+    }
+}
 
 function updateLastSolution() {
     gon.unwatch('last_solution', updateLastSolution);

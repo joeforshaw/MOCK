@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+    if (gon.is_solution === null || !gon.is_solution) {
+        return;
+    }
+
     var xDimension = $("select#x_dimension").val() - 1;
     var yDimension = $("select#y_dimension").val() - 1;
 

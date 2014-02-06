@@ -1,4 +1,4 @@
-var dimensions = { width: 1000, height: 2000 };
+var dimensions = { width: 960, height: 960 };
 
 var cluster = d3.layout.cluster()
     .size([dimensions.width, 1])
@@ -58,7 +58,12 @@ function fixLeafPositions(nodes) {
 //   }
 // }
 
+$(".evidence_accumulation_solution").spin();
+
 d3.text(gon.evidence_accumulation_solution_path, function(text) {
+
+  $(".evidence_accumulation_solution").spin(false);
+
   var x = newick.parse(text);
   var nodes = cluster.nodes(x);
   phylo(nodes[0], 0);

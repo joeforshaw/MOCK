@@ -16,11 +16,17 @@ class RunsController < ApplicationController
   def show
     @body_classes << "graph-body"
     @run = Run.find(params[:id])
+    gon.is_run = true;
     if @run.completed?
       gon.solution_front_path = "#{solutions_path(@run.id)}.csv"
       gon.solution_control_front_path = "#{control_solutions_path(@run.id)}.csv"
       gon.solution_path = "#{solution_path(nil)}"
       gon.last_solution = params[:last_solution]
+
+      gon.evidence_accumulation = @run.evidence_accumulation?
+      if @run.evidence_accumulation?
+        gon.evidence_accumulation_path = evidence_accumulation_solution_path(@run.id)
+      end
 
       @parsing_status = @run.get_parsing_status
       @evidence_accumulation_status = @run.get_evidence_accumulation_status

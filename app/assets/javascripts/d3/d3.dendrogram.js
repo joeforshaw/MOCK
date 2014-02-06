@@ -16,7 +16,7 @@ var diagonal = d3.svg.diagonal().projection(function(d) { return [d.x, d.y]; });
 
 var color_scale = d3.scale.category10();
 
-datapointClusters = [];
+var datapointClusters = [];
 
 function elbow(d, i) {
   return "M" + d.source.x + "," + d.source.y + "H" + d.target.x + "V" + d.target.y ;
@@ -28,27 +28,6 @@ var wrap = d3.select("#dendrogram").append("svg")
     .style("-webkit-backface-visibility", "hidden");
 
 var vis = wrap.append("g");
-
-// Calculates child link distance
-function phylo(n, offset) {
-  var multiplier = 150;
-  if (n.length != null) offset += n.length * multiplier;
-  // n.y = offset + 2;
-  n.y = (dimensions.height - 4) - (dimensions.height * n.length) + 2;
-  if (n.children) {
-    n.children.forEach(function(n) {
-      phylo(n, offset);
-    });
-  }
-}
-
-function getDatapointColour(d) {
-  if (d.name != undefined && d.name.length > 0) {
-    return color_scale(datapointClusters[+d.name]);
-  } else {
-    return "rgb(210,210,210)";
-  }
-}
 
 $(".evidence-accumulation-solution").spin();
 
@@ -68,7 +47,10 @@ d3.text(gon.solution_path, function(text) {
 
     newickTree = newick.parse(text);
     var nodes = cluster.nodes(newickTree);
-    phylo(nodes[0], 0);
+
+    dendrogram(nodes[0], 0);
+
+    calculateDominantClusters(nodes[0]);
 
     // Create links between nodes
     var link = vis.selectAll("path.link")
@@ -76,6 +58,8 @@ d3.text(gon.solution_path, function(text) {
       .enter().append("path")
         .attr("class", "link")
         .attr("d", elbow)
+        .style("stroke", function(d) { return color_scale(d.target.dominantCluster); });
+
 
     var node = vis.selectAll("g.node")
         .data(nodes.filter(function(n) { return n.x !== undefined; }))
@@ -87,10 +71,44 @@ d3.text(gon.solution_path, function(text) {
           .style("fill", function(d) {
             return getDatapointColour(d);
           })
-          .attr("r", function(d) { return (d.children && 'parent' in d) ? 2 : 2; })
+          .attr("r", function(d) { return (d.children && 'parent' in d) ? 0 : 2; })
           .attr("data-point", function(d) { return d.name });
 
   });
 
-
 });
+
+function dendrogram(node) {
+  var multiplier = 150;
+  node.y = (dimensions.height - 4) - (dimensions.height * node.length) + 2;
+  if (node.children) {
+    node.children.forEach(function(childNode) {
+      dendrogram(childNode);
+    });
+  }
+}
+
+function getDatapointColour(node) {
+  return color_scale(node.dominantCluster);
+}
+
+function calculateDominantClusters(node) {
+  if (node.children) {
+    leftDominantCluster = calculateDominantClusters(node.children[0]);
+    rightDominantCluster = calculateDominantClusters(node.children[1]);
+    if (leftDominantCluster[0] === rightDominantCluster[0]) {
+      node.dominantCluster = leftDominantCluster[0];
+      return [leftDominantCluster[0], leftDominantCluster[1] + rightDominantCluster[1]];
+    } else if (leftDominantCluster[1] > rightDominantCluster[1]) {
+      node.dominantCluster = leftDominantCluster[0];
+      return [leftDominantCluster[0], leftDominantCluster[1]];
+    } else {
+      node.dominantCluster = rightDominantCluster[0];
+      return [rightDominantCluster[0], rightDominantCluster[1]];
+    }
+  } else {
+    node.dominantCluster = datapointClusters[+node.name];
+    console.log(node.name, node.dominantCluster);
+    return [datapointClusters[+node.name], 1];
+  }
+}

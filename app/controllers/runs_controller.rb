@@ -25,7 +25,7 @@ class RunsController < ApplicationController
 
       gon.evidence_accumulation = @run.evidence_accumulation?
       if @run.evidence_accumulation?
-        gon.evidence_accumulation_path = evidence_accumulation_solution_path(@run.id)
+        gon.evidence_accumulation_path = evidence_accumulation_solution_path(@run.evidence_accumulation_solution)
       end
 
       @parsing_status = @run.get_parsing_status
@@ -73,16 +73,16 @@ class RunsController < ApplicationController
 
         # Save dataset csv to a temp file
         temp_file_name = create_dataset_temp_file(current_user, @dataset)
-        
+
         # Run MOCK command
         @run.execute(temp_file_name)
 
         # Open file which contains objective measurements for each solution
         objective_file = CSV.open("algo/data/#{@run.objective_file_name}")
-        
+
         # Read data from each data file
         sorted_data_files.each do |filename|
-          parse_data_file(filename, objective_file, current_user, @run)         
+          parse_data_file(filename, objective_file, current_user, @run)
         end
 
         begin_solution_parsing_thread(@run)
@@ -190,7 +190,7 @@ class RunsController < ApplicationController
         end
       end
       run.update_attributes(:parsed => true)
-      
+
       if @run.evidence_accumulation
         run.evidence_accumulation_solution.execute
       end

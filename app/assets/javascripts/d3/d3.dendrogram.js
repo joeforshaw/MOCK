@@ -50,7 +50,7 @@ function getDatapointColour(d) {
   }
 }
 
-$(".evidence_accumulation_solution").spin();
+$(".evidence-accumulation-solution").spin();
 
 d3.text(gon.solution_path, function(text) {
 
@@ -64,7 +64,7 @@ d3.text(gon.solution_path, function(text) {
 
   d3.text(gon.evidence_accumulation_solution_path, function(text) {
 
-    $(".evidence_accumulation_solution").spin(false);
+    $(".evidence-accumulation-solution").spin(false);
 
     newickTree = newick.parse(text);
     var nodes = cluster.nodes(newickTree);

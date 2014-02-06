@@ -2,7 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-circle.join {
-  stroke-width: 0px;
+
+.evidence-accumulation-solution-show {
+
+  circle.join {
+    stroke-width: 0px;
+  }
+
+  .back-button {
+    float: right;
+  }
 
 }

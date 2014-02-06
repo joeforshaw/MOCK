@@ -1,2 +1,7 @@
-.evidence_accumulation_solution
-  #dendrogram
+.evidence-accumulation-solution-show
+  .graph-width-wrapper.heading-wrapper.clearfix
+    %h2 Solution Dendrogram
+    = link_to "Back", run_path(:id => @run.id, :last_solution => @solution.id), :class => "back-button orange-button"
+
+    .evidence-accumulation-solution
+      #dendrogram

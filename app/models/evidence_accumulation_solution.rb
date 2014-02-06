@@ -26,7 +26,7 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
     no_of_datapoints = self.run.dataset.datapoints.size
 
     dissimilarity_matrix = Array.new(no_of_datapoints) {Array.new(no_of_datapoints, 0.0)}
-    
+
     self.run.solutions.each do |solution|
       solution.clusters.each do |cluster|
         cluster_datapoints = cluster.datapoints
@@ -56,11 +56,11 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
 
     # Put each datapoint into a cluster
     self.run.dataset.datapoints.each do |datapoint|
-      tree_nodes << Tree::TreeNode.new(node_id.to_s, TreeNodeContent.new(datapoint,nil))
+      tree_nodes << Tree::TreeNode.new(node_id.to_s, TreeNodeContent.new(datapoint, 0.0))
       node_id += 1
     end
 
-    
+
     while tree_nodes.size > 1
       smallest_distance = 2.0
       closest_nodes = [nil, nil]
@@ -85,9 +85,8 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
       # Create a new cluster with the two closest clusters as it's children
       parent_node = Tree::TreeNode.new(node_id.to_s, TreeNodeContent.new(nil, nil))
       node_id += 1
-
+      parent_node.content.distance = smallest_distance
       for i in (0..1)
-        closest_nodes[i].content.distance = smallest_distance
         parent_node << closest_nodes[i]
       end
 

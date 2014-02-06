@@ -1,5 +1,5 @@
 class Newick
-  
+
   def self.format(agglom_node)
     node_string = "#{format_children(agglom_node)}#{format_node(agglom_node)}"
     if agglom_node.root?
@@ -14,7 +14,7 @@ class Newick
     if !agglom_node.datapoint.nil?
       format_string = "#{format_string}#{agglom_node.datapoint.id}"
     end
-    
+
     if !agglom_node.distance.nil?
       format_string = "#{format_string}:#{agglom_node.distance}"
     end

@@ -1,5 +1,5 @@
 class Solution < ActiveRecord::Base
-  
+
   require 'matrix'
 
   belongs_to :run
@@ -23,10 +23,11 @@ class Solution < ActiveRecord::Base
       self.clusters.each do |cluster|
         cluster.datapoints.order(:sequence_id).each do |datapoint|
           datavalues = []
+          datavalues << datapoint.id
+          datavalues << cluster.generated_cluster_id
           datapoint.datavalues.order(:id).each do |datavalue|
             datavalues << datavalue.value
           end
-          datavalues << cluster.generated_cluster_id
           csv << [datavalues.join(" ")]
         end
       end
@@ -40,7 +41,7 @@ class Solution < ActiveRecord::Base
 
       # Create clusters
       File.open(self.file_dir, "r+") do |file|
-        
+
         # Collect cluster ids from files
         generated_cluster_ids = Set.new
         CSV.foreach(file) do |line|

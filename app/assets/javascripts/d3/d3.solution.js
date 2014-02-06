@@ -4,8 +4,13 @@ $(document).ready(function() {
         return;
     }
 
-    var xDimension = $("select#x_dimension").val() - 1;
-    var yDimension = $("select#y_dimension").val() - 1;
+    var datapointIndex  = 0;
+    var clusterIndex    = 1;
+    var firstValueIndex = 2;
+    var nonValueColumns = 2;
+
+    var xDimension = $("select#x_dimension").val() - 1 + nonValueColumns;
+    var yDimension = $("select#y_dimension").val() - 1 + nonValueColumns;
 
     var horizontalPadding = ($(window).width() - 960) / 2;
 
@@ -17,7 +22,7 @@ $(document).ready(function() {
 
     var x = d3.scale.linear()
         .range([0, width]);
-    
+
     var y = d3.scale.linear()
         .range([height, 0]);
 
@@ -40,15 +45,20 @@ $(document).ready(function() {
     $(".solution").spin();
 
     d3.text(gon.solution_path, function(text) {
-        
+
         $(".solution").spin(false);
 
         var dataDsv = d3.dsv(" ", "text/plain");
         var data = dataDsv.parseRows(text).map(function(row) {
+
+            // for (i = firstValueIndex; i < row.length; i++) {
+            //     return row[i];
+            // }
             return row.map(function(value) {
                 return +value;
             });
         });
+        console.log(data);
 
         var numberOfColumns = data[0].length;
 
@@ -73,25 +83,26 @@ $(document).ready(function() {
             .attr("r", 3)
             .attr("cx", function(d) { return x(d[xDimension]); })
             .attr("cy", function(d) { return y(d[yDimension]); })
+            .attr("data-point", function(d) { return d[datapointIndex]; })
             .attr("data-cluster", function(d) {
                 if (gon.is_solution) {
-                    return d[d.length - 1];
+                    return d[clusterIndex];
                 } else {
                     return 0;
                 }
-                
+
             })
             .style("fill", function(d) {
                 if (gon.is_solution) {
-                    return color(d[d.length - 1]);
+                    return color(d[clusterIndex]);
                 } else {
                     return color(0);
                 }
             });
-        
+
         // On change event for X Dimension select
         $("select#x_dimension").change(function() {
-            xDimension = $("select#x_dimension").val() - 1;
+            xDimension = $("select#x_dimension").val() - 1 + nonValueColumns;
             x.domain(d3.extent(data, function(d) { return d[xDimension]; })).nice();
             xAxis.scale(x);
             fadeInOutAxis(solutionSVG, xAxis, ".x-axis");
@@ -100,7 +111,7 @@ $(document).ready(function() {
 
         // On change event for Y Dimension select
         $("select#y_dimension").change(function() {
-            yDimension = $("select#y_dimension").val() - 1;
+            yDimension = $("select#y_dimension").val() - 1 + nonValueColumns;
             y.domain(d3.extent(data, function(d) { return d[yDimension]; })).nice();
             yAxis.scale(y);
             fadeInOutAxis(solutionSVG, yAxis, ".y-axis");
@@ -124,7 +135,7 @@ $(document).ready(function() {
                 .attr("data-cluster", function(d, i) { return i; });
 
             $(".solution-legend").click(function() {
-                
+
                 var isReset = false;
                 if (!$(this).hasClass("selected")) {
                     $(".solution-legend.selected").removeClass("selected");
@@ -139,7 +150,7 @@ $(document).ready(function() {
 
                 // Highlight corresponding cluster points
                 $(".solution-point").each(function() {
-                    
+
                     if (isReset || legendCluster === $(this).data("cluster")) {
                         $(this).css("opacity", 1);
                     } else {
@@ -170,6 +181,6 @@ function fadeInOutAxis(svg, xAxis, selector) {
             svg.selectAll(selector + " g.tick.major")
                 .transition()
                 .duration(200)
-                .style("opacity", 1);                        
+                .style("opacity", 1);
         });
 }

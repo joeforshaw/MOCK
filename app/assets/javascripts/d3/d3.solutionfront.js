@@ -22,8 +22,6 @@ $(document).ready(function() {
     var y = d3.scale.linear()
         .range([height, 0]);
 
-    var color = d3.scale.category20();
-
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom");

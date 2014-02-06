@@ -96,19 +96,21 @@ function calculateDominantClusters(node) {
   if (node.children) {
     leftDominantCluster = calculateDominantClusters(node.children[0]);
     rightDominantCluster = calculateDominantClusters(node.children[1]);
+
     if (leftDominantCluster[0] === rightDominantCluster[0]) {
       node.dominantCluster = leftDominantCluster[0];
       return [leftDominantCluster[0], leftDominantCluster[1] + rightDominantCluster[1]];
-    } else if (leftDominantCluster[1] > rightDominantCluster[1]) {
+    } else if (leftDominantCluster[1] >= rightDominantCluster[1]) {
       node.dominantCluster = leftDominantCluster[0];
       return [leftDominantCluster[0], leftDominantCluster[1]];
-    } else {
+    } else if (leftDominantCluster[1] < rightDominantCluster[1]) {
       node.dominantCluster = rightDominantCluster[0];
       return [rightDominantCluster[0], rightDominantCluster[1]];
+    } else {
+      console.log("Unexpected occurrence!");
     }
   } else {
     node.dominantCluster = datapointClusters[+node.name];
-    console.log(node.name, node.dominantCluster);
     return [datapointClusters[+node.name], 1];
   }
 }

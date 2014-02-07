@@ -72,7 +72,7 @@ d3.text(gon.solution_path, function(text) {
             return getDatapointColour(d);
           })
           .attr("r", function(d) { return (d.children && 'parent' in d) ? 0 : 2; })
-          .attr("data-point", function(d) { return d.name });
+          .attr("data-point", function(d) { return d.name; });
 
   });
 
@@ -94,21 +94,19 @@ function getDatapointColour(node) {
 
 function calculateDominantClusters(node) {
   if (node.children) {
-    leftDominantCluster = calculateDominantClusters(node.children[0]);
-    rightDominantCluster = calculateDominantClusters(node.children[1]);
-
-    if (leftDominantCluster[0] === rightDominantCluster[0]) {
-      node.dominantCluster = leftDominantCluster[0];
-      return [leftDominantCluster[0], leftDominantCluster[1] + rightDominantCluster[1]];
-    } else if (leftDominantCluster[1] >= rightDominantCluster[1]) {
-      node.dominantCluster = leftDominantCluster[0];
-      return [leftDominantCluster[0], leftDominantCluster[1]];
-    } else if (leftDominantCluster[1] < rightDominantCluster[1]) {
-      node.dominantCluster = rightDominantCluster[0];
-      return [rightDominantCluster[0], rightDominantCluster[1]];
-    } else {
-      console.log("Unexpected occurrence!");
-    }
+    var dominantCluster = -1;
+    var dominantClusterSize = -1;
+    node.children.forEach(function(child) {
+      childDominantCluster = calculateDominantClusters(child);
+      if (dominantCluster == childDominantCluster[0]) {
+        dominantClusterSize += childDominantCluster[1];
+      } else if (dominantClusterSize < childDominantCluster[1]) {
+        dominantCluster = childDominantCluster[0];
+        dominantClusterSize = childDominantCluster[1];
+      }
+    });
+    node.dominantCluster = dominantCluster;
+    return [dominantCluster, dominantClusterSize];
   } else {
     node.dominantCluster = datapointClusters[+node.name];
     return [datapointClusters[+node.name], 1];

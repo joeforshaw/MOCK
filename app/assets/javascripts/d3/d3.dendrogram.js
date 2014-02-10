@@ -60,7 +60,6 @@ d3.text(gon.solution_path, function(text) {
         .attr("d", elbow)
         .style("stroke", function(d) { return color_scale(d.target.dominantCluster); });
 
-
     var node = vis.selectAll("g.node")
         .data(nodes.filter(function(n) { return n.x !== undefined; }))
       .enter().append("g")
@@ -68,10 +67,8 @@ d3.text(gon.solution_path, function(text) {
         .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
         .append("circle")
           .attr("class", "join")
-          .style("fill", function(d) {
-            return getDatapointColour(d);
-          })
-          .attr("r", function(d) { return (d.children && 'parent' in d) ? 3 : 2; })
+          .style("fill", function(d) { return getDatapointColour(d); })
+          .attr("r", function(d) { return (d.children && 'parent' in d) ? 1 : 2; })
           .attr("data-point", function(d) { return d.name })
           .attr("data-cluster", function(d) { return d.dominantCluster; })
           .attr("data-cluster-size", function(d) { return d.dominantClusterSize; });
@@ -95,31 +92,23 @@ function getDatapointColour(node) {
 }
 
 function calculateDominantClusters(node) {
-  if ("children" in node) {
-    leftDominantCluster = calculateDominantClusters(node.children[0]);
-    rightDominantCluster = calculateDominantClusters(node.children[1]);
-
-    if (leftDominantCluster[0] == rightDominantCluster[0]) {
-      node.dominantCluster = leftDominantCluster[0];
-      node.dominantClusterSize = leftDominantCluster[1] + rightDominantCluster[1];
-      if (node.dominantCluster == 20) {
-        console.log(node);
+  if (node.children) {
+    var dominantCluster = -1;
+    var dominantClusterSize = -1;
+    node.children.forEach(function(child) {
+      childDominantCluster = calculateDominantClusters(child);
+      if (dominantCluster == childDominantCluster[0]) {
+        dominantClusterSize += childDominantCluster[1];
+      } else if (dominantClusterSize < childDominantCluster[1]) {
+        dominantCluster = childDominantCluster[0];
+        dominantClusterSize = childDominantCluster[1];
       }
-    } else if (leftDominantCluster[1] >= rightDominantCluster[1]) {
-      node.dominantCluster = leftDominantCluster[0];
-      node.dominantClusterSize = leftDominantCluster[1];
-    } else if (leftDominantCluster[1] < rightDominantCluster[1]) {
-      node.dominantCluster = rightDominantCluster[0];
-      node.dominantClusterSize = rightDominantCluster[1];
-    }
-    return [node.dominantCluster, node.dominantClusterSize];
+    });
+    node.dominantCluster = dominantCluster;
+    return [dominantCluster, dominantClusterSize];
   } else {
     node.dominantCluster = datapointClusters[+node.name];
     node.dominantClusterSize = 1;
-    if (node.dominantCluster == 20) {
-      console.log(node);
-    }
-
     return [node.dominantCluster, node.dominantClusterSize];
   }
 }

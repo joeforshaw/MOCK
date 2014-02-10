@@ -71,7 +71,8 @@ d3.text(gon.solution_path, function(text) {
           .attr("r", function(d) { return (d.children && 'parent' in d) ? 1 : 2; })
           .attr("data-point", function(d) { return d.name })
           .attr("data-cluster", function(d) { return d.dominantCluster; })
-          .attr("data-cluster-size", function(d) { return d.dominantClusterSize; });
+          .attr("data-cluster-size", function(d) { return d.dominantClusterSize; })
+          .attr("data-unanimous-children", function(d) { return d.unanimousChildren; });
 
   });
 
@@ -95,6 +96,7 @@ function calculateDominantClusters(node) {
   if (node.children) {
     var dominantCluster = -1;
     var dominantClusterSize = -1;
+    var unanimousChildren = true;
     node.children.forEach(function(child) {
       childDominantCluster = calculateDominantClusters(child);
       if (dominantCluster == childDominantCluster[0]) {
@@ -103,12 +105,20 @@ function calculateDominantClusters(node) {
         dominantCluster = childDominantCluster[0];
         dominantClusterSize = childDominantCluster[1];
       }
+
+      if (dominantCluster != -1 && dominantCluster != childDominantCluster[0] || !childDominantCluster[2]) {
+        unanimousChildren = false;
+      }
     });
+
     node.dominantCluster = dominantCluster;
-    return [dominantCluster, dominantClusterSize];
+    node.dominantClusterSize = 1;
+    node.unanimousChildren = unanimousChildren;
+    return [node.dominantCluster, node.dominantClusterSize, node.unanimousChildren];
   } else {
     node.dominantCluster = datapointClusters[+node.name];
     node.dominantClusterSize = 1;
-    return [node.dominantCluster, node.dominantClusterSize];
+    node.unanimousChildren = true;
+    return [node.dominantCluster, node.dominantClusterSize, node.unanimousChildren];
   }
 }

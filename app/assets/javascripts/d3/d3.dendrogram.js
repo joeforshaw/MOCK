@@ -71,8 +71,10 @@ d3.text(gon.solution_path, function(text) {
           .style("fill", function(d) {
             return getDatapointColour(d);
           })
-          .attr("r", function(d) { return (d.children && 'parent' in d) ? 0 : 2; })
-          .attr("data-point", function(d) { return d.name });
+          .attr("r", function(d) { return (d.children && 'parent' in d) ? 3 : 2; })
+          .attr("data-point", function(d) { return d.name })
+          .attr("data-cluster", function(d) { return d.dominantCluster; })
+          .attr("data-cluster-size", function(d) { return d.dominantClusterSize; });
 
   });
 
@@ -93,24 +95,31 @@ function getDatapointColour(node) {
 }
 
 function calculateDominantClusters(node) {
-  if (node.children) {
+  if ("children" in node) {
     leftDominantCluster = calculateDominantClusters(node.children[0]);
     rightDominantCluster = calculateDominantClusters(node.children[1]);
 
-    if (leftDominantCluster[0] === rightDominantCluster[0]) {
+    if (leftDominantCluster[0] == rightDominantCluster[0]) {
       node.dominantCluster = leftDominantCluster[0];
-      return [leftDominantCluster[0], leftDominantCluster[1] + rightDominantCluster[1]];
+      node.dominantClusterSize = leftDominantCluster[1] + rightDominantCluster[1];
+      if (node.dominantCluster == 20) {
+        console.log(node);
+      }
     } else if (leftDominantCluster[1] >= rightDominantCluster[1]) {
       node.dominantCluster = leftDominantCluster[0];
-      return [leftDominantCluster[0], leftDominantCluster[1]];
+      node.dominantClusterSize = leftDominantCluster[1];
     } else if (leftDominantCluster[1] < rightDominantCluster[1]) {
       node.dominantCluster = rightDominantCluster[0];
-      return [rightDominantCluster[0], rightDominantCluster[1]];
-    } else {
-      console.log("Unexpected occurrence!");
+      node.dominantClusterSize = rightDominantCluster[1];
     }
+    return [node.dominantCluster, node.dominantClusterSize];
   } else {
     node.dominantCluster = datapointClusters[+node.name];
-    return [datapointClusters[+node.name], 1];
+    node.dominantClusterSize = 1;
+    if (node.dominantCluster == 20) {
+      console.log(node);
+    }
+
+    return [node.dominantCluster, node.dominantClusterSize];
   }
 }

@@ -3,7 +3,7 @@
     %h2 Run Solutions
 
   .graph-width-wrapper
-    %p Pick a point on the gold line to view the solution
+    %p Hover over the gold solution line and click to view a clustering solution.
 
   .solution-front
     #solution-front-graph
@@ -13,6 +13,7 @@
       %p= @parsing_status
     - if !@evidence_accumulation_status.nil?
       %p
-        = @evidence_accumulation_status
         - if !@evidence_accumulation_solution.nil? and @evidence_accumulation_solution.completed?
-          = link_to "View", @evidence_accumulation_solution
+          = link_to @evidence_accumulation_status, @evidence_accumulation_solution
+        -else
+          = @evidence_accumulation_status

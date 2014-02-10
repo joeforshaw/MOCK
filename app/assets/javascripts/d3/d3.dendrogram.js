@@ -31,16 +31,24 @@ var vis = wrap.append("g");
 
 $(".evidence-accumulation-solution").spin();
 
-d3.text(gon.solution_path, function(text) {
+if (gon.solution_path !== undefined) {
+  loadSolutionDendrogram();
+} else {
+  loadDendrogram();
+}
 
-  var dataDsv = d3.dsv(" ", "text/plain");
+function loadSolutionDendrogram() {
+  d3.text(gon.solution_path, function(text) {
+    var dataDsv = d3.dsv(" ", "text/plain");
     var data = dataDsv.parseRows(text).map(function(row) {
       datapointClusters[row[datapointIndex]] = +row[clusterIndex];
-      return row.map(function(value) {
-        return +value;
-      });
+      return row.map(function(value) { return +value; });
+    });
+    loadDendrogram();
   });
+}
 
+function loadDendrogram() {
   d3.text(gon.evidence_accumulation_solution_path, function(text) {
 
     $(".evidence-accumulation-solution").spin(false);
@@ -48,26 +56,27 @@ d3.text(gon.solution_path, function(text) {
     newickTree = newick.parse(text);
     var nodes = cluster.nodes(newickTree);
 
-    dendrogram(nodes[0], 0);
-
-    calculateDominantClusters(nodes[0]);
+    setNodeHeights(nodes[0], 0);
+    if (gon.solution_path !== undefined) {
+      calculateDominantClusters(nodes[0]);
+    }
 
     // Create links between nodes
     var link = vis.selectAll("path.link")
-        .data(cluster.links(nodes))
+        .data(cluster.links(nodes).filter(function(n) { return !n.source.unanimousChildren; }))
       .enter().append("path")
         .attr("class", "link")
         .attr("d", elbow)
-        .style("stroke", function(d) { return color_scale(d.target.dominantCluster); });
+        .style("stroke", function(d) { return color_scale(d.target.dominantCluster); })
 
     var node = vis.selectAll("g.node")
-        .data(nodes.filter(function(n) { return n.x !== undefined; }))
+        .data(nodes.filter(function(n) { return n.x !== undefined && (n.parent === undefined || !n.parent.unanimousChildren); }))
       .enter().append("g")
         .attr("class", "node")
         .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
         .append("circle")
           .attr("class", "join")
-          .style("fill", function(d) { return getDatapointColour(d); })
+          .style("fill", function(d) { return getNodeColour(d); })
           .attr("r", function(d) { return (d.children && 'parent' in d) ? 1 : 2; })
           .attr("data-point", function(d) { return d.name })
           .attr("data-cluster", function(d) { return d.dominantCluster; })
@@ -75,20 +84,19 @@ d3.text(gon.solution_path, function(text) {
           .attr("data-unanimous-children", function(d) { return d.unanimousChildren; });
 
   });
+}
 
-});
-
-function dendrogram(node) {
+function setNodeHeights(node) {
   var multiplier = 150;
   node.y = (dimensions.height - 4) - (dimensions.height * node.length) + 2;
   if (node.children) {
     node.children.forEach(function(childNode) {
-      dendrogram(childNode);
+      setNodeHeights(childNode);
     });
   }
 }
 
-function getDatapointColour(node) {
+function getNodeColour(node) {
   return color_scale(node.dominantCluster);
 }
 

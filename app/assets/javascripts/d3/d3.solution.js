@@ -50,10 +50,6 @@ $(document).ready(function() {
 
         var dataDsv = d3.dsv(" ", "text/plain");
         var data = dataDsv.parseRows(text).map(function(row) {
-
-            // for (i = firstValueIndex; i < row.length; i++) {
-            //     return row[i];
-            // }
             return row.map(function(value) {
                 return +value;
             });

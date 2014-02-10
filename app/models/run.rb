@@ -58,7 +58,7 @@ class Run < ActiveRecord::Base
       elsif !self.evidence_accumulation_solution.completed
         return "Evidence accumulation running"
       else
-        return "Evidence accumulation complete"
+        return "View evidence accumulation dendrogram"
       end
     else
       return nil

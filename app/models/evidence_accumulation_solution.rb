@@ -116,10 +116,10 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
   def average_link_distance(node, other_node, dissimiliarity_matrix)
     no_of_datapoint_pairs = 0.0
     total_distance = 0.0
-    node.each_leaf do |node|
-      other_node.each_leaf do |other_node|
+    node.each_leaf do |leaf_node|
+      other_node.each_leaf do |other_leaf_node|
         no_of_datapoint_pairs += 1
-        total_distance += dissimiliarity_matrix[node.content.datapoint.sequence_id - 1][other_node.content.datapoint.sequence_id - 1]
+        total_distance += dissimiliarity_matrix[leaf_node.content.datapoint.sequence_id - 1][other_leaf_node.content.datapoint.sequence_id - 1]
       end
     end
     distance = total_distance / no_of_datapoint_pairs
@@ -130,10 +130,10 @@ class EvidenceAccumulationSolution < ActiveRecord::Base
 
   def complete_link_distance(node, other_node, dissimiliarity_matrix)
     max_distance = -1.0
-    node.each_leaf do |node|
-      other_node.each_leaf do |other_node|
-        if dissimiliarity_matrix[node.content.sequence_id - 1][other_node.content.sequence_id - 1] > max_distance
-          max_distance = dissimiliarity_matrix[node.content.sequence_id - 1][other_node.content.sequence_id - 1]
+    node.each_leaf do |leaf_node|
+      other_node.each_leaf do |other_leaf_node|
+        if dissimiliarity_matrix[leaf_node.content.sequence_id - 1][other_leaf_node.content.sequence_id - 1] > max_distance
+          max_distance = dissimiliarity_matrix[leaf_node.content.sequence_id - 1][other_leaf_node.content.sequence_id - 1]
         end
       end
     end

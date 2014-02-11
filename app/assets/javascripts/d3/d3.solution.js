@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    if (gon.is_solution === null || !gon.is_solution) {
+    if (gon.is_plot === null || !gon.is_plot) {
         return;
     }
 
@@ -66,11 +66,11 @@ $(document).ready(function() {
             .attr("class", "x-axis axis")
             .attr("width", width)
             .attr("transform", "translate(0," + height + ")")
-            .call(xAxis)
+            .call(xAxis);
 
         solutionSVG.append("g")
             .attr("class", "y-axis axis")
-            .call(yAxis)
+            .call(yAxis);
 
         solutionSVG.selectAll(".dot")
             .data(data)
@@ -81,7 +81,7 @@ $(document).ready(function() {
             .attr("cy", function(d) { return y(d[yDimension]); })
             .attr("data-point", function(d) { return d[datapointIndex]; })
             .attr("data-cluster", function(d) {
-                if (gon.is_solution) {
+                if (gon.is_plot) {
                     return d[clusterIndex];
                 } else {
                     return 0;
@@ -89,7 +89,7 @@ $(document).ready(function() {
 
             })
             .style("fill", function(d) {
-                if (gon.is_solution) {
+                if (gon.is_plot) {
                     return color(d[clusterIndex]);
                 } else {
                     return color(0);

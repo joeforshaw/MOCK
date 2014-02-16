@@ -88,7 +88,7 @@ $(document).ready(function() {
 
             })
             .style("fill", function(d) {
-                if (gon.is_plot) {
+                if (gon.is_solution) {
                     return color(d[clusterIndex]);
                 } else {
                     return color(0);

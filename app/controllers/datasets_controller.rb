@@ -37,6 +37,7 @@ class DatasetsController < ApplicationController
     @dataset = Dataset.find(params[:id])
     gon.solution_path = "#{dataset_path(@dataset.id)}.csv"
     gon.is_plot = true
+    gon.is_solution = false
     respond_to do |format|
       format.html do
         @dataset

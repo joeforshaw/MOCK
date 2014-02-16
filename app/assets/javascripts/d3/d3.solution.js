@@ -54,7 +54,6 @@ $(document).ready(function() {
                 return +value;
             });
         });
-        console.log(data);
 
         var numberOfColumns = data[0].length;
 

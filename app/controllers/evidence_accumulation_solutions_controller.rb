@@ -1,8 +1,8 @@
 class EvidenceAccumulationSolutionsController < ApplicationController
 
   def show
-
     @evidence_accumulation_solution = EvidenceAccumulationSolution.find(params[:id])
+    gon.is_dendrogram = true
     respond_to do |format|
       format.html do
         @run = @evidence_accumulation_solution.run

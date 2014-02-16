@@ -13,7 +13,7 @@
     float: right;
   }
 
-  .evidence-accumulation-solution-options {
+  .options {
     background-color: rgb(240, 240, 240);
     margin: 1em 0;
     width: 100%;
@@ -23,6 +23,10 @@
       text-align: center;
     }
 
+  }
+
+  path.link, circle.join {
+    -webkit-transition: stroke 0.2s;
   }
 
 }

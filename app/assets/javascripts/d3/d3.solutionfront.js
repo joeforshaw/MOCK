@@ -115,7 +115,7 @@ $(document).ready(function() {
                 .data(solutionData).enter()
                 .append("a")
                 .attr("class", "solution-front-link")
-                .attr("xlink:href", function(d) { return getSolutionPath(d) })
+                .attr("xlink:href", function(d) { return getSolutionPath(d); })
                 .append("circle")
                 .attr("r", 5)
                 .attr("cx", function(d) { return x(d[xDimension]); })
@@ -123,7 +123,7 @@ $(document).ready(function() {
                 .on('mouseover', function(d){
                     $(".last-solution").removeClass("last-solution");
                 })
-                .attr("class", function(d) { return "solution-front-point " + d[0] });
+                .attr("class", function(d) { return "solution-front-point " + d[0]; });
 
             $("." + gon.last_solution).addClass("last-solution");
 

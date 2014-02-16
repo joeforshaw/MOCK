@@ -26,7 +26,8 @@ class SolutionsController < ApplicationController
       format.html do
         @body_classes << "graph-body"
         gon.solution_path = "#{solution_path(@solution.id)}.csv"
-        gon.is_plot = true;      
+        gon.is_plot = true; 
+        gon.is_solution = true;     
       end
 
       format.csv do

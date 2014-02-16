@@ -1,6 +1,7 @@
 .run-show{ :data => { :id => @run.id } }
   .graph-width-wrapper.heading-wrapper.clearfix
-    %h2 Run Solutions
+    %h2
+      = "Run #{@run.id}"
 
   .graph-width-wrapper
     %p Hover over the gold solution line and click to view a clustering solution.

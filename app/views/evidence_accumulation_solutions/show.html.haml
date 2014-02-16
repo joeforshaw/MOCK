@@ -5,10 +5,10 @@
       = link_to "Back", run_path(:id => @run.id, :last_solution => @solution), :class => "back-button orange-button"
 
     - if !@solution.nil?
-      .evidence-accumulation-solution-options
+      .options
         %form
           = label_tag "Hide unanimous branches"
-          = check_box_tag "hide-unanimous-branches", :class => "check-box-input"
+          = check_box_tag "hide-unanimous-branches", 1, true, class: "check-box-input"
 
     .evidence-accumulation-solution
       #dendrogram

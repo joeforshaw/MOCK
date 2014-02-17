@@ -6,8 +6,13 @@ $(document).ready(function() {
 
     var datapointIndex  = 0;
     var clusterIndex    = 1;
-    var firstValueIndex = 2;
-    var nonValueColumns = 2;
+    var nonValueColumns = 0;
+    var firstValueIndex = 0;
+
+    if (gon.is_solution !== null && gon.is_solution) {
+        nonValueColumns = 2;
+        firstValueIndex = 2;
+    }
 
     var xDimension = $("select#x_dimension").val() - 1 + nonValueColumns;
     var yDimension = $("select#y_dimension").val() - 1 + nonValueColumns;

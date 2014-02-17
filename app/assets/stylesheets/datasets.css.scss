@@ -28,13 +28,44 @@
 }
 
 .dataset-show {
-  
+
   .create-run {
     float: right;
   }
 
   tr {
     text-align: right;
+  }
+
+  .options {
+    background-color: rgb(240, 240, 240);
+    margin: 1em 0;
+    width: 100%;
+    // padding: 0;
+
+    form {
+      padding: 0.5em;
+      text-align: center;
+
+      ul {
+
+        list-style: none;
+
+        li {
+          margin: 0 1em 0 0;
+          display: inline-block;
+
+          label {
+          }
+
+          select {
+            display: inline-block;
+            vertical-align: 20%;
+            margin: 0;
+          }
+        }
+      }
+    }
   }
 
 }

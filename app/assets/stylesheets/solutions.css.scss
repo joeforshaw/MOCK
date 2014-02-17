@@ -8,4 +8,33 @@
     float: right;
   }
 
+  .options {
+    background-color: rgb(240, 240, 240);
+    margin: 1em 0;
+    width: 100%;
+
+    form {
+      padding: 0.5em;
+      text-align: center;
+
+      ul {
+
+        list-style: none;
+
+        li {
+          margin: 0 1em 0 0;
+          display: inline-block;
+
+          label {
+          }
+
+          select {
+            display: inline-block;
+            vertical-align: 20%;
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
 }

@@ -1,5 +1,5 @@
 .run-show{ :data => { :id => @run.id } }
-  .graph-width-wrapper.heading-wrapper.clearfix
+  .graph-width-wrapper.clearfix
     %h2
       = "Run #{@run.id}"
 
@@ -9,12 +9,12 @@
   .solution-front
     #solution-front-graph
 
-  .graph-width-wrapper
-    - if !@parsing_status.nil?
-      %p= @parsing_status
+  .status
     - if !@evidence_accumulation_status.nil?
       %p
         - if !@evidence_accumulation_solution.nil? and @evidence_accumulation_solution.completed?
           = link_to @evidence_accumulation_status, @evidence_accumulation_solution
         -else
           = @evidence_accumulation_status
+
+

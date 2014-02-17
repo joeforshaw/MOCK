@@ -9,8 +9,12 @@
   .solution
     %svg#solution-graph
 
-  .graph-width-wrapper
-    %p X Dimension
-    = select_tag :x_dimension, options_for_select(1..@dataset.columns, 1), :class => "dimension-select"
-    %p Y Dimension
-    = select_tag :y_dimension, options_for_select(1..@dataset.columns, 2), :class => "dimension-select"
+  .graph-width-wrapper.options
+    %form
+      %ul
+        %li
+          = label_tag "x_dimension"
+          = select_tag :x_dimension, options_for_select(1..@dataset.columns, 1), :class => "dimension-select"
+        %li
+          = label_tag "y_dimension"
+          = select_tag :y_dimension, options_for_select(1..@dataset.columns, 2), :class => "dimension-select"

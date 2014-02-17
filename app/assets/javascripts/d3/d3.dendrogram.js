@@ -10,7 +10,7 @@ $(document).ready(function() {
     clusterIndex          : 1,
     datapointIndex        : 0,
     nonValueColumns       : 2,
-    hideUnanimousBranches : document.getElementById('hide-unanimous-branches').checked
+    hideUnanimousBranches : $('hide-unanimous-branches').length > 0 ? document.getElementById('hide-unanimous-branches').checked : false
   };
 
   cluster = d3.layout.cluster()

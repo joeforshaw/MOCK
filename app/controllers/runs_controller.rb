@@ -28,7 +28,6 @@ class RunsController < ApplicationController
         gon.evidence_accumulation_path = evidence_accumulation_solution_path(@run.evidence_accumulation_solution)
       end
 
-      @parsing_status = @run.get_parsing_status
       @evidence_accumulation_status = @run.get_evidence_accumulation_status
       @evidence_accumulation_solution = @run.evidence_accumulation_solution
 

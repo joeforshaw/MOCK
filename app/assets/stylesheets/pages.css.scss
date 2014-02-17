@@ -1,3 +1,25 @@
-// Place all the styles related to the Pages controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.home {
+
+  .mockiato, .mock, .multiobjective-clustering {
+
+    margin-bottom: 2em;
+
+    h3 {
+      margin: 0.5em 0;
+      font-size: 1.5em;
+    }
+
+    p {
+      margin-bottom: 0.5em;
+    }
+
+    span.objective {
+      text-decoration: underline;
+    }
+
+    li {
+      margin-bottom: 0.5em;
+    }
+
+  }
+}

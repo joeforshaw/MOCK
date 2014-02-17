@@ -1,0 +1,37 @@
+.home
+  .mockiato
+    %h3 What is Mockiato?
+    %p
+      Mockiato is a visualisation tool for MOCK. It was created by me,
+      = link_to "Joe Forshaw,", "http://about.me/joeforshaw"
+      as part of my final year project of my Computer Science degree at the University of Manchester.
+
+  .mock
+    %h3 What is MOCK?
+    %p
+      MOCK stands for Multiobjective Clustering with K-determination. It is clustering algorithmn created by
+      = link_to "Joshua Knowles", "http://www.cs.man.ac.uk/~jknowles/"
+      and
+      = link_to "Julia Handl", "http://personalpages.manchester.ac.uk/mbs/julia.handl/default.htm"
+      at the University of Manchester.
+
+    %p
+      MOCK's users required a more sophisticated way of analysing the results. This project was created to realise this.
+
+  .multiobjective-clustering
+    %h3 What is Multiobjective Clustering?
+    %p Multiobjective clustering is a field of cluster analysis where several objectives (i.e. measurements of cluster quality) are optimised in an attempt to find the best overall solution.
+    %p MOCK uses two complimentary objectives to cluster data:
+    %ol
+      %li
+        %span.objective
+          Overall Deviation
+        \- is how compact clusters are. It's equal to the overall summed distances between every data point and their cluster centre.
+      %li
+        %span.objective
+          Connectivity
+        \- is the proportion of neighbouring data points that belong in the same cluster. A low connectivity means data points are closest to other points in the same cluster.
+    %p
+      By analysing a range of solutions from a
+      = link_to "pareto front", "http://en.wikipedia.org/wiki/Pareto_front"
+      using overall deviation and connectivity, we can choose a solution that achieves the best compromise of both objectives.

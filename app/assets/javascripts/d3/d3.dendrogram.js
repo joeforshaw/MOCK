@@ -95,7 +95,7 @@ function getLinkColour(link) {
 }
 
 function drawNodes(nodes) {
-  var drawn_nodes = vis.selectAll("g.node").data(nodes)
+  var nodes_to_draw = vis.selectAll("g.node").data(nodes)
     .enter().append("g")
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
@@ -109,10 +109,9 @@ function drawNodes(nodes) {
         .attr("data-cluster", function(d) { return d.dominantCluster; })
         .attr("data-cluster-size", function(d) { return d.dominantClusterSize; })
         .attr("data-unanimous-children", function(d) { return d.unanimousChildren; })
-        .attr("original-title", "BOOM");
-  console.log( $('.unanimous-leaf').size());
+        .attr("original-title", function(d) { config.hideUnanimousBranches ? "Test" : 0 });
   $('.unanimous-leaf').tipsy({ fade: true, gravity: 's' });
-  return drawn_nodes;
+  return nodes_to_draw;
 }
 
 function setNodeHeights(node) {
@@ -134,7 +133,6 @@ function getNodeColour(node) {
 }
 
 function calculateDominantClusters(node) {
-  console.log(node, node.children !== undefined);
   if (node.children) {
     var dominantCluster = -1;
     var dominantClusterSize = 0;
@@ -176,6 +174,12 @@ function optionHandler() {
     vis.selectAll("g.node circle").style("fill", function(d) { return getNodeColour(d); });
     vis.selectAll("path.link").style("stroke", function(d) { return getLinkColour(d); });
     $(".evidence-accumulation-solution").spin(false);
-    $(".unanimous-leaf").tipsy();
+    vis.selectAll('.unanimous-leaf')
+      .attr("original-title", function(d) { return getTipsyMessage(d); })
+      .style("cursor", config.hideUnanimousBranches ? "pointer" : "default");
   });
+}
+
+function getTipsyMessage(node) {
+  return config.hideUnanimousBranches ? "Number of datapoints: " + node.dominantClusterSize : "";
 }

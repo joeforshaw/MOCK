@@ -125,8 +125,7 @@ $(document).ready(function() {
                 .data(color_scale.domain())
               .enter().append("g")
                 .attr("transform", function(d, i) {
-                    return "translate(" + (22 * Math.floor(i / 16)) + "," + (i % 16) * 22 + ")";
-                    // return "translate(28," + i * 22 + ")";
+                    return "translate(" + (22 * Math.floor(i / 16) + 24) + "," + ((i % 16) * 22)+ ")";
                 });
 
             legend.append("rect")

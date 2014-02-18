@@ -21,6 +21,7 @@
 //= require pages
 //= require runs
 //= require solutions
+//= require colorbrewer
 //= require d3/d3
 //= require d3/d3.dendrogram
 //= require d3/d3.solution

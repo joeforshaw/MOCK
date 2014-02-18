@@ -31,7 +31,7 @@ $(document).ready(function() {
     var y = d3.scale.linear()
         .range([height, 0]);
 
-    var color = d3.scale.category10();
+    var color_scale = d3.scale.category20();
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -94,9 +94,9 @@ $(document).ready(function() {
             })
             .style("fill", function(d) {
                 if (gon.is_solution) {
-                    return color(d[clusterIndex]);
+                    return color_scale(d[clusterIndex]);
                 } else {
-                    return color(0);
+                    return color_scale(0);
                 }
             });
 
@@ -122,15 +122,20 @@ $(document).ready(function() {
         if (gon.is_solution) {
 
             var legend = solutionSVG.selectAll(".solution-legend")
-                .data(color.domain())
+                .data(color_scale.domain())
               .enter().append("g")
-                .attr("transform", function(d, i) { return "translate(28," + i * 22 + ")"; });
+                .attr("transform", function(d, i) {
+                    return "translate(" + (22 * Math.floor(i / 16)) + "," + (i % 16) * 22 + ")";
+                    // return "translate(28," + i * 22 + ")";
+                });
 
             legend.append("rect")
                 .attr("x", width - 18)
                 .attr("width", 18)
                 .attr("height", 18)
-                .style("fill", function(d, i) { return color(i); })
+                .style("fill", function(d, i) {
+                    return color_scale(i);
+                })
                 .attr("class", "solution-legend")
                 .attr("data-cluster", function(d, i) { return i; });
 
@@ -150,11 +155,10 @@ $(document).ready(function() {
 
                 // Highlight corresponding cluster points
                 $(".solution-point").each(function() {
-
                     if (isReset || legendCluster === $(this).data("cluster")) {
                         $(this).css("opacity", 1);
                     } else {
-                        $(this).css("opacity", 0.1);
+                        $(this).css("opacity", 0.08);
                     }
                 });
             });

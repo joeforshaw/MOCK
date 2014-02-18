@@ -95,18 +95,24 @@ function getLinkColour(link) {
 }
 
 function drawNodes(nodes) {
-  return vis.selectAll("g.node").data(nodes)
+  var drawn_nodes = vis.selectAll("g.node").data(nodes)
     .enter().append("g")
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .append("circle")
-        .attr("class", "join")
+        .attr("class", function(d) {
+          return d.unanimousChildren && !d.parent.unanimousChildren ? "join unanimous-leaf" : "join";
+        })
         .style("fill", function(d) { return getNodeColour(d); })
         .attr("r", function(d) { return (d.children && 'parent' in d) ? 2 : 2; })
         .attr("data-point", function(d) { return d.name; })
         .attr("data-cluster", function(d) { return d.dominantCluster; })
         .attr("data-cluster-size", function(d) { return d.dominantClusterSize; })
-        .attr("data-unanimous-children", function(d) { return d.unanimousChildren; });
+        .attr("data-unanimous-children", function(d) { return d.unanimousChildren; })
+        .attr("original-title", "BOOM");
+  console.log( $('.unanimous-leaf').size());
+  $('.unanimous-leaf').tipsy({ fade: true, gravity: 's' });
+  return drawn_nodes;
 }
 
 function setNodeHeights(node) {
@@ -128,34 +134,39 @@ function getNodeColour(node) {
 }
 
 function calculateDominantClusters(node) {
+  console.log(node, node.children !== undefined);
   if (node.children) {
     var dominantCluster = -1;
-    var dominantClusterSize = -1;
+    var dominantClusterSize = 0;
     var unanimousChildren = true;
-    node.children.forEach(function(child) {
-      childDominantCluster = calculateDominantClusters(child);
-      if (dominantCluster == childDominantCluster[0]) {
-        dominantClusterSize += childDominantCluster[1];
-      } else if (dominantClusterSize < childDominantCluster[1]) {
-        dominantCluster = childDominantCluster[0];
-        dominantClusterSize = childDominantCluster[1];
-      }
+    var child = [null, null];
 
-      if (dominantCluster != -1 && dominantCluster != childDominantCluster[0] || !childDominantCluster[2]) {
-        unanimousChildren = false;
-      }
-    });
+    child[0] = calculateDominantClusters(node.children[0]);
+    child[1] = calculateDominantClusters(node.children[1]);
 
-    node.dominantCluster = dominantCluster;
-    node.dominantClusterSize = 1;
-    node.unanimousChildren = unanimousChildren;
-    return [node.dominantCluster, node.dominantClusterSize, node.unanimousChildren];
+    if (child[0].dominantCluster === child[1].dominantCluster) {
+      node.dominantCluster     = child[0].dominantCluster;
+      node.dominantClusterSize = child[0].dominantClusterSize + child[1].dominantClusterSize;
+      node.unanimousChildren   = child[0].unanimousChildren && child[1].unanimousChildren;
+    } else if (child[0].dominantClusterSize >= child[1].dominantClusterSize) {
+      node.dominantCluster     = child[0].dominantCluster;
+      node.dominantClusterSize = child[0].dominantClusterSize;
+      node.unanimousChildren   = false;
+    } else {
+      node.dominantCluster     = child[1].dominantCluster;
+      node.dominantClusterSize = child[1].dominantClusterSize;
+      node.unanimousChildren   = false;
+    }
   } else {
-    node.dominantCluster = datapointClusters[+node.name];
+    node.dominantCluster     = datapointClusters[+node.name];
     node.dominantClusterSize = 1;
-    node.unanimousChildren = true;
-    return [node.dominantCluster, node.dominantClusterSize, node.unanimousChildren];
+    node.unanimousChildren   = true;
   }
+  return {
+    dominantCluster     : node.dominantCluster,
+    dominantClusterSize : node.dominantClusterSize,
+    unanimousChildren   : node.unanimousChildren
+  };
 }
 
 function optionHandler() {
@@ -165,5 +176,6 @@ function optionHandler() {
     vis.selectAll("g.node circle").style("fill", function(d) { return getNodeColour(d); });
     vis.selectAll("path.link").style("stroke", function(d) { return getLinkColour(d); });
     $(".evidence-accumulation-solution").spin(false);
+    $(".unanimous-leaf").tipsy();
   });
 }

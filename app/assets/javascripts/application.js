@@ -14,6 +14,7 @@
 //= require jquery.svg.min.js
 //= require jquery.svgdom.min
 //= require jquery.spin
+//= require jquery.tipsy
 //= require newick
 //= require clusters
 //= require control_solutions

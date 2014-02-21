@@ -62,9 +62,4 @@ gem 'rvm-capistrano'
 
 gem 'unicorn'
 
-group :production do 
-  gem 'unicorn'
-  gem 'unicorn-worker-killer'
-end
-
 gem 'therubyracer'

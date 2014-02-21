@@ -6,7 +6,7 @@ stdout_path "#{root}/log/unicorn.log"
 
 listen "/tmp/unicorn.MOCK.sock"
 worker_processes 6
-timeout 30
+timeout 60
 
 # Force the bundler gemfile environment variable to
 # reference the capistrano "current" symlink

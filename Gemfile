@@ -47,6 +47,7 @@ gem 'spinjs-rails'
 
 # Multidimensional scaling
 gem 'rmds'
+gem 'extendmatrix'
 
 # For storing hierarchical agglomerative clustering node
 gem 'awesome_nested_set'
@@ -60,5 +61,10 @@ gem 'capistrano'
 gem 'rvm-capistrano'
 
 gem 'unicorn'
+
+group :production do 
+  gem 'unicorn'
+  gem 'unicorn-worker-killer'
+end
 
 gem 'therubyracer'

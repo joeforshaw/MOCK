@@ -19,4 +19,4 @@ end
 # --- End of unicorn worker killer code ---
 
 require ::File.expand_path('../config/environment',  __FILE__)
-run YourApp::Application
+run MOCK::Application

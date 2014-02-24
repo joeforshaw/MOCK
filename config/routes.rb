@@ -21,12 +21,14 @@ MOCK::Application.routes.draw do
 
   get 'runs/:id/controls' => 'control_solutions#index', :as => :control_solutions
   get 'runs/:id/solutions' => 'solutions#index', :as => :solutions
-  
+
   get 'solutions/:id' => 'solutions#show', :as => :solution
 
   get 'clusters/:id' => 'clusters#show', :as => :cluster
 
   get 'evidence_accumulation_solution/:id' => 'evidence_accumulation_solutions#show', :as => :evidence_accumulation_solution
+
+  get 'mds_solutions/:id' => 'mds_solutions#show', :as => :mds_solution
 
   resources :clusters
 
@@ -63,7 +65,7 @@ MOCK::Application.routes.draw do
   #       get 'recent', on: :collection
   #     end
   #   end
-  
+
   # Example resource route with concerns:
   #   concern :toggleable do
   #     post 'toggle'

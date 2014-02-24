@@ -3,7 +3,7 @@ class Dataset < ActiveRecord::Base
   belongs_to :user
 
   has_many :runs,       :dependent => :destroy
-  has_many :datapoints, :dependent => :destroy
+  has_many :datapoints, :as => :clusterable, :dependent => :destroy
 
   validates :name,    presence:     true
   validates :user_id, presence:     true,

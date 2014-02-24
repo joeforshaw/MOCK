@@ -10,10 +10,14 @@ Bundler.require(:default, Rails.env)
 
 module MOCK
   class Application < Rails::Application
-    
+
     config.assets.paths << "#{Rails.root}/app/assets/fonts"
-    
+
     config.assets.initialize_on_precompile = false
-    
+
+    config.after_initialize do
+      `cd algo/ && make MOCK`
+    end
   end
 end
+

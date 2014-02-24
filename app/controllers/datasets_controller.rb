@@ -16,7 +16,7 @@ class DatasetsController < ApplicationController
       parse_csv(params[:dataset][:file].tempfile)
     else
       throw Exception
-    end    
+    end
   end
 
 
@@ -59,7 +59,7 @@ class DatasetsController < ApplicationController
     )
     dataset_columns = -1;
     datavalues = []
-    if dataset.save
+    if dataset.save!
       sequence_id = 1;
       delimiter = delimiter_sniffer(csv_file)
       File.open(csv_file, "r+") do |file|
@@ -71,12 +71,12 @@ class DatasetsController < ApplicationController
           end
           # Create Datapoint
           datapoint = Datapoint.new(
-            :dataset_id  => dataset.id,
+            :clusterable  => dataset,
             :sequence_id => sequence_id
           )
           sequence_id += 1
-          
-          if datapoint.save
+
+          if datapoint.save!
             line.split(delimiter).each do |datavalue_string|
               datavalues << Datavalue.new(
                 :value => datavalue_string.to_f,
@@ -114,7 +114,7 @@ class DatasetsController < ApplicationController
       throw Exception
     end
     puts "Delimiter: '#{chosenDelimiter}'"
-    
+
     return chosenDelimiter
 
   end

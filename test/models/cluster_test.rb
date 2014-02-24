@@ -1,10 +1,10 @@
 require 'test_helper'
 
 class ClusterTest < ActiveSupport::TestCase
-  
+
 
   test "cluster can be created" do
-    assert Cluster.new(:solution_id => 1).save, "Can't create a cluster"
+    assert Cluster.new(:plottable_id => 1).save, "Can't create a cluster"
   end
 
 

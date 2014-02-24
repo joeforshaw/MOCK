@@ -1,11 +1,10 @@
 class Solution < ActiveRecord::Base
 
-  require 'mds'
-  require 'mds/interfaces/stdlib_interface'
-
   belongs_to :run
 
-  has_many :clusters, :dependent => :destroy
+  has_many :clusters, :as => :plottable, :dependent => :destroy
+
+  has_one :mds_solution, :dependent => :destroy
 
   validates :run_id,                presence:     true,
                                     numericality: true
@@ -52,14 +51,14 @@ class Solution < ActiveRecord::Base
 
         # Create Cluster records
         generated_cluster_ids.each do |generated_cluster_id|
-          clusters << Cluster.new(:solution_id => self.id, :generated_cluster_id => generated_cluster_id)
+          clusters << Cluster.new(:plottable => self, :generated_cluster_id => generated_cluster_id)
         end
 
       end
 
       Cluster.import clusters
 
-      clusters_for_solution = Cluster.where(:solution_id => self.id)
+      clusters_for_solution = Cluster.where(:plottable => self)
       File.open(self.file_dir, "r+") do |file|
         datapoints = self.run.dataset.datapoints
         datapoints.each do |datapoint|
@@ -75,40 +74,6 @@ class Solution < ActiveRecord::Base
 
       self.update_attributes(:parsed => true)
     end
-  end
-
-  def mds
-    @dataset = self.run.dataset
-
-    # Initialise data value array
-    datavalues = Array.new(@dataset.rows) { Array.new(@dataset.columns) { 0 } }
-    @dataset.datapoints.order(:sequence_id).each_with_index do |datapoint, i|
-      datapoint.datavalues.each_with_index do |datavalue, j|
-        datavalues[i][j] = datavalue.value
-      end
-    end
-
-    # Populate distance matrix
-    distance = Array.new(@dataset.rows) { Array.new(@dataset.columns) { 0 } }
-    for i in 0..(@dataset.rows-1)
-      for j in 0..(@dataset.rows-1)
-        distance[i][j] = Math.sqrt(datavalues[i].zip(datavalues[j]).map { |x| (x[1] - x[0])**2 }.reduce(:+))
-      end
-    end
-
-    puts datavalues.size
-    puts
-    puts distance.size
-
-    # Tell RMDS the linear algebra backend to be used.
-    MDS::Backend.active = MDS::StdlibInterface
-
-    # The squared Euclidean distance matrix.
-    d2 = MDS::Matrix.create_rows(*distance)
-
-    # Find a Cartesian embedding in two dimensions
-    # that approximates the distances in two dimensions.
-    return MDS::Metric.projectd(d2, 2).m
   end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140119122905) do
+ActiveRecord::Schema.define(version: 20140224132426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,10 +37,11 @@ ActiveRecord::Schema.define(version: 20140119122905) do
   add_index "cluster_datapoints", ["cluster_id"], name: "index_cluster_datapoints_on_cluster_id", using: :btree
 
   create_table "clusters", force: true do |t|
-    t.integer  "solution_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "generated_cluster_id"
+    t.integer  "plottable_id"
+    t.string   "plottable_type"
   end
 
   create_table "control_solutions", force: true do |t|
@@ -52,13 +53,12 @@ ActiveRecord::Schema.define(version: 20140119122905) do
   end
 
   create_table "datapoints", force: true do |t|
-    t.integer  "dataset_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "sequence_id"
+    t.integer  "clusterable_id"
+    t.string   "clusterable_type"
   end
-
-  add_index "datapoints", ["dataset_id"], name: "index_datapoints_on_dataset_id", using: :btree
 
   create_table "datasets", force: true do |t|
     t.string   "name"
@@ -83,6 +83,17 @@ ActiveRecord::Schema.define(version: 20140119122905) do
     t.datetime "updated_at"
     t.integer  "run_id"
     t.boolean  "completed"
+  end
+
+  create_table "mds_datasets", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "mds_solutions", force: true do |t|
+    t.integer  "solution_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "runs", force: true do |t|

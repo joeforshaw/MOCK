@@ -1,7 +1,7 @@
 class MdsSolution < ActiveRecord::Base
 
   require 'mds'
-  require 'mds/interfaces/stdlib_interface'
+  require 'mds/interfaces/gsl_interface'
 
   belongs_to :solution
   has_many :clusters, :as => :plottable, :dependent => :destroy
@@ -25,7 +25,7 @@ class MdsSolution < ActiveRecord::Base
   end
 
   def calculate
-    @dataset = self.mds_dataset
+    @dataset = self.solution.run.dataset
 
     # Initialise data value array
     datavalues = Array.new(@dataset.rows) { Array.new(@dataset.columns) { 0 } }
@@ -43,15 +43,13 @@ class MdsSolution < ActiveRecord::Base
       end
     end
 
-    puts datavalues.size
-    puts
-    puts distance.size
-
     # Tell RMDS the linear algebra backend to be used.
-    MDS::Backend.active = MDS::StdlibInterface
+    MDS::Backend.active = MDS::GSLInterface
 
     # The squared Euclidean distance matrix.
     d2 = MDS::Matrix.create_rows(*distance)
+
+    puts d2.inspect
 
     # Find a Cartesian embedding in two dimensions
     # that approximates the distances in two dimensions.

@@ -16,7 +16,8 @@ module MOCK
     config.assets.initialize_on_precompile = false
 
     config.after_initialize do
-      `cd algo/ && make MOCK`
+      puts `cd algo/ && make MOCK`
+      puts `cd lib/gsl-1.14 && ./configure && make && make install`
     end
   end
 end

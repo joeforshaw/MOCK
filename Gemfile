@@ -48,6 +48,7 @@ gem 'spinjs-rails'
 # Multidimensional scaling
 gem 'rmds'
 gem 'extendmatrix'
+gem 'gsl'
 
 # For storing hierarchical agglomerative clustering node
 gem 'awesome_nested_set'

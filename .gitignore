@@ -22,6 +22,8 @@
 /algo/data/user.*
 
 *.o
+*.lo
+*.a
 
 /algo/MOCK
 

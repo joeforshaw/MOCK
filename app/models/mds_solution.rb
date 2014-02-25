@@ -49,12 +49,17 @@ class MdsSolution < ActiveRecord::Base
     # The squared Euclidean distance matrix.
     d2 = MDS::Matrix.create_rows(*distance)
 
-    puts d2.inspect
-
     # Find a Cartesian embedding in two dimensions
     # that approximates the distances in two dimensions.
-    scaled_matrix = MDS::Metric.projectd(d2, 2).m
-    puts scaled_matrix
+    scaled_matrix = MDS::Metric.projectd(d2, 2)
+    puts scaled_matrix.m
+    for i in 0..(scaled_matrix.nrows - 1)
+      for j in 0..(scaled_matrix.ncols - 1)
+        # Create MDS Solution
+        print "#{scaled_matrix[i,j]} "
+      end
+      puts
+    end
   end
 
 end

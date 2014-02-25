@@ -4,51 +4,59 @@ $(document).ready(function() {
         return;
     }
 
-    var datapointIndex  = 0;
-    var clusterIndex    = 1;
-    var nonValueColumns = 0;
-    var firstValueIndex = 0;
+    datapointIndex  = 0;
+    clusterIndex    = 1;
+    nonValueColumns = 0;
+    firstValueIndex = 0;
 
     if (gon.is_solution !== null && gon.is_solution) {
         nonValueColumns = 2;
         firstValueIndex = 2;
     }
 
-    var xDimension = $("select#x_dimension").val() - 1 + nonValueColumns;
-    var yDimension = $("select#y_dimension").val() - 1 + nonValueColumns;
+    xDimension = $("select#x_dimension").val() - 1 + nonValueColumns;
+    yDimension = $("select#y_dimension").val() - 1 + nonValueColumns;
 
-    var horizontalPadding = ($(window).width() - 960) / 2;
+    horizontalPadding = ($(window).width() - 960) / 2;
 
-    var margin     = {top: 30, right: horizontalPadding, bottom: 30, left: horizontalPadding},
-        pageWidth  = $(window).width(),
-        width      = 960,
-        pageHeight = $(window).height(),
-        height     = 500;
+    margin     = {top: 30, right: horizontalPadding, bottom: 30, left: horizontalPadding},
+    pageWidth  = $(window).width(),
+    width      = 960,
+    pageHeight = $(window).height(),
+    height     = 500;
 
-    var x = d3.scale.linear()
+    x = d3.scale.linear()
         .range([0, width]);
 
-    var y = d3.scale.linear()
+    y = d3.scale.linear()
         .range([height, 0]);
 
-    var color_scale = d3.scale.category20();
+    color_scale = d3.scale.category20();
 
-    var xAxis = d3.svg.axis()
+    xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom");
 
-    var yAxis = d3.svg.axis()
+    yAxis = d3.svg.axis()
         .scale(y)
         .orient("left");
 
-    var solutionSVG = d3.select("#solution-graph")
+    solutionSVG = d3.select("#solution-graph")
         .attr("width", pageWidth)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
+    drawGraph();
+
+});
+
+function drawGraph() {
+
     $(".solution").spin();
 
+    // Cluster filter when clicking legend boxes
     d3.text(gon.solution_path, function(text) {
 
         $(".solution").spin(false);
@@ -118,7 +126,13 @@ $(document).ready(function() {
             fadeInOut(solutionSVG, "circle", xDimension, yDimension, x, y);
         });
 
-        // Cluster filter when clicking legend boxes
+        $("#view_with_mds").change(function() {
+            $("svg#solution-graph > g").empty();
+            $("#view_with_mds").unbind("change");
+            drawGraph();
+            console.log("Children: " + $("svg#solution-graph > g").children().length)
+        });
+
         if (gon.is_solution) {
 
             var legend = solutionSVG.selectAll(".solution-legend")
@@ -163,7 +177,8 @@ $(document).ready(function() {
             });
         }
     });
-});
+
+}
 
 function fadeInOut(svg, selector, xDimension, yDimension, x, y) {
     svg.selectAll(selector)

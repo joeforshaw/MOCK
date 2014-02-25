@@ -17,7 +17,6 @@ module MOCK
 
     config.after_initialize do
       puts `cd algo/ && make MOCK`
-      puts `cd lib/gsl-1.14 && ./configure && make && make install`
     end
   end
 end

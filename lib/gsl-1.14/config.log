@@ -30,17 +30,16 @@ Kernel configured for up to 8 processors.
 Processor type: i486 (Intel 80486)
 Processors active: 0 1 2 3 4 5 6 7
 Primary memory available: 16.00 gigabytes
-Default processor set: 156 tasks, 971 threads, 8 processors
-Load average: 1.00, Mach factor: 6.99
+Default processor set: 146 tasks, 916 threads, 8 processors
+Load average: 1.57, Mach factor: 6.42
 /bin/machine           = unknown
 /usr/bin/oslevel       = unknown
 /bin/universe          = unknown
 
+PATH: /usr/local/rvm/gems/ruby-1.9.3-p392/bin
 PATH: /opt/local/bin
 PATH: /opt/local/sbin
 PATH: /Library/Frameworks/Python.framework/Versions/2.7/bin
-PATH: /Library/Frameworks/Python.framework/Versions/2.7/bin
-PATH: /usr/local/rvm/gems/ruby-1.9.3-p392/bin
 PATH: /usr/local/rvm/gems/ruby-1.9.3-p392@global/bin
 PATH: /usr/local/rvm/rubies/ruby-1.9.3-p392/bin
 PATH: /usr/local/rvm/bin
@@ -539,7 +538,7 @@ configure:10926: checking for _doprnt
 configure:10926: gcc -o conftest -g -O2   conftest.c  >&5
 Undefined symbols for architecture x86_64:
   "__doprnt", referenced from:
-      _main in cc0l8Vb3.o
+      _main in ccKLr7mY.o
 ld: symbol(s) not found for architecture x86_64
 collect2: ld returned 1 exit status
 configure:10926: $? = 1

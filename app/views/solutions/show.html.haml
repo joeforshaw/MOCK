@@ -14,8 +14,11 @@
       %form
         %ul
           %li
-            = label_tag "x_dimension"
+            = label_tag :x_dimension
             = select_tag :x_dimension, options_for_select(1..@dataset.columns, 1), :class => "dimension-select"
           %li
-            = label_tag "y_dimension"
+            = label_tag :y_dimension
             = select_tag :y_dimension, options_for_select(1..@dataset.columns, 2), :class => "dimension-select"
+          %li
+            = label_tag :view_with_mds, "View with MDS"
+            = check_box_tag :view_with_mds

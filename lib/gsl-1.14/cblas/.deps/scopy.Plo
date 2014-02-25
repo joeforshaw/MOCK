@@ -1,7 +1,7 @@
 scopy.lo scopy.o: scopy.c ../gsl/gsl_math.h /usr/include/math.h \
-  /usr/include/architecture/i386/math.h /usr/include/sys/cdefs.h \
-  /usr/include/sys/_symbol_aliasing.h \
-  /usr/include/sys/_posix_availability.h ../gsl/gsl_sys.h \
+  /usr/include/sys/cdefs.h /usr/include/sys/_symbol_aliasing.h \
+  /usr/include/sys/_posix_availability.h /usr/include/Availability.h \
+  /usr/include/AvailabilityInternal.h ../gsl/gsl_sys.h \
   ../gsl/gsl_inline.h ../gsl/gsl_machine.h \
   /usr/llvm-gcc-4.2/bin/../lib/gcc/i686-apple-darwin11/4.2.1/include/limits.h \
   /usr/llvm-gcc-4.2/bin/../lib/gcc/i686-apple-darwin11/4.2.1/include/syslimits.h \
@@ -18,13 +18,15 @@ scopy.lo scopy.o: scopy.c ../gsl/gsl_math.h /usr/include/math.h \
 
 /usr/include/math.h:
 
-/usr/include/architecture/i386/math.h:
-
 /usr/include/sys/cdefs.h:
 
 /usr/include/sys/_symbol_aliasing.h:
 
 /usr/include/sys/_posix_availability.h:
+
+/usr/include/Availability.h:
+
+/usr/include/AvailabilityInternal.h:
 
 ../gsl/gsl_sys.h:
 

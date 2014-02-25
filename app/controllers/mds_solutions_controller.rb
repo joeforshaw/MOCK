@@ -11,7 +11,6 @@ class MdsSolutionsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        gon.use_mds = true
         redirect_to @mds_solution.solution
       end
       format.csv do

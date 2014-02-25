@@ -128,10 +128,18 @@ function drawGraph() {
 
         $("#view_with_mds").change(function() {
             $("svg#solution-graph > g").empty();
-            $("#view_with_mds").unbind("change");
+            $("select#x_dimension").unbind();
+            $("select#y_dimension").unbind();
+            $("#view_with_mds").unbind();
+            gon.use_mds = !gon.use_mds;
             drawGraph();
-            console.log("Children: " + $("svg#solution-graph > g").children().length)
         });
+
+        if (gon.use_mds) {
+            $("li.dimension").hide();
+        } else {
+            $("li.dimension").show();
+        }
 
         if (gon.is_solution) {
 

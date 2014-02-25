@@ -1,14 +1,16 @@
 .evidence-accumulation-solution-show
   .graph-width-wrapper
     .heading-wrapper.clearfix
-      %h2 Solution Dendrogram
+      %h2= "Solution #{@solution.generated_solution_id} Dendrogram"
       = link_to "Back", run_path(:id => @run.id, :last_solution => @solution), :class => "back-button orange-button"
-
-    - if !@solution.nil?
-      .options
-        %form
-          = label_tag "Hide unanimous branches"
-          = check_box_tag "hide-unanimous-branches", 1, false, class: "check-box-input"
 
     .evidence-accumulation-solution
       #dendrogram
+
+    - if !@solution.nil?
+      .options-wrapper
+        %form
+          %ul
+            %li
+              = label_tag "Hide unanimous branches"
+              = check_box_tag "hide-unanimous-branches", 1, false, class: "check-box-input"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140225165422) do
+ActiveRecord::Schema.define(version: 20140225185033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -117,6 +117,8 @@ ActiveRecord::Schema.define(version: 20140225165422) do
     t.float    "connectivity"
     t.float    "deviation"
     t.boolean  "parsed"
+    t.float    "silhouette_width"
+    t.float    "control_distance"
   end
 
   create_table "users", force: true do |t|

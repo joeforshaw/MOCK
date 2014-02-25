@@ -162,7 +162,7 @@ class RunsController < ApplicationController
       :connectivity          => objective_line_string[2].to_f,
       :deviation             => objective_line_string[3].to_f,
       :control_distance      => attainment_line_string[0].to_f,
-      :silhouette            => attainment_line_string[1].to_f,
+      :silhouette_width      => attainment_line_string[1].to_f,
       :parsed                => false
     )
   end

@@ -23,6 +23,10 @@ class Run < ActiveRecord::Base
     "user.#{self.user.id}.method.1.run.#{self.id}.pf"
   end
 
+  def attainment_file_name
+    "user.#{self.user.id}.method.1.run.#{self.id}.attainment.pf"
+  end
+
   def control_file_name
     "user.#{self.user.id}.method.1.run.#{self.id}.control.pf"
   end

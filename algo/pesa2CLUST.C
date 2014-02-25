@@ -709,7 +709,8 @@ int main(int argc, char **argv) {
       local_dist[ct] = attainmentcut(&(solution[i*STEP]), &(control[n*STEP]), ct_epsize[ct], 2); 
       n+= ct_epsize[ct];
     }
-     dist[i] = median(local_dist, CT);
+    dist[i] = median(local_dist, CT);
+    std::cerr << dist[i] << std::endl;
    }
 
 
@@ -735,17 +736,16 @@ int main(int argc, char **argv) {
   for (int st=0; st<ST; st++) {
     for (int i=0; i<st_epsize[st]; i++) {
       if (snondom[ctr] == true  ) {
-	att << solution[ctr*STEP+1] << " " << dist[ctr] << " " << " " << st_ep[st][i].f << endl;
-	int c = int(solution[ctr*STEP+1]);
-	best_a[st][c][0] = max(best_a[st][c][0], dist[ctr]);
-	if (best_a[st][c][0] == dist[ctr]) {
-	  best_a[st][c][1] = ctr;
-	}
+        att << dist[ctr] << " " << st_ep[st][i].sil << endl;
+        int c = int(solution[ctr*STEP+1]);
+        best_a[st][c][0] = max(best_a[st][c][0], dist[ctr]);
+        if (best_a[st][c][0] == dist[ctr]) {
+          best_a[st][c][1] = ctr;
+        }
       }
       else {
-	att << solution[ctr*STEP+1] << " " << 0.0 << " " << st_ep[st][i].f << endl;
+        att << 0.0 << " " << st_ep[st][i].sil << endl;
       }
-    
       ctr++;
     }
   }

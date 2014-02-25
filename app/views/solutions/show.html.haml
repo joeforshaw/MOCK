@@ -20,5 +20,5 @@
             = label_tag :y_dimension
             = select_tag :y_dimension, options_for_select(1..@dataset.columns, 2), :class => "dimension-select"
           %li
-            = label_tag :view_with_mds, "View with MDS"
-            = check_box_tag :view_with_mds
+            = label_tag :multidimensional_scaling, "Multi-dimensional scaling"
+            = check_box_tag :multidimensional_scaling

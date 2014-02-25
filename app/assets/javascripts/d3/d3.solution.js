@@ -126,11 +126,11 @@ function drawGraph() {
             fadeInOut(solutionSVG, "circle", xDimension, yDimension, x, y);
         });
 
-        $("#view_with_mds").change(function() {
+        $("#multidimensional_scaling").change(function() {
             $("svg#solution-graph > g").empty();
             $("select#x_dimension").unbind();
             $("select#y_dimension").unbind();
-            $("#view_with_mds").unbind();
+            $("#multidimensional_scaling").unbind();
             gon.use_mds = !gon.use_mds;
             drawGraph();
         });

@@ -26,9 +26,11 @@ class SolutionsController < ApplicationController
       format.html do
         @body_classes << "graph-body"
         gon.solution_path = "#{solution_path(@solution.id)}.csv"
-        gon.is_plot = true; 
-        gon.is_solution = true;
-        gon.number_of_clusters = @solution.clusters.size     
+        gon.mds_path = "#{mds_solution_path(@solution.id)}.csv"
+        gon.is_plot = true
+        gon.is_solution = true
+        gon.use_mds = true
+        gon.number_of_clusters = @solution.clusters.size
       end
 
       format.csv do

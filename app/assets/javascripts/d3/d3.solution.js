@@ -57,7 +57,7 @@ function drawGraph() {
     $(".solution").spin();
 
     // Cluster filter when clicking legend boxes
-    d3.text(gon.solution_path, function(text) {
+    d3.text(gon.use_mds ? gon.mds_path : gon.solution_path, function(text) {
 
         $(".solution").spin(false);
 

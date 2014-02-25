@@ -25,13 +25,19 @@ class MdsSolution < ActiveRecord::Base
   end
 
   def calculate
-    @dataset = self.solution.run.dataset
+    @solution = Solution.includes(clusters: :datapoints).find(self.solution.id)
+    @clusters = @solution.clusters
+
+    @dataset = @solution.run.dataset
+    @datapoints = @dataset.datapoints.order(:sequence_id)
 
     # Initialise data value array
     datavalues = Array.new(@dataset.rows) { Array.new(@dataset.columns) { 0 } }
-    @dataset.datapoints.order(:sequence_id).each_with_index do |datapoint, i|
-      datapoint.datavalues.each_with_index do |datavalue, j|
-        datavalues[i][j] = datavalue.value
+    @clusters.each do |cluster|
+      cluster.datapoints.each do |datapoint|
+        datapoint.datavalues.each_with_index do |datavalue, j|
+          datavalues[datapoint.sequence_id - 1][j] = datavalue.value
+        end
       end
     end
 
@@ -53,13 +59,23 @@ class MdsSolution < ActiveRecord::Base
     # that approximates the distances in two dimensions.
     scaled_matrix = MDS::Metric.projectd(d2, 2)
     puts scaled_matrix.m
-    for i in 0..(scaled_matrix.nrows - 1)
-      for j in 0..(scaled_matrix.ncols - 1)
-        # Create MDS Solution
-        print "#{scaled_matrix[i,j]} "
+
+    @mds_dataset = MdsDataset.create(:mds_solution => self)
+    scaled_datavalues = []
+    mds_cluster_datapoints = []
+    @clusters.each do |cluster|
+      mds_cluster = Cluster.create(:generated_cluster_id => cluster.generated_cluster_id, :plottable => self)
+      cluster.datapoints.each do |datapoint|
+        scaled_datapoint = Datapoint.create(:sequence_id => datapoint.sequence_id, :clusterable => @mds_dataset)
+        for j in (0..1)
+          scaled_datavalues << Datavalue.new(:value => scaled_matrix[datapoint.sequence_id - 1, j], :datapoint => scaled_datapoint)
+          mds_cluster_datapoints << ClusterDatapoint.new(:cluster => mds_cluster, :datapoint => scaled_datapoint)
+        end
       end
-      puts
     end
+
+    Datavalue.import scaled_datavalues
+    ClusterDatapoint.import mds_cluster_datapoints
   end
 
 end

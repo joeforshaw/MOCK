@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    if (gon.is_plot === null || !gon.is_plot) {
+    if (window.gon === undefined || gon.is_plot === null || !gon.is_plot) {
         return;
     }
 
@@ -46,7 +46,6 @@ $(document).ready(function() {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 
     drawGraph();
 

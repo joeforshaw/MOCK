@@ -46,12 +46,9 @@ class Run < ActiveRecord::Base
         return get_parsing_status
       elsif !self.evidence_accumulation_solution.completed
         return "Evidence accumulation running"
-      else
-        return "View evidence accumulation dendrogram"
       end
-    else
-      return nil
     end
+    return nil
   end
 
   def get_parsing_status

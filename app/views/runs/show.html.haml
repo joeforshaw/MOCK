@@ -1,6 +1,9 @@
 .run-show{ :data => { :id => @run.id } }
   .graph-width-wrapper.clearfix
-    %h2= "Run #{@run.id}"
+    %h2
+      = "Run #{@run.id}"
+      - if !@evidence_accumulation_status.nil?
+        %span.status= @evidence_accumulation_status
 
   .graph-width-wrapper
     %p Hover over the gold solution line and click to view a clustering solution.
@@ -8,12 +11,11 @@
   .solution-front
     #solution-front-graph
 
-  .status
-    - if !@evidence_accumulation_status.nil?
-      %p
-        - if !@evidence_accumulation_solution.nil? and @evidence_accumulation_solution.completed?
-          = link_to @evidence_accumulation_status, @evidence_accumulation_solution
-        - else
-          = @evidence_accumulation_status
-
+  .graph-width-wrapper
+    .options-wrapper
+      - if !@evidence_accumulation_status.nil?
+        %form
+          %ul
+            %li
+            %li
 

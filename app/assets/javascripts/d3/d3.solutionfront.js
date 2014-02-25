@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    if (gon.is_run === null || !gon.is_run) {
+    if (window.gon === undefined || gon.is_run === null || !gon.is_run) {
         return;
     }
 

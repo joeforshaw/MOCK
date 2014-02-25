@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  if (gon.is_dendrogram === null || !gon.is_dendrogram) {
+  if (window.gon === undefined || gon.is_dendrogram === null || !gon.is_dendrogram) {
     return;
   }
 
@@ -101,7 +101,7 @@ function drawNodes(nodes) {
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .append("circle")
         .attr("class", function(d) {
-          return d.unanimousChildren && !d.parent.unanimousChildren ? "join unanimous-leaf" : "join";
+          return d.parent !== undefined && !d.parent.unanimousChildren && d.unanimousChildren ? "join unanimous-leaf" : "join";
         })
         .style("fill", function(d) { return getNodeColour(d); })
         .attr("r", function(d) { return (d.children && 'parent' in d) ? 2 : 2; })

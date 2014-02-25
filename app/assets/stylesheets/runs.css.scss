@@ -51,7 +51,13 @@
 
 .run-show {
 
-  .status {
+  span.status {
+    color: rgb(210, 210, 210);
+    font-size: 0.8em;
+    margin-left: 0.5em;
+  }
+
+  .options {
     background-color: rgb(240, 240, 240);
     width: 100%;
     padding: 0;

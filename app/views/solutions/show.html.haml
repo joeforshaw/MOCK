@@ -10,7 +10,7 @@
     %svg#solution-graph
 
   .graph-width-wrapper
-    .options
+    .options-wrapper
       %form
         %ul
           %li.dimension
@@ -19,6 +19,8 @@
           %li.dimension
             = label_tag :y_dimension
             = select_tag :y_dimension, options_for_select(1..@dataset.columns, 2), :class => "dimension-select"
-          %li
+          %li.mds
             = label_tag :multidimensional_scaling, "Multi-dimensional scaling"
             = check_box_tag :multidimensional_scaling
+            %span.help{"original-title" => "Multidimensional scaling reduces the dimensions of the data down to two. Useful for when the data's dimensionality is high."} ?
+

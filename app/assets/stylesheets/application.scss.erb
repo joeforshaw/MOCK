@@ -137,7 +137,8 @@ body {
       }
 
       a:hover {
-        color: rgb(149,68,165);
+        color: rgb(231,184,40);
+        // color: rgb(149,68,165);
       }
 
       span.subtitle {
@@ -312,6 +313,43 @@ body {
 }
 
 /* Helper Classes */
+
+.options-wrapper {
+
+  background-color: rgb(240, 240, 240);
+  margin: 1em 0;
+  width: 100%;
+
+  form {
+    padding: 0.5em;
+    text-align: center;
+
+    ul {
+
+      list-style: none;
+
+      li {
+        margin: 0 1em 0 0;
+        display: inline-block;
+
+        select, input {
+          display: inline-block;
+          vertical-align: 20%;
+          margin: 0;
+        }
+
+        span.help {
+          color: rgb(220,220,220);
+          cursor: default;
+          -webkit-transition: all 0.1s ease-in;
+        }
+        span.help:hover {
+          color: rgb(200,200,200);
+        }
+      }
+    }
+  }
+}
 
 .form-wrapper {
   width: 400px;

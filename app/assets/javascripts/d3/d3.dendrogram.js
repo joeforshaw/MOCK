@@ -4,7 +4,7 @@ $(document).ready(function() {
     return;
   }
 
-  dimensions = { width: 960, height: 960 };
+  dimensions = { width: 960, height: 720 };
 
   config = {
     clusterIndex          : 1,

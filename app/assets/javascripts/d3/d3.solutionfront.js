@@ -5,8 +5,11 @@ $(document).ready(function() {
 
     $('#solution-front-graph').svg();
 
-    var xDimension = 1;
-    var yDimension = 2;
+    var connectivity     = 1;
+    var overallDeviation = 2;
+    var noOfClusters     = 3;
+    var silhouetteWidth  = 4;
+    var controlDistance  = 5;
 
     var horizontalPadding = ($(window).width() - 960) / 2;
 
@@ -32,8 +35,8 @@ $(document).ready(function() {
 
     var line = d3.svg.line()
         .interpolate("step-after")
-        .x(function(d) { return x(d[xDimension]); })
-        .y(function(d) { return y(d[yDimension]); });
+        .x(function(d) { return x(d[connectivity]); })
+        .y(function(d) { return y(d[overallDeviation]); });
 
     var solutionFrontSVG = d3.select("#solution-front-graph svg")
         .attr("width", width + margin.left + margin.right)
@@ -122,8 +125,13 @@ $(document).ready(function() {
                 })
                 .append("circle")
                 .attr("r", 5)
-                .attr("cx", function(d) { return x(d[xDimension]); })
-                .attr("cy", function(d) { return y(d[yDimension]); })
+                .attr("cx", function(d) { return x(d[connectivity]); })
+                .attr("cy", function(d) { return y(d[overallDeviation]); })
+                .attr("original-title", function(d) {
+                    return "Number of Clusters : "   + d[noOfClusters]
+                        + "<br/>Silhouette width : " + d[silhouetteWidth]
+                        + "<br/>Control distance : " + d[controlDistance];
+                })
                 .on('mouseover', function(d){
                     $(".last-solution").removeClass("last-solution");
                 })
@@ -134,9 +142,8 @@ $(document).ready(function() {
             // Use tipsy to indiciate to user they have to wait for EA to complete
             if (gon.evidence_accumulation && !gon.evidence_accumulation_complete) {
                 $("circle.solution-front-point").attr("original-title", "Evidence Accumulation is running. Try again when it's complete.");
-                $("circle.solution-front-point").tipsy({ fade: true, gravity: 's', offsetX: 5 });
             }
-
+            $("circle.solution-front-point").tipsy({ fade: true, gravity: 's', offset: 1, offsetX: 5, html: true });
         });
     });
 });

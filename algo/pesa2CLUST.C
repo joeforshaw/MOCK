@@ -710,7 +710,6 @@ int main(int argc, char **argv) {
       n+= ct_epsize[ct];
     }
     dist[i] = median(local_dist, CT);
-    std::cerr << dist[i] << std::endl;
    }
 
 

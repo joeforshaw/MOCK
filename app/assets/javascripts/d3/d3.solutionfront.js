@@ -115,7 +115,11 @@ $(document).ready(function() {
                 .data(solutionData).enter()
                 .append("a")
                 .attr("class", "solution-front-link")
-                .attr("xlink:href", function(d) { return getSolutionPath(d); })
+                .each(function(d) {
+                    if (gon.evidence_accumulation === undefined || !gon.evidence_accumulation || gon.evidence_accumulation_complete) {
+                        d3.select(this).attr("xlink:href", function(d) { return getSolutionPath(d); });
+                    }
+                })
                 .append("circle")
                 .attr("r", 5)
                 .attr("cx", function(d) { return x(d[xDimension]); })
@@ -127,13 +131,24 @@ $(document).ready(function() {
 
             $("." + gon.last_solution).addClass("last-solution");
 
+            // Use tipsy to indiciate to user they have to wait for EA to complete
+            if (gon.evidence_accumulation && !gon.evidence_accumulation_complete) {
+                $("circle.solution-front-point").attr("original-title", "Evidence Accumulation is running. Try again when it's complete.");
+                $("circle.solution-front-point").tipsy({ fade: true, gravity: 's', offsetX: 5 });
+            }
+
         });
     });
 });
 
 function getSolutionPath(d) {
     if (gon.evidence_accumulation) {
-        return gon.evidence_accumulation_path + "?solution=" + d[0];
+        if (gon.evidence_accumulation_complete) {
+            return gon.evidence_accumulation_path + "?solution=" + d[0];
+        } else {
+            return "";
+        }
+        
     } else {
         return gon.solution_path + d[0];
     }

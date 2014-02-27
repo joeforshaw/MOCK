@@ -14,8 +14,8 @@ $(document).ready(function() {
         firstValueIndex = 2;
     }
 
-    xDimension = $("select#x_dimension").val() - 1 + nonValueColumns;
-    yDimension = $("select#y_dimension").val() - 1 + nonValueColumns;
+    xDimension = $("select#x_dimension").length > 0 ? $("select#x_dimension").val() - 1 + nonValueColumns : nonValueColumns;
+    yDimension = $("select#y_dimension").length > 0 ? $("select#y_dimension").val() - 1 + nonValueColumns : nonValueColumns + 1;
 
     horizontalPadding = ($(window).width() - 960) / 2;
 

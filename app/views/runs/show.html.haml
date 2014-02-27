@@ -13,9 +13,14 @@
 
   .graph-width-wrapper
     .options-wrapper
-      - if !@evidence_accumulation_status.nil?
-        %form
-          %ul
-            %li
-            %li
+      %form
+        %ul
+          %li
+            = label_tag :solution_number, "Show best "
+            = number_field_tag :solution_number, nil, in: 0..@run.solutions.count#, { class: "number-field" }
+            solutions using
+            = radio_button_tag :solution_measure, :silhouette_width, false, class: "radio"
+            = label_tag :solution_measure_silhouette_width, " Silhouette width "
+            = radio_button_tag :solution_measure, :control_distance, false, class: "radio"
+            = label_tag :solution_measure_control_distance, " Control distance "
 

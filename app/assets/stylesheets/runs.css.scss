@@ -57,18 +57,8 @@
     margin-left: 0.5em;
   }
 
-  .options {
-    background-color: rgb(240, 240, 240);
-    width: 100%;
-    padding: 0;
-    margin: 0 auto;
-    width: 960px;
-
-    p {
-      padding: 0.5em 0;
-      text-align: center;
-    }
-
+  input {
+    margin: 0 0.5em;
   }
 
 }
@@ -81,6 +71,7 @@
   -webkit-transition: r 0.1s;
   z-index: 100;
 }
+
 .solution-front-point:hover,
 .last-solution {
   fill: rgb(149,68,165);

@@ -146,7 +146,33 @@ $(document).ready(function() {
             $("circle.solution-front-point").tipsy({ fade: true, gravity: 's', offset: 1, offsetX: 5, html: true });
         });
     });
+    setupEventsListeners();
 });
+
+function setupEventsListeners() {
+    // Event listener for number field
+    $("#solution_number").bind("change paste keyup", function() {
+        var value = this.value;
+
+        if (value !== "") {
+            if (value < 0) {
+                value = 0;
+            } else if (value > gon.no_of_solutions) {
+                value = gon.no_of_solutions;
+            }
+            this.value = value;
+        }
+        noOfHighlightedSolutions = value;
+    });
+
+    $("#solution_measure_silhouette_width").change(function() {
+        console.log("silhouette width");
+    });
+
+    $("#solution_measure_control_distance").change(function() {
+        console.log("control distance");
+    });
+}
 
 function getSolutionPath(d) {
     if (gon.evidence_accumulation) {

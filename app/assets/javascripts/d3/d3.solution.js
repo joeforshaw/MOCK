@@ -48,7 +48,7 @@ $(document).ready(function() {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     drawGraph();
-
+    setupEventListeners();
 });
 
 function drawGraph() {
@@ -107,33 +107,6 @@ function drawGraph() {
                 }
             });
 
-        // On change event for X Dimension select
-        $("select#x_dimension").change(function() {
-            xDimension = $("select#x_dimension").val() - 1 + nonValueColumns;
-            x.domain(d3.extent(data, function(d) { return d[xDimension]; })).nice();
-            xAxis.scale(x);
-            fadeInOutAxis(solutionSVG, xAxis, ".x-axis");
-            fadeInOut(solutionSVG, "circle", xDimension, yDimension, x, y);
-        });
-
-        // On change event for Y Dimension select
-        $("select#y_dimension").change(function() {
-            yDimension = $("select#y_dimension").val() - 1 + nonValueColumns;
-            y.domain(d3.extent(data, function(d) { return d[yDimension]; })).nice();
-            yAxis.scale(y);
-            fadeInOutAxis(solutionSVG, yAxis, ".y-axis");
-            fadeInOut(solutionSVG, "circle", xDimension, yDimension, x, y);
-        });
-
-        $("#multidimensional_scaling").change(function() {
-            $("svg#solution-graph > g").empty();
-            $("select#x_dimension").unbind();
-            $("select#y_dimension").unbind();
-            $("#multidimensional_scaling").unbind();
-            gon.use_mds = !gon.use_mds;
-            drawGraph();
-        });
-
         if (gon.use_mds) {
             $("li.dimension").hide();
         } else {
@@ -183,6 +156,37 @@ function drawGraph() {
                 });
             });
         }
+    });
+
+}
+
+function setupEventListeners() {
+    // On change event for X Dimension select
+    $("select#x_dimension").change(function() {
+        xDimension = $("select#x_dimension").val() - 1 + nonValueColumns;
+        x.domain(d3.extent(data, function(d) { return d[xDimension]; })).nice();
+        xAxis.scale(x);
+        fadeInOutAxis(solutionSVG, xAxis, ".x-axis");
+        fadeInOut(solutionSVG, "circle", xDimension, yDimension, x, y);
+    });
+
+    // On change event for Y Dimension select
+    $("select#y_dimension").change(function() {
+        yDimension = $("select#y_dimension").val() - 1 + nonValueColumns;
+        y.domain(d3.extent(data, function(d) { return d[yDimension]; })).nice();
+        yAxis.scale(y);
+        fadeInOutAxis(solutionSVG, yAxis, ".y-axis");
+        fadeInOut(solutionSVG, "circle", xDimension, yDimension, x, y);
+    });
+
+    // On change listener for when the mds scaling check box is clicked
+    $("#multidimensional_scaling").change(function() {
+        $("svg#solution-graph > g").empty();
+        $("select#x_dimension").unbind();
+        $("select#y_dimension").unbind();
+        $("#multidimensional_scaling").unbind();
+        gon.use_mds = !gon.use_mds;
+        drawGraph();
     });
 
 }

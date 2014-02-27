@@ -19,6 +19,7 @@ class RunsController < ApplicationController
     @evidence_accumulation_solution = @run.evidence_accumulation_solution
 
     gon.is_run = true;
+    gon.no_of_solutions = @run.solutions.count
     if @run.completed?
       gon.solution_front_path = "#{solutions_path(@run.id)}.csv"
       gon.solution_control_front_path = "#{control_solutions_path(@run.id)}.csv"
@@ -32,7 +33,6 @@ class RunsController < ApplicationController
       end
 
       @evidence_accumulation_status = @run.get_evidence_accumulation_status
-
     end
   end
 

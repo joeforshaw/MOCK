@@ -16,6 +16,8 @@ class RunsController < ApplicationController
   def show
     @body_classes << "graph-body"
     @run = Run.find(params[:id])
+    @evidence_accumulation_solution = @run.evidence_accumulation_solution
+
     gon.is_run = true;
     if @run.completed?
       gon.solution_front_path = "#{solutions_path(@run.id)}.csv"
@@ -25,11 +27,11 @@ class RunsController < ApplicationController
 
       gon.evidence_accumulation = @run.evidence_accumulation?
       if @run.evidence_accumulation?
-        gon.evidence_accumulation_path = evidence_accumulation_solution_path(@run.evidence_accumulation_solution)
+        gon.evidence_accumulation_path = evidence_accumulation_solution_path(@evidence_accumulation_solution)
+        gon.evidence_accumulation_complete = @evidence_accumulation_solution.completed?
       end
 
       @evidence_accumulation_status = @run.get_evidence_accumulation_status
-      @evidence_accumulation_solution = @run.evidence_accumulation_solution
 
     end
   end
@@ -76,12 +78,13 @@ class RunsController < ApplicationController
         # Run MOCK command
         @run.execute(temp_file_name)
 
-        # Open file which contains objective measurements for each solution
+        # Open files which contains objective measurements for each solution
         objective_file = CSV.open("algo/data/#{@run.objective_file_name}")
-
+        attainment_file = CSV.open("algo/data/#{@run.attainment_file_name}")
+        
         # Read data from each data file
         sorted_data_files.each do |filename|
-          parse_data_file(filename, objective_file, current_user, @run)
+          parse_data_file(filename, objective_file, attainment_file, current_user, @run)
         end
 
         begin_solution_parsing_thread(@run)
@@ -131,14 +134,14 @@ class RunsController < ApplicationController
   end
 
 
-  def parse_data_file(filename, objective_file, user, run)
+  def parse_data_file(filename, objective_file, attainment_file, user, run)
     solutions = []
     control_solutions = []
 
     split_filename = filename.split('.')
     if split_filename[1].to_i == user.id && split_filename[5].to_i == run.id
       if split_filename.size == 9
-        solutions << parse_objective_file(run, objective_file, split_filename)
+        solutions << parse_solution_file(run, objective_file, attainment_file, split_filename)
       elsif split_filename[6] == "control"
         parse_control_file(run).each do |control_solution|
           control_solutions << control_solution
@@ -150,8 +153,9 @@ class RunsController < ApplicationController
   end
 
 
-  def parse_objective_file(run, objective_file, split_filename)
+  def parse_solution_file(run, objective_file, attainment_file, split_filename)
     objective_line_string = objective_file.readline.first.split(' ')
+    attainment_line_string = attainment_file.readline.first.split(' ')
 
     # Add new solution to solution array
     return Solution.new(
@@ -159,6 +163,8 @@ class RunsController < ApplicationController
       :generated_solution_id => (split_filename[7].to_i + 1),
       :connectivity          => objective_line_string[2].to_f,
       :deviation             => objective_line_string[3].to_f,
+      :control_distance      => attainment_line_string[0].to_f,
+      :silhouette_width      => attainment_line_string[1].to_f,
       :parsed                => false
     )
   end

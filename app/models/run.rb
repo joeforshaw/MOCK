@@ -14,13 +14,17 @@ class Run < ActiveRecord::Base
   def objective_csv
     CSV.generate do |csv|
       self.solutions.order(:connectivity).each do |solution|
-        csv << ["#{solution.id} #{solution.connectivity} #{solution.deviation}"]
+        csv << ["#{solution.id} #{solution.connectivity} #{solution.deviation} #{solution.clusters.count} #{solution.silhouette_width} #{solution.control_distance}"]
       end
     end
   end
 
   def objective_file_name
     "user.#{self.user.id}.method.1.run.#{self.id}.pf"
+  end
+
+  def attainment_file_name
+    "user.#{self.user.id}.method.1.run.#{self.id}.attainment.pf"
   end
 
   def control_file_name

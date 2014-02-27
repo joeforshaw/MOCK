@@ -4,7 +4,13 @@
     .create-dataset= link_to "Upload a new dataset", new_dataset_path, :class => "orange-button"
 
   - if @datasets.nil? or @datasets.empty?
-    %p No data uploaded.
+    %p
+      No data uploaded.
+      = link_to "To begin using MOCK, upload a new dataset", new_dataset_path
+    %p
+      Try
+      = link_to "this dataset", "/sample/wine2.csv"
+      to get started.
   - else
     %ul.datasets
       - @datasets.each do |dataset|

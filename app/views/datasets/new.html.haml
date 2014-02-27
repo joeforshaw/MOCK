@@ -10,7 +10,7 @@
         %li
           .file-field
             %label.file-field-label{:for => "file-input"} Choose a File
-          %span.file-field-text Only .csv
+          %span.file-field-text Only .csv w/o headers
           = f.file_field :file, :class => "file-field-input", :id => "file-input", accept: "text/csv"
         %li.submit-field
           = f.submit "Submit", :class => "submit-field-input"

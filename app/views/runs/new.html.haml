@@ -7,5 +7,6 @@
         %li
           = f.check_box :evidence_accumulation, :class => "check-box-input"
           = f.label :evidence_accumulation, :class => "check-box-label"
+          %span.help{"original-title" => "Evidence Accumulation determines a datapoint hierarchy that can be used to for model selection. It displays this as a dendrogram, however it currently takes considerably longer to fully complete."} ?
         %li.submit-field
           = f.submit "Run MOCK", :class => "submit-field-input"

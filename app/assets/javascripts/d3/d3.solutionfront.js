@@ -5,11 +5,14 @@ $(document).ready(function() {
 
     $('#solution-front-graph').svg();
 
-    var connectivity     = 1;
-    var overallDeviation = 2;
-    var noOfClusters     = 3;
-    var silhouetteWidth  = 4;
-    var controlDistance  = 5;
+    solutionID       = 0;
+    connectivity     = 1;
+    overallDeviation = 2;
+    noOfClusters     = 3;
+    silhouetteWidth  = 4;
+    controlDistance  = 5;
+
+    noOfHighlightedSolutions = 0;
 
     var horizontalPadding = ($(window).width() - 960) / 2;
 
@@ -38,7 +41,7 @@ $(document).ready(function() {
         .x(function(d) { return x(d[connectivity]); })
         .y(function(d) { return y(d[overallDeviation]); });
 
-    var solutionFrontSVG = d3.select("#solution-front-graph svg")
+    solutionFrontSVG = d3.select("#solution-front-graph svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -135,7 +138,8 @@ $(document).ready(function() {
                 .on('mouseover', function(d){
                     $(".last-solution").removeClass("last-solution");
                 })
-                .attr("class", function(d) { return "solution-front-point " + d[0]; });
+                .attr("id", function(d) { return d[solutionID]; })
+                .attr("class", function(d) { return "solution-front-point"; });
 
             $("." + gon.last_solution).addClass("last-solution");
 
@@ -144,12 +148,13 @@ $(document).ready(function() {
                 $("circle.solution-front-point").attr("original-title", "Evidence Accumulation is running. Try again when it's complete.");
             }
             $("circle.solution-front-point").tipsy({ fade: true, gravity: 's', offset: 1, offsetX: 5, html: true });
+            
+            setupEventsListeners(solutionFrontSVG, solutionData);
         });
     });
-    setupEventsListeners();
 });
 
-function setupEventsListeners() {
+function setupEventsListeners(svg, data) {
     // Event listener for number field
     $("#solution_number").bind("change paste keyup", function() {
         var value = this.value;
@@ -163,27 +168,54 @@ function setupEventsListeners() {
             this.value = value;
         }
         noOfHighlightedSolutions = value;
+
+        if ($("#solution_measure_silhouette_width").is(':checked')) {
+            highlight("silhouette-width");
+        } else if ($("#solution_measure_control_distance").is(':checked')) {
+            highlight("control-distance");
+        }
     });
 
     $("#solution_measure_silhouette_width").change(function() {
-        console.log("silhouette width");
+        highlight("silhouette-width");
     });
 
     $("#solution_measure_control_distance").change(function() {
-        console.log("control distance");
+        highlight("control-distance");
     });
+}
+
+function highlight(measureClass) {
+    clearHighlightedPoints();
+    solutionFrontSVG.selectAll(".solution-front-point")
+        .sort(function(a,b) {
+            if (measureClass === "silhouette-width") {
+                return d3.ascending(a[silhouetteWidth], b[silhouetteWidth]);
+            } else {
+                return d3.ascending(a[controlDistance], b[controlDistance]);
+            }
+        }).each(function(d, i) {
+            if (i < noOfHighlightedSolutions) {
+                $("#" + d[solutionID]).addClass(measureClass);
+            }
+        });
+}
+
+function clearHighlightedPoints() {
+    $(".silhouette-width").removeClass("silhouette-width");
+    $(".control-distance").removeClass("control-distance");
 }
 
 function getSolutionPath(d) {
     if (gon.evidence_accumulation) {
         if (gon.evidence_accumulation_complete) {
-            return gon.evidence_accumulation_path + "?solution=" + d[0];
+            return gon.evidence_accumulation_path + "?solution=" + d[solutionID];
         } else {
             return "";
         }
         
     } else {
-        return gon.solution_path + d[0];
+        return gon.solution_path + d[solutionID];
     }
 }
 

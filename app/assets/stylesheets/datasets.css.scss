@@ -20,15 +20,17 @@
       .run-create-link {
         float: right;
       }
-
     }
+  }
 
+  .slider-options-wrapper {
+    display: none;
+    // height: 0;
   }
 
   p {
     margin-bottom: 0.5em;
   }
-
 }
 
 .dataset-show {
@@ -40,5 +42,4 @@
   tr {
     text-align: right;
   }
-
 }

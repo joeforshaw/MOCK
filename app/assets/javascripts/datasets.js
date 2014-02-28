@@ -9,4 +9,9 @@ $(document).ready(function() {
       var filename = m[1];
       $('.file-field-text').text(filename);
   });
-})
+
+  $('li.dataset-wrapper').click(function() {
+    $(this).next().toggle();
+  });
+
+});

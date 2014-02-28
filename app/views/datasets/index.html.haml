@@ -21,3 +21,11 @@
           .run-create-link
             = link_to "Run MOCK", new_run_path(:dataset => dataset.id), :dataset => dataset.id
           = link_to dataset.name, dataset
+        %li.slider-options-wrapper
+          %ul.slider-options
+            %li
+              = link_to "View", dataset
+            %li
+              = link_to "Run MOCK", new_run_path(:dataset => dataset.id)
+            %li
+              = button_to "Delete", destroy_dataset_path(dataset), :method => :delete, :onclick => "return confirm('Are you sure you want to delete #{dataset.name}?')"

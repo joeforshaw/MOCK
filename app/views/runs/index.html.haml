@@ -19,11 +19,5 @@
 
   - else
     %p
-      This looks like your first time running MOCK. To begin, follow the instructions below:
-    %ol
-      %li
-        Select a data file from below that you want to use (if you can't see any,
-        = link_to "try uploading a new data file", new_dataset_path
-        )
-      %li
-        Select a MOCK run from the list below to see the results
+      This looks like your first time running MOCK. To begin
+      = link_to "select a dataset to run.", datasets_path

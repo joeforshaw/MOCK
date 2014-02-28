@@ -5,12 +5,12 @@
 
   - if @datasets.nil? or @datasets.empty?
     %p
-      No data uploaded.
+      No datasets uploaded.
       = link_to "To begin using MOCK, upload a new dataset", new_dataset_path
       \.
     %p
       If you don't have one
-      = link_to "try this sample dataset", "/sample/wine2.csv"
+      = link_to "try this sample", "/sample/wine2.csv"
       \.
   - else
     %ul.datasets

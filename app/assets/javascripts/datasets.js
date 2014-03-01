@@ -11,7 +11,7 @@ $(document).ready(function() {
   });
 
   $('li.dataset-wrapper').click(function() {
-    $(this).next().toggle();
+    $("#options-" + $(this).attr("id")).slideToggle(300);
   });
 
 });

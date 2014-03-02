@@ -15,8 +15,10 @@
   - else
     %ul.datasets
       - @datasets.each do |dataset|
-        %li.dataset-wrapper{:id => dataset.id}
-          %p= dataset.name
+        %li.dataset-wrapper.clearfix{:id => dataset.id}
+          %p
+            %span.dataset-name= dataset.name
+            %span.upload-date= "Uploaded at #{dataset.created_at.strftime("%H:%M %-d/%-m/%Y")}"
         %li.slider-options-wrapper{:id => "options-#{dataset.id}"}
           %ul.slider-options
             %li

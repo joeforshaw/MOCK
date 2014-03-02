@@ -21,6 +21,16 @@
 
       p {
         margin: 0;
+
+      }
+
+      .dataset-name {
+        float: left;
+      }
+
+      .upload-date {
+        float: right;
+        color: rgb(170,170,170);
       }
 
       .run-create-link {

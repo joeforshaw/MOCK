@@ -97,7 +97,6 @@ function drawGraph() {
                 } else {
                     return 0;
                 }
-
             })
             .style("fill", function(d) {
                 if (gon.is_solution) {
@@ -184,7 +183,6 @@ function setupEventListeners() {
         $("svg#solution-graph > g").empty();
         $("select#x_dimension").unbind();
         $("select#y_dimension").unbind();
-        $("#multidimensional_scaling").unbind();
         gon.use_mds = !gon.use_mds;
         drawGraph();
     });

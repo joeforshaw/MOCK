@@ -1,3 +1,10 @@
+$(document).ready(function() {
+  $('li.run-wrapper').click(function(e) {
+    e.preventDefault();
+    $("#options-" + $(this).attr("id")).slideToggle(300);
+  });
+});
+
 $(function() {
   if ($(".run-create").length > 0) {
     $(".run-create").spin();

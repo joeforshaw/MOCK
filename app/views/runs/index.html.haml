@@ -6,16 +6,22 @@
   - if !@runs.nil? and !@runs.empty?
     %ul.runs
       - @runs.each do |run|
-        %a{:href => run_path(run) }
-          %li.clearfix
-            %p.run-name
-              %span.run-dataset= "#{run.dataset.name}"
-              - if run.evidence_accumulation
-                %span.evidence_accumulation
-                  with Evidence Accumulation
-              .delete-icon
-                = button_to "X", destroy_run_path(run), :method => :delete, :class => "delete-button", :onclick => "return confirm('Are you sure you want to delete this run?')"
-              %span.run-date= "Performed at #{run.created_at.strftime("%H:%M %-d/%-m/%Y")}"
+        %li.run-wrapper.clearfix{:id => run.id}
+          %p.run-name
+            %span.run-dataset= "#{run.dataset.name}"
+            - if run.evidence_accumulation
+              %span.evidence_accumulation
+                with Evidence Accumulation
+            %span.run-date= "Performed at #{run.created_at.strftime("%H:%M %-d/%-m/%Y")}"
+        %li.slider-options-wrapper{:id => "options-#{run.id}"}
+          %ul.slider-options
+            %li
+              %a{href: run_path(run.id)}
+                %p View
+            %li
+              = button_to "Delete", destroy_run_path(run), :method => :delete, :class => "delete-button", :onclick => "return confirm('Are you sure you want to delete this run for #{run.dataset.name}?')"
+
+
 
   - else
     %p

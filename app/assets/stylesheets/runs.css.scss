@@ -15,32 +15,29 @@
   ul.runs {
     list-style-type: none;
 
-    a {
+    li.run-wrapper {
+      padding: 0.5em 1em;
       color: rgb(57,57,55);
       text-decoration: none;
-      margin-bottom: 1em;
+      margin-top: 1em;
       display: block;
       background-color: rgb(240,240,240);
       border-bottom: 4px solid rgb(230,230,230);
+      cursor: pointer;
 
-      li {
-        padding: 0.5em 1em;
+      .run-dataset {
+        margin-right: 0.5em;
+        float: left;
+      }
 
-        .run-dataset {
-          margin-right: 0.5em;
-          float: left;
-        }
+      .evidence_accumulation {
+        color: rgb(210,210,210);
+        float: left;
+      }
 
-        .evidence_accumulation {
-          color: rgb(210,210,210);
-          float: left;
-        }
-
-        .run-date {
-          color: rgb(170,170,170);
-          float: right;
-        }
-
+      .run-date {
+        color: rgb(170,170,170);
+        float: right;
       }
 
     }

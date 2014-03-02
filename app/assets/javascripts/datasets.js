@@ -10,7 +10,8 @@ $(document).ready(function() {
       $('.file-field-text').text(filename);
   });
 
-  $('li.dataset-wrapper').click(function() {
+  $('li.dataset-wrapper').click(function(e) {
+    e.preventDefault();
     $("#options-" + $(this).attr("id")).slideToggle(300);
   });
 

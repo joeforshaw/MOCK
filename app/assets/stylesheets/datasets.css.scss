@@ -13,35 +13,25 @@
 
     .dataset-wrapper {
       margin-top: 1em;
-      background-color: rgb(240,240,240);
-      border-bottom: 4px solid rgb(230,230,230);
+      background-color: rgb(235,235,235);
+      border-bottom: 4px solid rgb(225,225,225);
       padding: 0.5em 1em;
+      cursor: pointer;
+      -webkit-transition: all 0.1s ease-in;
+
+      p {
+        margin: 0;
+      }
 
       .run-create-link {
         float: right;
       }
     }
-  }
 
-  .slider-options-wrapper {
-    display: none;
-    position: relative;
-
-    ul {
-      list-style-type: none;
-
-      li {
-        width: 100%;
-        background-color: rgb(149,68,165);
-        border-top: solid 1px rgb(250,250,250);
-        border-bottom: solid 1px rgb(250,250,250);
-
-        p {
-          margin: 0.5em 1em;
-          color: rgb(250,250,250);
-        }
-      }
+    .dataset-wrapper:hover {
+      background-color: rgb(240,240,240);
     }
+
   }
 
   p {

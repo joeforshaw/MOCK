@@ -16,19 +16,14 @@
     %ul.datasets
       - @datasets.each do |dataset|
         %li.dataset-wrapper{:id => dataset.id}
-          .delete-icon
-            = button_to "X", destroy_dataset_path(dataset), :method => :delete, :class => "delete-button", :onclick => "return confirm('Are you sure you want to delete #{dataset.name}?')"
-          .run-create-link
-            = link_to "Run MOCK", new_run_path(:dataset => dataset.id), :dataset => dataset.id
-          = link_to dataset.name, dataset
+          %p= dataset.name
         %li.slider-options-wrapper{:id => "options-#{dataset.id}"}
           %ul.slider-options
-            %a{href: dataset_path(dataset.id)}
-              %li
+            %li
+              %a{href: dataset_path(dataset.id)}
                 %p View
-            %a{href: new_run_path(:dataset => dataset.id)}
-              %li
+            %li
+              %a{href: new_run_path(:dataset => dataset.id)}
                 %p Run MOCK
-            %a{href: dataset_path(dataset.id)}
-              %li
-                = button_to "Delete", destroy_dataset_path(dataset), :method => :delete, :onclick => "return confirm('Are you sure you want to delete #{dataset.name}?')"
+            %li
+              = button_to "Delete", destroy_dataset_path(dataset), :method => :delete, :class => "delete-button", :onclick => "return confirm('Are you sure you want to delete #{dataset.name}?')"

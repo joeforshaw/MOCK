@@ -232,27 +232,6 @@ body {
 
     }
 
-    .delete-icon {
-      float: right;
-      margin-left: 1em;
-
-      .delete-button {
-        -webkit-transition: color 0.1s;
-        cursor: pointer;
-        padding: 0;
-        margin: 0;
-        font-size: 1em;
-        border-style: none;
-        background: transparent;
-        color: rgb(170,170,170);
-      }
-
-      .delete-button:hover {
-        color: rgb(80,80,80);
-      }
-
-    }
-
     .pages li {
       list-style: none;
     }
@@ -503,3 +482,67 @@ span.help:hover {
 .clearfix:after {
     clear:both;
 }
+
+.slider-options-wrapper {
+    display: none;
+    position: relative;
+
+    ul {
+      list-style-type: none;
+
+      li {
+        width: 100%;
+        background-color: rgb(149,68,165);
+        border-bottom: solid 4px rgb(129,48,145);
+        -webkit-transition: all 0.1s ease-in;
+
+        a {
+          margin: 0;
+          color: rgb(250,250,250);
+          display: inline-block;
+          width: 100%;
+
+          p {
+            padding: 0.5em 1em;
+            margin: 0;
+          }
+
+        }
+
+        input {
+          cursor: pointer;
+          padding: 0.5em 1em;
+          font-size: 1em;
+          font-family: Lato Light;
+          color: rgb(250,250,250);
+          border-style: none;
+          background: transparent;
+          text-align: left;
+          width: 100%;
+          -webkit-transition: all 0.1s ease-in;
+        }
+
+        input:hover {
+          background-color: rgb(160,90,185);
+        }
+
+        input:focus {
+          outline: none;
+        }
+
+        ::-moz-focus-inner {
+          border: 0;
+        }
+
+      }
+
+      li:hover {
+        background-color: rgb(160,90,185);
+      }
+
+      li:last-child {
+        border-bottom: 0;
+      }
+
+    }
+  }

@@ -102,18 +102,10 @@ function drawGraph() {
             .attr("cy", function(d) { return y(d[yDimension]); })
             .attr("data-point", function(d) { return d[datapointIndex]; })
             .attr("data-cluster", function(d) {
-                if (gon.is_plot) {
-                    return d[clusterIndex];
-                } else {
-                    return 0;
-                }
+                return gon.is_plot ? d[clusterIndex] : 0;
             })
             .style("fill", function(d) {
-                if (gon.is_solution) {
-                    return color_scale(d[clusterIndex]);
-                } else {
-                    return color_scale(0);
-                }
+                return gon.is_solution ? color_scale(d[clusterIndex]) : color_scale(0);
             });
 
         if (gon.use_mds) {

@@ -189,5 +189,14 @@ function optionHandler() {
 }
 
 function getTipsyMessage(node) {
-  return config.hideUnanimousBranches ? "Number of datapoints: " + node.dominantClusterSize : "";
+  console.log(node);
+  if (config.hideUnanimousBranches) {
+    if (node.children === undefined) {
+      return "A datapoint";
+    } else {
+      return "Number of datapoints: " + node.dominantClusterSize;
+    }
+  } else {
+    return "";
+  }
 }

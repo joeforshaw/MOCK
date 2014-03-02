@@ -29,6 +29,7 @@ MOCK::Application.routes.draw do
   get 'evidence_accumulation_solution/:id' => 'evidence_accumulation_solutions#show', :as => :evidence_accumulation_solution
 
   get 'mds_solutions/:id' => 'mds_solutions#show', :as => :mds_solution
+  get 'mds_datasets/:id' => 'mds_datasets#show', :as => :mds_dataset
 
   resources :clusters
 

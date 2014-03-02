@@ -6,8 +6,8 @@ $(document).ready(function() {
 
     datapointIndex  = 0;
     clusterIndex    = 1;
-    nonValueColumns = 0;
-    firstValueIndex = 0;
+    nonValueColumns = 1;
+    firstValueIndex = 1;
 
     if (gon.is_solution !== null && gon.is_solution) {
         nonValueColumns = 2;

@@ -1,8 +1,6 @@
 class DatasetsController < ApplicationController
 
-
   before_filter :authenticate_user!
-
 
   def new
     @dataset = Dataset.new
@@ -36,8 +34,10 @@ class DatasetsController < ApplicationController
     @body_classes << "graph-body"
     @dataset = Dataset.find(params[:id])
     gon.solution_path = "#{dataset_path(@dataset.id)}.csv"
+    gon.mds_path = "#{mds_dataset_path(@dataset.id)}.csv"
     gon.is_plot = true
     gon.is_solution = false
+    gon.use_mds = false
     respond_to do |format|
       format.html do
         @dataset

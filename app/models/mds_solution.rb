@@ -6,8 +6,6 @@ class MdsSolution < ActiveRecord::Base
   belongs_to :solution
   has_many :clusters, :as => :plottable, :dependent => :destroy
 
-  has_one :mds_dataset
-
   def to_csv
     CSV.generate do |csv|
       self.clusters.each do |cluster|
@@ -58,9 +56,8 @@ class MdsSolution < ActiveRecord::Base
     # Find a Cartesian embedding in two dimensions
     # that approximates the distances in two dimensions.
     scaled_matrix = MDS::Metric.projectd(d2, 2)
-    puts scaled_matrix.m
 
-    @mds_dataset = MdsDataset.create(:mds_solution => self)
+    @mds_dataset = MdsDataset.create(:dataset => @dataset)
     scaled_datavalues = []
     mds_cluster_datapoints = []
     @clusters.each do |cluster|

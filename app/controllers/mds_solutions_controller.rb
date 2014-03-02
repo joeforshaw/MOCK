@@ -11,7 +11,7 @@ class MdsSolutionsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to @mds_solution.solution
+        redirect_to @solution
       end
       format.csv do
         render text: @mds_solution.to_csv

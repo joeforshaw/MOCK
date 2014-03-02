@@ -8,7 +8,9 @@ class EvidenceAccumulationSolutionsController < ApplicationController
         @run = @evidence_accumulation_solution.run
         if params.has_key?(:solution)
           @solution = Solution.find(params[:solution])
+          gon.is_solution = true
           gon.solution_path = "#{solution_path(@solution.id)}.csv"
+          gon.number_of_clusters = @solution.clusters.size
         end
         gon.evidence_accumulation_solution_path = @evidence_accumulation_solution.newick_format_path
         gon.evidence_accumulation_path = evidence_accumulation_solution_path(@run.id)

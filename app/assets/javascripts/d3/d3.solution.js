@@ -20,6 +20,13 @@ $(document).ready(function() {
 
     color_scale = d3.scale.category20();
 
+    // Fix cluster ids to colours
+    if (gon.is_solution !== undefined && gon.is_solution) {
+        for (var i = 0; i < gon.number_of_clusters; i++) {
+            color_scale(i);
+        }
+    }
+
     xAxis = d3.svg.axis()
         .scale(x)
         .orient("bottom");

@@ -22,7 +22,15 @@ $(document).ready(function() {
 
   diagonal = d3.svg.diagonal().projection(function(d) { return [d.x, d.y]; });
 
-  color_scale = d3.scale.category10();
+  color_scale = d3.scale.category20();
+
+  // Fix cluster ids to colours
+  if (gon.is_solution !== undefined && gon.is_solution) {
+      for (var i = 0; i < gon.number_of_clusters; i++) {
+          color_scale(i);
+      }
+  }
+
 
   datapointClusters = [];
 

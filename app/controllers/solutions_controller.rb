@@ -30,7 +30,6 @@ class SolutionsController < ApplicationController
         gon.is_plot = true
         gon.is_solution = true
         gon.use_mds = false
-        gon.number_of_clusters = @solution.clusters.size
       end
 
       format.csv do

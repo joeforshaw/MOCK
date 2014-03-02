@@ -38,6 +38,7 @@ class DatasetsController < ApplicationController
     gon.is_plot = true
     gon.is_solution = false
     gon.use_mds = false
+
     respond_to do |format|
       format.html do
         @dataset

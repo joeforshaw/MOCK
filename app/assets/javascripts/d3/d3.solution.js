@@ -35,7 +35,6 @@ $(document).ready(function() {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     drawGraph();
-    setupEventListeners();
 });
 
 function drawGraph() {
@@ -53,8 +52,8 @@ function drawGraph() {
         firstValueIndex = 1;
     }
 
-    xDimension = $("select#x_dimension").length > 0 ? $("select#x_dimension").val() - 1 + nonValueColumns : nonValueColumns;
-    yDimension = $("select#y_dimension").length > 0 ? $("select#y_dimension").val() - 1 + nonValueColumns : nonValueColumns + 1;
+    xDimension = $("select#x_dimension").length > 0 && !gon.use_mds ? $("select#x_dimension").val() - 1 + nonValueColumns : nonValueColumns;
+    yDimension = $("select#y_dimension").length > 0 && !gon.use_mds ? $("select#y_dimension").val() - 1 + nonValueColumns : nonValueColumns + 1;
 
 
     $(".solution").spin();
@@ -159,11 +158,12 @@ function drawGraph() {
                 });
             });
         }
+        setupEventListeners(data);
     });
 
 }
 
-function setupEventListeners() {
+function setupEventListeners(data) {
     // On change event for X Dimension select
     $("select#x_dimension").change(function() {
         xDimension = $("select#x_dimension").val() - 1 + nonValueColumns;
@@ -187,6 +187,7 @@ function setupEventListeners() {
         $("svg#solution-graph > g").empty();
         $("select#x_dimension").unbind();
         $("select#y_dimension").unbind();
+        $("#multidimensional_scaling").unbind();
         gon.use_mds = !gon.use_mds;
         drawGraph();
     });

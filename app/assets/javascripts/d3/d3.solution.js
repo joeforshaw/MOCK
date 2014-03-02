@@ -4,19 +4,6 @@ $(document).ready(function() {
         return;
     }
 
-    datapointIndex  = 0;
-    clusterIndex    = 1;
-    nonValueColumns = 1;
-    firstValueIndex = 1;
-
-    if (gon.is_solution !== null && gon.is_solution) {
-        nonValueColumns = 2;
-        firstValueIndex = 2;
-    }
-
-    xDimension = $("select#x_dimension").length > 0 ? $("select#x_dimension").val() - 1 + nonValueColumns : nonValueColumns;
-    yDimension = $("select#y_dimension").length > 0 ? $("select#y_dimension").val() - 1 + nonValueColumns : nonValueColumns + 1;
-
     horizontalPadding = ($(window).width() - 960) / 2;
 
     margin     = {top: 30, right: horizontalPadding, bottom: 30, left: horizontalPadding},
@@ -52,6 +39,23 @@ $(document).ready(function() {
 });
 
 function drawGraph() {
+
+    datapointIndex  = 0;
+    clusterIndex    = 1;
+    nonValueColumns = 0;
+    firstValueIndex = 0;
+
+    if (gon.is_solution !== null && gon.is_solution) {
+        nonValueColumns = 2;
+        firstValueIndex = 2;
+    } else if (gon.use_mds) {
+        nonValueColumns = 1;
+        firstValueIndex = 1;
+    }
+
+    xDimension = $("select#x_dimension").length > 0 ? $("select#x_dimension").val() - 1 + nonValueColumns : nonValueColumns;
+    yDimension = $("select#y_dimension").length > 0 ? $("select#y_dimension").val() - 1 + nonValueColumns : nonValueColumns + 1;
+
 
     $(".solution").spin();
 

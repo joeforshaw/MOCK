@@ -17,7 +17,6 @@ class Dataset < ActiveRecord::Base
     CSV.generate do |csv|
       self.datapoints.order(:sequence_id).each do |datapoint|
         datavalues = []
-        datavalues << datapoint.id
         datapoint.datavalues.order(:id).each do |datavalue|
           datavalues << datavalue.value
         end

@@ -11,7 +11,6 @@ class MdsDataset < ActiveRecord::Base
         datapoint.datavalues.order(:id).each do |datavalue|
           datavalues << datavalue.value
         end
-        puts datavalues.join(" ")
         csv << [datavalues.join(" ")]
       end
     end

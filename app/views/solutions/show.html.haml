@@ -14,6 +14,9 @@
       .options-wrapper
         %form
           %ul
+            - if @run.evidence_accumulation?
+              %li
+                = link_to "View dendrogram", evidence_accumulation_solution_path(:id => @evidence_accumulation_solution.id, :solution => @solution)
             %li.dimension
               = label_tag :x_dimension
               = select_tag :x_dimension, options_for_select(1..@dataset.columns, 1), :class => "dimension-select"

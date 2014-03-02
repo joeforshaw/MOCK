@@ -15,7 +15,12 @@ class SolutionsController < ApplicationController
 
   def show
     @solution = Solution.find(params[:id])
-    @dataset = @solution.run.dataset
+    @run = @solution.run
+    @dataset = @run.dataset
+
+    if @run.evidence_accumulation?
+      @evidence_accumulation_solution = @run.evidence_accumulation_solution
+    end
 
     if !@solution.parsed
       @solution.save_data_file

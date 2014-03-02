@@ -141,7 +141,7 @@ $(document).ready(function() {
                 .attr("id", function(d) { return d[solutionID]; })
                 .attr("class", function(d) { return "solution-front-point"; });
 
-            $("." + gon.last_solution).addClass("last-solution");
+            $("#" + gon.last_solution).addClass("last-solution");
 
             // Use tipsy to indiciate to user they have to wait for EA to complete
             if (gon.evidence_accumulation && !gon.evidence_accumulation_complete) {

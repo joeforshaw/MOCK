@@ -110,7 +110,7 @@ function drawNodes(nodes) {
         .attr("data-cluster-size", function(d) { return d.dominantClusterSize; })
         .attr("data-unanimous-children", function(d) { return d.unanimousChildren; })
         .attr("original-title", function(d) { config.hideUnanimousBranches ? "Test" : 0 });
-  $('.unanimous-leaf').tipsy({ fade: true, gravity: 's' });
+  $('.unanimous-leaf').tipsy({ fade: true, gravity: 's', offset: 1, offsetX: 3 });
   return nodes_to_draw;
 }
 
@@ -168,9 +168,9 @@ function calculateDominantClusters(node) {
 }
 
 function optionHandler() {
-  $("input#hide-unanimous-branches").change(function() {
+  $("input#hide_unanimous_branches").change(function() {
     $(".evidence-accumulation-solution").spin();
-    config.hideUnanimousBranches = document.getElementById('hide-unanimous-branches').checked;
+    config.hideUnanimousBranches = document.getElementById('hide_unanimous_branches').checked;
     vis.selectAll("g.node circle").style("fill", function(d) { return getNodeColour(d); });
     vis.selectAll("path.link").style("stroke", function(d) { return getLinkColour(d); });
     $(".evidence-accumulation-solution").spin(false);

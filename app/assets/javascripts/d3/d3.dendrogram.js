@@ -124,7 +124,8 @@ function drawNodes(nodes) {
 
 function setNodeHeights(node) {
   var multiplier = 150;
-  node.y = (dimensions.height - 4) - (dimensions.height * node.length) + 2;
+  node.y = dimensions.height - ((dimensions.height * node.length + 2) * 0.99);
+  console.log(dimensions.height * node.length - 2);
   if (node.children) {
     node.children.forEach(function(childNode) {
       setNodeHeights(childNode);

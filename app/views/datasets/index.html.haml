@@ -1,7 +1,7 @@
 .content.dataset-index
   .heading-wrapper.clearfix
     %h2 Datasets
-    .create-dataset= link_to "Upload a new dataset", new_dataset_path, :class => "orange-button"
+    .right= link_to "Upload a new dataset", new_dataset_path, :class => "orange-button"
 
   - if @datasets.nil? or @datasets.empty?
     %p

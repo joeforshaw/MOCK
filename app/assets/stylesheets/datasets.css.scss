@@ -4,49 +4,10 @@
 
 .dataset-index {
 
-  .create-dataset {
-    float: right;
-  }
-
-  .datasets {
-    list-style-type: none;
-
-    .dataset-wrapper {
-      margin-top: 1em;
-      background-color: rgb(235,235,235);
-      border-bottom: 4px solid rgb(225,225,225);
-      padding: 0.5em 1em;
-      cursor: pointer;
-      -webkit-transition: all 0.1s ease-in;
-
-      p {
-        margin: 0;
-
-      }
-
-      .dataset-name {
-        float: left;
-      }
-
-      .upload-date {
-        float: right;
-        color: rgb(170,170,170);
-      }
-
-      .run-create-link {
-        float: right;
-      }
-    }
-
-    .dataset-wrapper:hover {
-      background-color: rgb(240,240,240);
-    }
-
-  }
-
   p {
     margin-bottom: 0.5em;
   }
+  
 }
 
 .dataset-show {

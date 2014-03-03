@@ -2,50 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.run-index {
-
-  .heading-wrapper {
-
-    .datasets-button {
-      float: right;
-    }
-
-  }
-
-  ul.runs {
-    list-style-type: none;
-
-    li.run-wrapper {
-      padding: 0.5em 1em;
-      color: rgb(57,57,55);
-      text-decoration: none;
-      margin-top: 1em;
-      display: block;
-      background-color: rgb(235,235,235);
-      border-bottom: 4px solid rgb(225,225,225);
-      cursor: pointer;
-
-      .run-dataset {
-        margin-right: 0.5em;
-        float: left;
-      }
-
-      .evidence_accumulation {
-        color: rgb(210,210,210);
-        float: left;
-      }
-
-      .run-date {
-        color: rgb(170,170,170);
-        float: right;
-      }
-
-    }
-
-  }
-
-}
-
 .run-show {
 
   span.status {

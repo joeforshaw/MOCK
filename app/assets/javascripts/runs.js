@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  $('li.run-wrapper').click(function(e) {
+  $('li.index-list-item').click(function(e) {
     e.preventDefault();
     $("#options-" + $(this).attr("id")).slideToggle(300);
   });

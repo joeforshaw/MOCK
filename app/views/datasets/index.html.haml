@@ -13,12 +13,12 @@
       = link_to "try this sample", "/sample/wine2.csv"
       \.
   - else
-    %ul.datasets
+    %ul.index-list
       - @datasets.each do |dataset|
-        %li.dataset-wrapper.clearfix{:id => dataset.id}
+        %li.index-list-item.clearfix{:id => dataset.id}
           %p
-            %span.dataset-name= dataset.name
-            %span.upload-date= "Uploaded at #{dataset.created_at.strftime("%H:%M %-d/%-m/%Y")}"
+            %span.name= dataset.name
+            %span.date= "Uploaded at #{dataset.created_at.strftime("%H:%M %-d/%-m/%Y")}"
         %li.slider-options-wrapper{:id => "options-#{dataset.id}"}
           %ul.slider-options
             %li

@@ -293,43 +293,6 @@ body {
 
 /* Helper Classes */
 
-.options-wrapper {
-
-  background-color: rgb(240, 240, 240);
-  margin: 1em 0;
-  width: 100%;
-
-  form {
-    padding: 0.5em;
-    text-align: center;
-
-    ul {
-
-      list-style: none;
-
-      li {
-        margin: 0 1em 0 0;
-        display: inline-block;
-
-        select, input {
-          display: inline-block;
-          vertical-align: 20%;
-          margin: 0;
-        }
-
-        .number-field {
-          width: 5em;
-        }
-
-        .radio,.number-field {
-          margin-left: 0.5em;
-          margin-right: 0.5em;
-        }
-      }
-    }
-  }
-}
-
 .form-wrapper {
   width: 400px;
   margin: 1em auto 0 auto;
@@ -483,7 +446,99 @@ span.help:hover {
     clear:both;
 }
 
-.slider-options-wrapper {
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+.options-wrapper {
+  background-color: rgb(240, 240, 240);
+  margin: 1em 0;
+  width: 100%;
+
+  form {
+    padding: 0.5em;
+    text-align: center;
+
+    ul {
+
+      list-style: none;
+
+      li {
+        margin: 0 1em 0 0;
+        display: inline-block;
+
+        select, input {
+          display: inline-block;
+          vertical-align: 20%;
+          margin: 0;
+        }
+
+        .number-field {
+          width: 5em;
+        }
+
+        .radio,.number-field {
+          margin-left: 0.5em;
+          margin-right: 0.5em;
+        }
+      }
+    }
+  }
+}
+
+// Index lists
+ul.index-list {
+  list-style-type: none;
+
+  li.index-list-item {
+    padding: 0.5em 1em;
+    text-decoration: none;
+    margin-top: 1em;
+    display: block;
+    cursor: pointer;
+
+    color: rgb(57,57,55);
+    background-color: rgb(235,235,235);
+    border-bottom: 4px solid rgb(225,225,225);
+
+    .run-dataset {
+      margin-right: 0.5em;
+      float: left;
+    }
+
+    .evidence_accumulation {
+      color: rgb(210,210,210);
+      float: left;
+    }
+
+    .date {
+      color: rgb(170,170,170);
+      float: right;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .name {
+      float: left;
+    }
+
+    .evidence_accumulation {
+      margin-left: 0.5em;
+    }
+
+    .run-create-link {
+      float: right;
+    }
+
+  }
+
+  li.slider-options-wrapper {
     display: none;
     position: relative;
 
@@ -493,7 +548,7 @@ span.help:hover {
       li {
         width: 100%;
         background-color: rgb(149,68,165);
-        border-bottom: solid 4px rgb(129,48,145);
+        border-top: solid 3px rgb(235,235,235);
         -webkit-transition: all 0.1s ease-in;
 
         a {
@@ -540,9 +595,9 @@ span.help:hover {
         background-color: rgb(160,90,185);
       }
 
-      li:last-child {
-        border-bottom: 0;
+      li:first-child {
+        border-top: 0;
       }
-
     }
   }
+}

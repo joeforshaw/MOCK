@@ -38,13 +38,16 @@ $(document).ready(function() {
       .attr("width", dimensions.width)
       .attr("height", dimensions.height)
       .style("-webkit-backface-visibility", "hidden")
-      .on("mousemove", cutLineHandler);
+      .on("mousemove", moveCutLine)
+      .on("mousedown", calculateCut);
 
 
   vis = wrap.append("g");
 
   cutLine = vis.append("line")
       .attr("class", "cut-line");
+  cutText = vis.append("text")
+      .attr("class", "cut-text");
 
   $(".evidence-accumulation-solution").spin();
 
@@ -76,6 +79,8 @@ function loadDendrogram() {
 
     var newickTree = newick.parse(text);
     var nodes = cluster.nodes(newickTree);
+
+    allNodes = nodes;
 
     setNodeHeights(nodes[0], 0);
     if (gon.solution_path !== undefined) {
@@ -129,7 +134,13 @@ function drawNodes(nodes) {
 
 function setNodeHeights(node) {
   var multiplier = 150;
-  node.y = dimensions.height - ((dimensions.height * node.length + 2) * 0.99);
+  var height = dimensions.height - ((dimensions.height * node.length));
+  if (height >= dimensions.height) {
+    height = dimensions.height - 2;
+  } else if (height <= 0) {
+    height = 2;
+  }
+  node.y = height;
   if (node.children) {
     node.children.forEach(function(childNode) {
       setNodeHeights(childNode);
@@ -182,11 +193,8 @@ function calculateDominantClusters(node) {
 
 function optionHandler() {
   $("input#hide_unanimous_branches").change(function() {
-    $(".evidence-accumulation-solution").spin();
     config.hideUnanimousBranches = document.getElementById('hide_unanimous_branches').checked;
-    vis.selectAll("g.node circle").style("fill", function(d) { return getNodeColour(d); });
-    vis.selectAll("path.link").style("stroke", function(d) { return getLinkColour(d); });
-    $(".evidence-accumulation-solution").spin(false);
+    redrawDendrogram();
     vis.selectAll('.unanimous-leaf')
       .attr("original-title", function(d) { return getTipsyMessage(d); })
       .style("cursor", config.hideUnanimousBranches ? "pointer" : "default");
@@ -195,21 +203,22 @@ function optionHandler() {
   $("#cut_dendrogram").click(function(e) {
     config.cutting = !config.cutting;
     if (!config.cutting) {
-      $(this).removeClass("purple-button");
-      $(this).addClass("yellow-button");
-      cutLine
-        .attr("x1", 0)
-        .attr("y1", -100)
-        .attr("x2", dimensions.width)
-        .attr("y2", -100);
+      stopCutting();
     } else {
-      $(this).removeClass("yellow-button");
+      $(this).removeClass("orange-button");
       $(this).addClass("purple-button");
     }
   });
 }
 
-function cutLineHandler() {
+function redrawDendrogram() {
+  $(".evidence-accumulation-solution").spin();
+  vis.selectAll("g.node circle").style("fill", function(d) { return getNodeColour(d); });
+  vis.selectAll("path.link").style("stroke", function(d) { return getLinkColour(d); });
+  $(".evidence-accumulation-solution").spin(false);
+}
+
+function moveCutLine() {
   if (config.cutting) {
     var m = d3.mouse(this);
     cutLine
@@ -217,7 +226,62 @@ function cutLineHandler() {
       .attr("y1", m[1])
       .attr("x2", dimensions.width)
       .attr("y2", m[1]);
+    cutText
+      .text(calculateDistance(m[1]))
+      .attr("dx", m[0] + 10)
+      .attr("dy", m[1] - (m[1] < 25 ? -20 : 10));
   }
+}
+
+function calculateCut(distance) {
+  if (config.cutting) {
+    stopCutting();
+    var mousePos = d3.mouse(this);
+    var clusterID = 0;
+    allNodes.forEach(function(node) {
+      if (isRootClusterNode(node, mousePos[1])) {
+        addClusterToDatapoints(node, clusterID++);
+      }
+    });
+    calculateDominantClusters(allNodes[0]);
+    redrawDendrogram();
+  }
+}
+
+function calculateDistance(yPosition) {
+  return (1 - yPosition / dimensions.height).toFixed(3);
+}
+
+function isRootClusterNode(node, yMousePosition) {
+  var distance = calculateDistance(yMousePosition);
+  return node.length <= distance
+      && node.parent !== undefined
+      && node.parent.length > distance;
+}
+
+function addClusterToDatapoints(node, clusterID) {
+  if (node.children !== undefined) {
+    node.children.forEach(function(child) { 
+      addClusterToDatapoints(child, clusterID);
+    });
+  } else {
+    datapointClusters[+node.name] = clusterID;
+  }
+}
+
+function stopCutting() {
+  config.cutting = !config.cutting;
+  $button = $("#cut_dendrogram");
+  $button.removeClass("purple-button");
+  $button.addClass("orange-button");
+  cutLine
+    .attr("x1", 0)
+    .attr("y1", -100)
+    .attr("x2", dimensions.width)
+    .attr("y2", -100);
+  cutText
+    .attr("dx", -100)
+    .attr("dy", -100);
 }
 
 function getTipsyMessage(node) {

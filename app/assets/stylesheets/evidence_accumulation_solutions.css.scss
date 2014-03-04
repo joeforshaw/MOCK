@@ -31,9 +31,14 @@
   }
 
   .cut-line {
-    stroke: rgb(0,0,0);
-    opacity: 0.1;
+    stroke: rgb(220,220,220);
     stroke-width: 2px;
+  }
+
+  .cut-text {
+    font-size: 0.8em;
+    stroke: rgb(220,220,220);
+    font-family: 'Lato Light';
   }
 
 }

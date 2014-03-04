@@ -4,6 +4,8 @@
       = "Run #{@run.id}"
       - if !@evidence_accumulation_status.nil?
         %span.status= @evidence_accumulation_status
+    - if @run.evidence_accumulation? and @run.completed?
+      = link_to "View dendrogram", evidence_accumulation_solution_path(@run.evidence_accumulation_solution), :class => "view-dendrogram orange-button"
 
   .graph-width-wrapper
     %p Hover over the gold solution line and click to view a clustering solution.

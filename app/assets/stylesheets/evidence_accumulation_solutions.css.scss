@@ -10,6 +10,7 @@
   }
 
   .back-button {
+    margin-left: 1em;
     float: right;
   }
 
@@ -27,6 +28,12 @@
 
   path.link, circle.join {
     -webkit-transition: stroke 0.2s;
+  }
+
+  .cut-line {
+    stroke: rgb(0,0,0);
+    opacity: 0.1;
+    stroke-width: 2px;
   }
 
 }

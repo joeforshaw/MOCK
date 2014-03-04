@@ -10,7 +10,8 @@ $(document).ready(function() {
     clusterIndex          : 1,
     datapointIndex        : 0,
     nonValueColumns       : 2,
-    hideUnanimousBranches : $('hide-unanimous-branches').length > 0 ? document.getElementById('hide-unanimous-branches').checked : false
+    hideUnanimousBranches : $('hide-unanimous-branches').length > 0 ? document.getElementById('hide-unanimous-branches').checked : false,
+    cutting               : false
   };
 
   cluster = d3.layout.cluster()
@@ -31,15 +32,19 @@ $(document).ready(function() {
       }
   }
 
-
   datapointClusters = [];
 
   wrap = d3.select("#dendrogram").append("svg")
       .attr("width", dimensions.width)
       .attr("height", dimensions.height)
-      .style("-webkit-backface-visibility", "hidden");
+      .style("-webkit-backface-visibility", "hidden")
+      .on("mousemove", cutLineHandler);
+
 
   vis = wrap.append("g");
+
+  cutLine = vis.append("line")
+      .attr("class", "cut-line");
 
   $(".evidence-accumulation-solution").spin();
 
@@ -125,7 +130,6 @@ function drawNodes(nodes) {
 function setNodeHeights(node) {
   var multiplier = 150;
   node.y = dimensions.height - ((dimensions.height * node.length + 2) * 0.99);
-  console.log(dimensions.height * node.length - 2);
   if (node.children) {
     node.children.forEach(function(childNode) {
       setNodeHeights(childNode);
@@ -187,10 +191,36 @@ function optionHandler() {
       .attr("original-title", function(d) { return getTipsyMessage(d); })
       .style("cursor", config.hideUnanimousBranches ? "pointer" : "default");
   });
+
+  $("#cut_dendrogram").click(function(e) {
+    config.cutting = !config.cutting;
+    if (!config.cutting) {
+      $(this).removeClass("purple-button");
+      $(this).addClass("yellow-button");
+      cutLine
+        .attr("x1", 0)
+        .attr("y1", -100)
+        .attr("x2", dimensions.width)
+        .attr("y2", -100);
+    } else {
+      $(this).removeClass("yellow-button");
+      $(this).addClass("purple-button");
+    }
+  });
+}
+
+function cutLineHandler() {
+  if (config.cutting) {
+    var m = d3.mouse(this);
+    cutLine
+      .attr("x1", 0)
+      .attr("y1", m[1])
+      .attr("x2", dimensions.width)
+      .attr("y2", m[1]);
+  }
 }
 
 function getTipsyMessage(node) {
-  console.log(node);
   if (config.hideUnanimousBranches) {
     if (node.children === undefined) {
       return "A datapoint";

@@ -4,6 +4,10 @@
 
 .run-show {
 
+  h2 {
+    float: left;
+  }
+
   span.status {
     color: rgb(210, 210, 210);
     font-size: 0.8em;
@@ -39,6 +43,10 @@
 
   circle.control-distance {
     fill: rgb(250,130,130);
+  }
+
+  .view-dendrogram {
+    float: right;
   }
 
 }

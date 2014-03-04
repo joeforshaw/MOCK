@@ -4,7 +4,7 @@
     = form_for @run, :url => create_run_path(@dataset) do |f|
       %ul
         = hidden_field_tag 'dataset', params[:dataset]
-        %li
+        %li.check-box-wrapper
           = f.check_box :evidence_accumulation, :class => "check-box-input"
           = f.label :evidence_accumulation, :class => "check-box-label"
           %span.help{"original-title" => "Evidence Accumulation determines a datapoint hierarchy that can be used to for model selection. It displays this as a dendrogram, however it currently takes considerably longer to fully complete."} ?

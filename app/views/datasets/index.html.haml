@@ -28,4 +28,4 @@
               %a{href: new_run_path(:dataset => dataset.id)}
                 %p Run MOCK
             %li
-              = button_to "Delete", destroy_dataset_path(dataset), :method => :delete, :class => "delete-button", :onclick => "return confirm('Are you sure you want to delete #{dataset.name}?')"
+              = button_to "Delete", destroy_dataset_path(dataset), :method => :delete, :class => "delete-button", :onclick => "return confirm('Are you sure you want to delete #{dataset.name}? WARNING: deleting it will delete all MOCK runs that used this dataset.')"

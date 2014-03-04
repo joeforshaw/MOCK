@@ -17,12 +17,12 @@
 
 @font-face {
   font-family: Lato Light;
-  src: url('<%= asset_path('Lato-Lig.ttf') %>');
+  src: url('<%= asset_path('Lato-Lig.ttf') %>') format('truetype');;
 }
 
 @font-face {
   font-family: Lato;
-  src: url('<%= asset_path('Lato-Reg.ttf') %>');
+  src: url('<%= asset_path('Lato-Reg.ttf') %>') format('truetype');;
 }
 
 body, h1, h2, h3, li, ul, p {
@@ -75,7 +75,9 @@ body {
   color: rgb(57,57,55);
 
   a {
+    color: rgb(149,68,165);
     text-decoration: none;
+    -webkit-transition: all 0.1s ease-in;
   }
 
   .orange {
@@ -133,12 +135,13 @@ body {
 
       a {
         color: rgb(80,80,80);
+        text-decoration: none;
         -webkit-transition: color 0.1s ease-in;
       }
 
       a:hover {
-        color: rgb(231,184,40);
-        // color: rgb(149,68,165);
+        // color: rgb(231,184,40);
+        color: rgb(149,68,165);
       }
 
       span.subtitle {
@@ -218,6 +221,12 @@ body {
     padding-top: 2em;
     padding-bottom: 2em;
 
+    p {
+      a:hover {
+        color: rgb(199,118,215);
+      }
+    }
+
     h2 {
       line-height: 1.5em;
     }
@@ -254,20 +263,6 @@ body {
   stroke: rgb(200,200,200);
   stroke-width: 3px;
   shape-rendering: crispEdges;
-}
-
-.solution-point {
-  -webkit-transition: opacity 0.2s;
-  cursor: pointer;
-}
-
-.solution-legend {
-  cursor: pointer;
-}
-
-.selected {
-  stroke-width: 2;
-  stroke: rgb(6,69,173);
 }
 
 .line {
@@ -358,7 +353,6 @@ body {
       padding: 0.5em;
       font-size: 1em;
       line-height: 1em;
-      margin: 0em 0 2em 0;
     }
     .check-box-label {
       font-size: 1em;
@@ -424,12 +418,12 @@ body {
 }
 
 span.help {
-  color: rgb(220,220,220);
+  color: rgb(200,200,200);
   cursor: default;
   -webkit-transition: all 0.1s ease-in;
 }
 span.help:hover {
-  color: rgb(200,200,200);
+  color: rgb(180,180,180);
 }
 
 .hidden {
@@ -600,4 +594,32 @@ ul.index-list {
       }
     }
   }
+}
+
+.new-user {
+  background-color: rgb(149,68,165);
+  margin-bottom: 1em;
+  padding: 1em 0;
+  
+  p {
+    padding: 0 1em 0.5em;
+    color: rgb(240,240,240);
+  }
+
+  a {
+    color: rgb(241,194,50);
+  }
+
+  a:hover {
+    color: rgb(251,204,60);
+  }
+
+}
+
+.tip {
+
+  span {
+    color: rgb(149,68,165);
+  }
+
 }

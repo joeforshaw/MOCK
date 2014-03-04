@@ -64,36 +64,45 @@ class RunsController < ApplicationController
 
       mock_thread = Thread.new do
 
-        if @run.evidence_accumulation
-          @evidence_accumulation_solution = EvidenceAccumulationSolution.new(:run_id => @run.id, :completed => false)
-          @evidence_accumulation_solution.save
-          @run.update_attributes(:evidence_accumulation_solution_id => @evidence_accumulation_solution.id)
+        begin
+          start_time = Time.now
+
+          if @run.evidence_accumulation
+            @evidence_accumulation_solution = EvidenceAccumulationSolution.new(:run_id => @run.id, :completed => false)
+            @evidence_accumulation_solution.save
+            @run.update_attributes(:evidence_accumulation_solution_id => @evidence_accumulation_solution.id)
+          end
+
+          # Make sure an files with matching prefix are gone
+          Dir.glob("algo/data/#{@run.file_name_suffix}*").each { |f| File.delete(f) }
+
+          # Save dataset csv to a temp file
+          temp_file_name = create_dataset_temp_file(current_user, @dataset)
+
+          # Run MOCK command
+          @run.execute(temp_file_name)
+
+          # Open files which contains objective measurements for each solution
+          objective_file = CSV.open("algo/data/#{@run.objective_file_name}")
+          attainment_file = CSV.open("algo/data/#{@run.attainment_file_name}")
+          
+          # Read data from each data file
+          sorted_data_files.each do |filename|
+            parse_data_file(filename, objective_file, attainment_file, current_user, @run)
+          end
+
+          begin_solution_parsing_thread(@run)
+
+          # Notify run is complete and update run time
+          @run.update_attributes(
+            :completed => true,
+            :runtime   => Time.now - start_time
+          )
+        rescue Exception => e
+          puts e.message  
+          puts e.backtrace.inspect
+          Thread.current.exit
         end
-
-        start_time = Time.now
-
-        # Save dataset csv to a temp file
-        temp_file_name = create_dataset_temp_file(current_user, @dataset)
-
-        # Run MOCK command
-        @run.execute(temp_file_name)
-
-        # Open files which contains objective measurements for each solution
-        objective_file = CSV.open("algo/data/#{@run.objective_file_name}")
-        attainment_file = CSV.open("algo/data/#{@run.attainment_file_name}")
-        
-        # Read data from each data file
-        sorted_data_files.each do |filename|
-          parse_data_file(filename, objective_file, attainment_file, current_user, @run)
-        end
-
-        begin_solution_parsing_thread(@run)
-
-        # Notify run is complete and update run time
-        @run.update_attributes(
-          :completed => true,
-          :runtime   => Time.now - start_time
-        )
       end
 
       mock_thread.priority = -1

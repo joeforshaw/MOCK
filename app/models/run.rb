@@ -19,16 +19,20 @@ class Run < ActiveRecord::Base
     end
   end
 
+  def file_name_suffix
+    "user.#{self.user.id}.method.1.run.#{self.id}"
+  end
+
   def objective_file_name
-    "user.#{self.user.id}.method.1.run.#{self.id}.pf"
+    "#{file_name_suffix}.pf"
   end
 
   def attainment_file_name
-    "user.#{self.user.id}.method.1.run.#{self.id}.attainment.pf"
+    "#{file_name_suffix}.attainment.pf"
   end
 
   def control_file_name
-    "user.#{self.user.id}.method.1.run.#{self.id}.control.pf"
+    "#{file_name_suffix}.control.pf"
   end
 
   def control_solution_csv

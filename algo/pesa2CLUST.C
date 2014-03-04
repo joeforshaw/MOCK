@@ -734,14 +734,14 @@ int main(int argc, char **argv) {
 
   for (int st=0; st<ST; st++) {
     for (int i=0; i<st_epsize[st]; i++) {
-      if (snondom[ctr] == true  ) {
+      // if (snondom[ctr] == true  ) {
         att << dist[ctr] << " " << st_ep[st][i].sil << endl;
         int c = int(solution[ctr*STEP+1]);
         best_a[st][c][0] = max(best_a[st][c][0], dist[ctr]);
         if (best_a[st][c][0] == dist[ctr]) {
           best_a[st][c][1] = ctr;
         }
-      }
+      // }
       else {
         att << 0.0 << " " << st_ep[st][i].sil << endl;
       }

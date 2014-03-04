@@ -232,6 +232,10 @@ function cutButtonHandler() {
       $(this).addClass("purple-button");
     }
   });
+
+  $(document).keyup(function(e) {
+    if (e.keyCode == 27) { stopCutting(); }
+  });
 }
 
 function moveCut() {

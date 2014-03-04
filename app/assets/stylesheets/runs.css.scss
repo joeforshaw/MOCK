@@ -14,16 +14,6 @@
     margin: 0 0.5em;
   }
 
-  label[for=solution_measure_silhouette_width].selected, .silhouette-width {
-    fill: rgb(130,250,130);
-    color: rgb(130,250,130);
-  }
-
-  label[for=solution_measure_control_distance].selected, .control-distance {
-    fill: rgb(250,130,130);
-    color: rgb(250,130,130);
-  }
-
   circle {
     fill: transparent;
   }
@@ -43,5 +33,12 @@
     fill: rgb(149,68,165);
   }
 
-}
+  circle.silhouette-width {
+    fill: rgb(135,190,250);
+  }
 
+  circle.control-distance {
+    fill: rgb(250,130,130);
+  }
+
+}

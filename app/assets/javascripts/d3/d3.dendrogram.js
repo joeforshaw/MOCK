@@ -4,6 +4,21 @@ $(document).ready(function() {
     return;
   }
 
+  $(".evidence-accumulation-solution").spin();
+
+  initialiseVariables();
+
+  if (gon.solution_path !== undefined) {
+    loadSolutionDendrogram();
+  } else {
+    loadDendrogram();
+  }
+
+  optionHandler();
+  cutButtonHandler();
+});
+
+function initialiseVariables() {
   dimensions = { width: 960, height: 720 };
 
   config = {
@@ -41,25 +56,14 @@ $(document).ready(function() {
       .on("mousemove", moveCut)
       .on("mousedown", calculateCut);
 
-
   vis = wrap.append("g");
 
   cutLine = vis.append("line")
       .attr("class", "cut-line");
+
   cutText = vis.append("text")
       .attr("class", "cut-text");
-
-  $(".evidence-accumulation-solution").spin();
-
-  if (gon.solution_path !== undefined) {
-    loadSolutionDendrogram();
-  } else {
-    loadDendrogram();
-  }
-
-  optionHandler();
-  cutButtonHandler();
-});
+}
 
 function loadSolutionDendrogram() {
   d3.text(gon.solution_path, function(text) {
@@ -101,7 +105,9 @@ function drawLinks(nodes) {
 }
 
 function elbow(d, i) {
-  return "M" + d.source.x + "," + d.source.y + "H" + d.target.x + "V" + d.target.y ;
+  return "M" + d.source.x + "," + d.source.y
+       + "H" + d.target.x
+       + "V" + d.target.y;
 }
 
 function getLinkColour(link) {
@@ -118,18 +124,24 @@ function drawNodes(nodes) {
       .attr("class", "node")
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
       .append("circle")
-        .attr("class", function(d) {
-          return d.parent !== undefined && !d.parent.unanimousChildren && d.unanimousChildren ? "join unanimous-leaf" : "join";
-        })
-        .style("fill", function(d) { return getNodeColour(d); })
-        .attr("r", function(d) { return (d.children && 'parent' in d) ? 2 : 2; })
-        .attr("data-point", function(d) { return d.name; })
-        .attr("data-cluster", function(d) { return d.dominantCluster; })
-        .attr("data-cluster-size", function(d) { return d.dominantClusterSize; })
+        .style("fill",                   function(d) { return getNodeColour(d); })
+        .attr("class",                   function(d) { return isUnanimous(d) ?  "join unanimous-leaf" : "join"; })
+        .attr("r",                       function(d) { return (d.children && 'parent' in d) ? 2 : 2; })
+        .attr("data-point",              function(d) { return d.name; })
+        .attr("data-cluster",            function(d) { return d.dominantCluster; })
+        .attr("data-cluster-size",       function(d) { return d.dominantClusterSize; })
         .attr("data-unanimous-children", function(d) { return d.unanimousChildren; })
-        .attr("original-title", function(d) { config.hideUnanimousBranches ? "Test" : 0 });
+        .attr("original-title",          function(d) { config.hideUnanimousBranches ? "Test" : 0 });
+
   $('.unanimous-leaf').tipsy({ fade: true, gravity: 's', offset: 1, offsetX: 3 });
+  
   return nodes_to_draw;
+}
+
+function isUnanimous(node) {
+  return node.parent !== undefined 
+     && !node.parent.unanimousChildren
+     &&  node.unanimousChildren;
 }
 
 function setNodeHeights(node) {
@@ -137,7 +149,7 @@ function setNodeHeights(node) {
   var height = dimensions.height - ((dimensions.height * node.length));
   if (height >= dimensions.height) {
     height = dimensions.height - 2;
-  } else if (height <= 0) {
+  } else if (height <= 0 || node.parent === undefined) {
     height = 2;
   }
   node.y = height;
@@ -225,11 +237,10 @@ function getTipsyMessage(node) {
 function cutButtonHandler() {
   $("#cut_dendrogram").click(function(e) {
     config.cutting = !config.cutting;
-    if (!config.cutting) {
-      stopCutting();
+    if (config.cutting) {
+      startCutting();
     } else {
-      $(this).removeClass("orange-button");
-      $(this).addClass("purple-button");
+      stopCutting();
     }
   });
 
@@ -271,8 +282,8 @@ function calculateCut(distance) {
 function isRootClusterNode(node, yMousePosition) {
   var distance = calculateDistance(yMousePosition);
   return node.length <= distance
-      && node.parent !== undefined
-      && node.parent.length > distance;
+      && (node.parent !== undefined && node.parent.length > distance
+      ||  node.parent === undefined && distance === 1);
 }
 
 function addClusterToDatapoints(node, clusterID) {
@@ -289,11 +300,19 @@ function calculateDistance(yPosition) {
   return (1 - yPosition / dimensions.height);
 }
 
+function startCutting() {
+  $button = $("#cut_dendrogram");
+  $button.removeClass("orange-button");
+  $button.addClass("purple-button");
+  $("svg").css("cursor", "pointer");
+}
+
 function stopCutting() {
   config.cutting = !config.cutting;
   $button = $("#cut_dendrogram");
   $button.removeClass("purple-button");
   $button.addClass("orange-button");
+  $("svg").css("cursor", "default");
   cutLine
     .attr("x1", 0)
     .attr("y1", -100)

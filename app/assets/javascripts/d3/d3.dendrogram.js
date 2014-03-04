@@ -38,7 +38,7 @@ $(document).ready(function() {
       .attr("width", dimensions.width)
       .attr("height", dimensions.height)
       .style("-webkit-backface-visibility", "hidden")
-      .on("mousemove", moveCutLine)
+      .on("mousemove", moveCut)
       .on("mousedown", calculateCut);
 
 
@@ -58,7 +58,7 @@ $(document).ready(function() {
   }
 
   optionHandler();
-
+  cutButtonHandler();
 });
 
 function loadSolutionDendrogram() {
@@ -199,7 +199,30 @@ function optionHandler() {
       .attr("original-title", function(d) { return getTipsyMessage(d); })
       .style("cursor", config.hideUnanimousBranches ? "pointer" : "default");
   });
+}
 
+function redrawDendrogram() {
+  $(".evidence-accumulation-solution").spin();
+  vis.selectAll("g.node circle").style("fill", function(d) { return getNodeColour(d); });
+  vis.selectAll("path.link").style("stroke", function(d) { return getLinkColour(d); });
+  $(".evidence-accumulation-solution").spin(false);
+}
+
+function getTipsyMessage(node) {
+  if (config.hideUnanimousBranches) {
+    if (node.children === undefined) {
+      return "A datapoint";
+    } else {
+      return "Number of datapoints: " + node.dominantClusterSize;
+    }
+  } else {
+    return "";
+  }
+}
+
+// Dedrogram cut code
+
+function cutButtonHandler() {
   $("#cut_dendrogram").click(function(e) {
     config.cutting = !config.cutting;
     if (!config.cutting) {
@@ -211,14 +234,7 @@ function optionHandler() {
   });
 }
 
-function redrawDendrogram() {
-  $(".evidence-accumulation-solution").spin();
-  vis.selectAll("g.node circle").style("fill", function(d) { return getNodeColour(d); });
-  vis.selectAll("path.link").style("stroke", function(d) { return getLinkColour(d); });
-  $(".evidence-accumulation-solution").spin(false);
-}
-
-function moveCutLine() {
+function moveCut() {
   if (config.cutting) {
     var m = d3.mouse(this);
     cutLine
@@ -227,7 +243,7 @@ function moveCutLine() {
       .attr("x2", dimensions.width)
       .attr("y2", m[1]);
     cutText
-      .text(calculateDistance(m[1]))
+      .text(calculateDistance(m[1]).toFixed(3))
       .attr("dx", m[0] + 10)
       .attr("dy", m[1] - (m[1] < 25 ? -20 : 10));
   }
@@ -248,10 +264,6 @@ function calculateCut(distance) {
   }
 }
 
-function calculateDistance(yPosition) {
-  return (1 - yPosition / dimensions.height).toFixed(3);
-}
-
 function isRootClusterNode(node, yMousePosition) {
   var distance = calculateDistance(yMousePosition);
   return node.length <= distance
@@ -261,12 +273,16 @@ function isRootClusterNode(node, yMousePosition) {
 
 function addClusterToDatapoints(node, clusterID) {
   if (node.children !== undefined) {
-    node.children.forEach(function(child) { 
+    node.children.forEach(function(child) {
       addClusterToDatapoints(child, clusterID);
     });
   } else {
     datapointClusters[+node.name] = clusterID;
   }
+}
+
+function calculateDistance(yPosition) {
+  return (1 - yPosition / dimensions.height);
 }
 
 function stopCutting() {
@@ -282,16 +298,4 @@ function stopCutting() {
   cutText
     .attr("dx", -100)
     .attr("dy", -100);
-}
-
-function getTipsyMessage(node) {
-  if (config.hideUnanimousBranches) {
-    if (node.children === undefined) {
-      return "A datapoint";
-    } else {
-      return "Number of datapoints: " + node.dominantClusterSize;
-    }
-  } else {
-    return "";
-  }
 }

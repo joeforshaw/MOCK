@@ -1,13 +1,13 @@
 .home
 
-  - if !user_signed_in? or (user_signed_in? and current_user.sign_in_count == 1 and current_user.datasets.size > 0)
-    .getting-started.new-user
-      %h3 Getting started
-      %p
-        To help you get started, there's a sample dataset waiting for you
-        = link_to "in your list of datasets.", datasets_path
-      %p
-        To run MOCK on it, click the item labeled "Sample dataset" then select "Run MOCK" from the set of options.
+  .getting-started.new-user
+    %h3 Getting started
+    %p
+      To help you get started, there's a sample dataset waiting for you
+      = link_to "in your list of datasets.", datasets_path
+    %p
+      To run MOCK on it, click the item labeled "Sample dataset" then select "Run MOCK" from the set of options.
+
   .mockiato
     %h3 What is Mockiato?
     %p

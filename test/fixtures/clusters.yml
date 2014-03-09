@@ -5,7 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  solution: solutions(:one)
+  plottable: solutions(:one)
 
 two:
-  solution: solutions(:two)
+  plottable: solutions(:two)

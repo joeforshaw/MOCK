@@ -5,17 +5,17 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  dataset: datasets(:one)
+  clusterable: datasets(:one)
   sequence_id: 1
 
 two:
-  dataset: datasets(:one)
+  clusterable: datasets(:one)
   sequence_id: 2
 
 three:
-  dataset: datasets(:two)
+  clusterable: datasets(:two)
   sequence_id: 1
 
 four:
-  dataset: datasets(:two)
+  clusterable: datasets(:two)
   sequence_id: 2

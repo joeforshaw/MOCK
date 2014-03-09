@@ -16,4 +16,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     Dataset.parse_csv("public/sample/sample-dataset.csv", user.id, "Sample dataset")
   end
 
+  protected
+
+  def after_sign_up_path_for(resource)
+    datasets_path
+  end
+
 end

@@ -7,11 +7,10 @@
     - if @run.evidence_accumulation? and @run.evidence_accumulation_solution.completed?
       = link_to "View dendrogram", evidence_accumulation_solution_path(@run.evidence_accumulation_solution), :class => "view-dendrogram orange-button"
 
-  - if current_user.sign_in_count <= 3
-    .graph-width-wrapper
-      %p.tip
-        %span Tip:
-        Hover over the gold solution line and click to view a clustering solution.
+  .graph-width-wrapper
+    %p.tip
+      %span Tip:
+      Hover over the gold solution line and click to view a clustering solution.
 
   .solution-front
     #solution-front-graph

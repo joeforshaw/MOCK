@@ -190,9 +190,9 @@ function highlight(measureClass) {
     solutionFrontSVG.selectAll(".solution-front-point")
         .sort(function(a,b) {
             if (measureClass === "silhouette-width") {
-                return d3.ascending(a[silhouetteWidth], b[silhouetteWidth]);
+                return d3.descending(a[silhouetteWidth], b[silhouetteWidth]);
             } else {
-                return d3.ascending(a[controlDistance], b[controlDistance]);
+                return d3.descending(a[controlDistance], b[controlDistance]);
             }
         }).each(function(d, i) {
             if (i < noOfHighlightedSolutions) {

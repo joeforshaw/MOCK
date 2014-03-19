@@ -4,13 +4,11 @@
       %h2
         = "Run #{@run.id}"
         = link_to "Back", run_path(:id => @run.id, :last_solution => @solution), :class => "back-button orange-button"
+        %a{:id => "cut_dendrogram", :class => "back-button orange-button"} Cut dendrogram
     - else
       %h2
         = "Solution #{@solution.generated_solution_id} Dendrogram"
         = link_to "Back", run_path(:id => @run.id, :last_solution => @solution), :class => "back-button orange-button"
-
-    - if @solution.nil?
-      %a{:id => "cut_dendrogram", :class => "back-button orange-button"} Cut dendrogram
 
   .evidence-accumulation-solution
     #dendrogram

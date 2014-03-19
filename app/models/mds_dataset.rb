@@ -1,5 +1,8 @@
 class MdsDataset < ActiveRecord::Base
 
+  require 'mds'
+  require 'mds/interfaces/gsl_interface'
+
   belongs_to :dataset
   has_many :datapoints, :as => :clusterable, :dependent => :destroy
 

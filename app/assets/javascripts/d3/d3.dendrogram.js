@@ -34,7 +34,7 @@ function initialiseVariables() {
   };
 
   y = d3.scale.linear().range([dimensions.height, 0]);
-  y.domain([0,100]).nice();
+  y.domain([100,0]).nice();
 
   yAxis = d3.svg.axis()
         .scale(y)
@@ -62,14 +62,14 @@ function initialiseVariables() {
 
   wrap = d3.select("#dendrogram").append("svg")
       .attr("width", $(window).width())
-      .attr("height", dimensions.height)
+      .attr("height", dimensions.height + margin.top + margin.bottom)
       .style("-webkit-backface-visibility", "hidden")
       .on("mousemove", moveCut)
       .on("mousedown", calculateCut)
 
 
   vis = wrap.append("g")
-          .attr("transform", "translate(" + margin.left + ", 0)");
+          .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
   cutLine = vis.append("line")
       .attr("class", "cut-line");
@@ -94,7 +94,15 @@ function loadDendrogram() {
 
     vis.append("g")
         .attr("class", "y-axis axis")
-        .call(yAxis);
+        .call(yAxis)
+        .append("text")
+          .attr("class", "graph-label")
+          .attr("x", 50 + dimensions.height / -2)
+          .attr("y", -50)
+          .attr("transform", "rotate(-90)")
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
+          .text("Co-assignment (%)");
 
     $(".evidence-accumulation-solution").spin(false);
 
@@ -269,15 +277,16 @@ function cutButtonHandler() {
 function moveCut() {
   if (config.cutting) {
     var m = d3.mouse(this);
+    var distance = calculateDistance(m[1]);
     cutLine
       .attr("x1", 0)
-      .attr("y1", m[1])
+      .attr("y1", m[1] - margin.top)
       .attr("x2", dimensions.width)
-      .attr("y2", m[1]);
+      .attr("y2", m[1] - margin.top);
     cutText
-      .text(calculateDistance(m[1]).toFixed(3))
-      .attr("dx", m[0] + 10)
-      .attr("dy", m[1] - (m[1] < 25 ? -20 : 10));
+      .text(((1 - distance) * 100).toFixed(0) + " %")
+      .attr("dx", m[0] + 20 - horizontalPadding)
+      .attr("dy", m[1] + 20 - margin.top);
   }
 }
 
@@ -314,7 +323,10 @@ function addClusterToDatapoints(node, clusterID) {
 }
 
 function calculateDistance(yPosition) {
-  return (1 - yPosition / dimensions.height);
+  var distance = (1 - (yPosition - margin.top) / dimensions.height);
+  if (distance > 1) return 1;
+  if (distance < 0) return 0;
+  return distance;
 }
 
 function startCutting() {

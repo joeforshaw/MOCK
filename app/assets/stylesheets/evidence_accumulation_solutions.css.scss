@@ -5,7 +5,9 @@
 
 .evidence-accumulation-solution-show {
 
-  height: 960px;
+  #dendrogram {
+    height: 780px;
+  }
 
   circle.join {
     stroke-width: 0px;

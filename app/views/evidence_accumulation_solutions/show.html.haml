@@ -1,25 +1,26 @@
 .evidence-accumulation-solution-show
-  .graph-width-wrapper
-    .heading-wrapper.clearfix
-      - if @solution.nil?
-        %h2= "Run #{@run.id}"
-      - else
-        %h2= "Solution #{@solution.generated_solution_id} Dendrogram"
-      
-      = link_to "Back", run_path(:id => @run.id, :last_solution => @solution), :class => "back-button orange-button"
-      
-      - if @solution.nil?
-        %a{:id => "cut_dendrogram", :class => "back-button orange-button"} Cut dendrogram
+  .clearfix.graph-width-wrapper
+    - if @solution.nil?
+      %h2
+        = "Run #{@run.id}"
+        = link_to "Back", run_path(:id => @run.id, :last_solution => @solution), :class => "back-button orange-button"
+    - else
+      %h2
+        = "Solution #{@solution.generated_solution_id} Dendrogram"
+        = link_to "Back", run_path(:id => @run.id, :last_solution => @solution), :class => "back-button orange-button"
 
-    .evidence-accumulation-solution
-      #dendrogram
+    - if @solution.nil?
+      %a{:id => "cut_dendrogram", :class => "back-button orange-button"} Cut dendrogram
 
-    - if !@solution.nil?
-      .options-wrapper
-        %form
-          %ul
-            %li
-              = link_to "View graphical plot", @solution
-            %li
-              = check_box_tag :hide_unanimous_branches, 1, false, class: "check-box-input"
-              = label_tag :hide_unanimous_branches, "Hide unanimous branches"
+  .evidence-accumulation-solution
+    #dendrogram
+
+  - if !@solution.nil?
+    .options-wrapper.graph-width-wrapper
+      %form
+        %ul
+          %li
+            = link_to "View graphical plot", @solution
+          %li
+            = check_box_tag :hide_unanimous_branches, 1, false, class: "check-box-input"
+            = label_tag :hide_unanimous_branches, "Hide unanimous branches"

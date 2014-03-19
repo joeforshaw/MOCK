@@ -1,6 +1,7 @@
 class EvidenceAccumulationSolutionsController < ApplicationController
 
   def show
+    @body_classes << "graph-body"
     @evidence_accumulation_solution = EvidenceAccumulationSolution.find(params[:id])
     gon.is_dendrogram = true
     respond_to do |format|

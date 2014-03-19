@@ -3,11 +3,10 @@
     %h2= "Solution #{@solution.generated_solution_id}"
     = link_to "Back", run_path(:id => @solution.run.id, :last_solution => @solution.id), :class => "back-button orange-button"
 
-  - if current_user.sign_in_count <= 3
-    .graph-width-wrapper
-      %p.tip
-        %span Tip:
-        You can view individual clusters by clicking on the legend boxes.
+  .graph-width-wrapper
+    %p.tip
+      %span Tip:
+      You can view individual clusters by clicking on the legend boxes.
 
   .solution
     %svg#solution-graph

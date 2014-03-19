@@ -21,6 +21,10 @@ $(document).ready(function() {
 function initialiseVariables() {
   dimensions = { width: 960, height: 720 };
 
+  horizontalPadding = ($(window).width() - dimensions.width) / 2;
+
+  margin = {top: 30, right: horizontalPadding, bottom: 30, left: horizontalPadding},
+
   config = {
     clusterIndex          : 1,
     datapointIndex        : 0,
@@ -28,6 +32,13 @@ function initialiseVariables() {
     hideUnanimousBranches : $('hide-unanimous-branches').length > 0 ? document.getElementById('hide-unanimous-branches').checked : false,
     cutting               : false
   };
+
+  y = d3.scale.linear().range([dimensions.height, 0]);
+  y.domain([0,100]).nice();
+
+  yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
 
   cluster = d3.layout.cluster()
       .size([dimensions.width, 1])
@@ -50,13 +61,15 @@ function initialiseVariables() {
   datapointClusters = [];
 
   wrap = d3.select("#dendrogram").append("svg")
-      .attr("width", dimensions.width)
+      .attr("width", $(window).width())
       .attr("height", dimensions.height)
       .style("-webkit-backface-visibility", "hidden")
       .on("mousemove", moveCut)
-      .on("mousedown", calculateCut);
+      .on("mousedown", calculateCut)
 
-  vis = wrap.append("g");
+
+  vis = wrap.append("g")
+          .attr("transform", "translate(" + margin.left + ", 0)");
 
   cutLine = vis.append("line")
       .attr("class", "cut-line");
@@ -78,6 +91,10 @@ function loadSolutionDendrogram() {
 
 function loadDendrogram() {
   d3.text(gon.evidence_accumulation_solution_path, function(text) {
+
+    vis.append("g")
+        .attr("class", "y-axis axis")
+        .call(yAxis);
 
     $(".evidence-accumulation-solution").spin(false);
 
@@ -134,12 +151,12 @@ function drawNodes(nodes) {
         .attr("original-title",          function(d) { config.hideUnanimousBranches ? "Test" : 0 });
 
   $('.unanimous-leaf').tipsy({ fade: true, gravity: 's', offset: 1, offsetX: 3 });
-  
+
   return nodes_to_draw;
 }
 
 function isUnanimous(node) {
-  return node.parent !== undefined 
+  return node.parent !== undefined
      && !node.parent.unanimousChildren
      &&  node.unanimousChildren;
 }

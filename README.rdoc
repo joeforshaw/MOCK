@@ -1,28 +1,21 @@
-== README
+== Mockiato - Visualisation Tool for MOCK clustering algorithm
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+= What is Mockiato?
 
-Things you may want to cover:
+Mockiato is a visualisation tool for MOCK. It was created by me, Joe Forshaw, as part of my final year project of my Computer Science degree at the University of Manchester.
 
-* Ruby version
+= What is MOCK?
 
-* System dependencies
+MOCK stands for Multiobjective Clustering with K-determination. It is clustering algorithmn created by Joshua Knowles and Julia Handl at the University of Manchester.
 
-* Configuration
+Mockiato was created to provide users a more accessible way of analysing the output of MOCK.
 
-* Database creation
+= What is Multiobjective Clustering?
 
-* Database initialization
+Multiobjective clustering is a field of cluster analysis where several objectives (i.e. measurements of cluster quality) are optimised in an attempt to find the best overall solution.
 
-* How to run the test suite
+MOCK uses two complimentary objectives to cluster data:
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+* Overall Deviation - is how compact clusters are. It's equal to the overall summed distances between every data point and their cluster centre.
+* Connectivity - is the proportion of neighbouring data points that belong in the same cluster. A low connectivity means data points are closest to other points in the same cluster.
+By analysing a range of solutions from a pareto front using overall deviation and connectivity, we can choose a solution that achieves the best compromise of both objectives.

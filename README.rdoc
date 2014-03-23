@@ -1,16 +1,16 @@
-== Mockiato - Visualisation Tool for MOCK clustering algorithm
+= Mockiato - Visualisation Tool for MOCK clustering algorithm
 
-= What is Mockiato?
+== What is Mockiato?
 
 Mockiato is a visualisation tool for MOCK. It was created by me, Joe Forshaw, as part of my final year project of my Computer Science degree at the University of Manchester.
 
-= What is MOCK?
+== What is MOCK?
 
 MOCK stands for Multiobjective Clustering with K-determination. It is clustering algorithmn created by Joshua Knowles and Julia Handl at the University of Manchester.
 
 Mockiato was created to provide users a more accessible way of analysing the output of MOCK.
 
-= What is Multiobjective Clustering?
+== What is Multiobjective Clustering?
 
 Multiobjective clustering is a field of cluster analysis where several objectives (i.e. measurements of cluster quality) are optimised in an attempt to find the best overall solution.
 

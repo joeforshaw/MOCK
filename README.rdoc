@@ -1,6 +1,6 @@
 = Mockiato - Visualisation Tool for MOCK clustering algorithm
 
-[Try out Mockiato](mockiato.co)
+[Try out Mockiato](http://mockiato.co/)
 
 == What is Mockiato?
 

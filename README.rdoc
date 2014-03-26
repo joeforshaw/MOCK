@@ -1,5 +1,7 @@
 = Mockiato - Visualisation Tool for MOCK clustering algorithm
 
+[Try out Mockiato](mockiato.co)
+
 == What is Mockiato?
 
 Mockiato is a visualisation tool for MOCK. It was created by me, Joe Forshaw, as part of my final year project of my Computer Science degree at the University of Manchester.

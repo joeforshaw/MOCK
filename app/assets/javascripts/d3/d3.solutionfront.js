@@ -131,9 +131,10 @@ $(document).ready(function() {
                 .attr("cx", function(d) { return x(d[connectivity]); })
                 .attr("cy", function(d) { return y(d[overallDeviation]); })
                 .attr("original-title", function(d) {
-                    return "Number of Clusters : "   + d[noOfClusters]
-                        + "<br/>Silhouette width : " + d[silhouetteWidth]
-                        + "<br/>Control distance : " + d[controlDistance];
+                    return "Solution "                  + d[solutionID] + "<hr/>" 
+                         + "Number of Clusters : "      + d[noOfClusters]
+                         + "<br/>Silhouette width : "   + d[silhouetteWidth]
+                         + "<br/>Control distance : "   + d[controlDistance];
                 })
                 .on('mouseover', function(d){
                     $(".last-solution").removeClass("last-solution");

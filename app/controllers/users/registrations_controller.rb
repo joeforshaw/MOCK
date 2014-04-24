@@ -13,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     super
     user = User.find_by_email(params[:user][:email])
-    Dataset.parse_csv("public/sample/sample-dataset.csv", user.id, "Sample dataset")
+    Dataset.parse_csv("public/sample/sample-dataset.csv", user.id, "Car Efficiency Dataset")
   end
 
   protected

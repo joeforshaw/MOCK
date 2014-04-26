@@ -131,8 +131,8 @@ $(document).ready(function() {
                 .attr("cx", function(d) { return x(d[connectivity]); })
                 .attr("cy", function(d) { return y(d[overallDeviation]); })
                 .attr("original-title", function(d) {
-                    return "Solution "                  + d[solutionID] + "<hr/>" 
-                         + "Number of Clusters : "      + d[noOfClusters]
+                    return "Solution "                  + d[solutionID] + "<hr/>"
+                         + "Number of Clusters : "      + (d[noOfClusters] > 0 ? d[noOfClusters] : "Parsing...")
                          + "<br/>Silhouette width : "   + d[silhouetteWidth]
                          + "<br/>Control distance : "   + d[controlDistance];
                 })
@@ -149,7 +149,7 @@ $(document).ready(function() {
                 $("circle.solution-front-point").attr("original-title", "Evidence Accumulation is running. Try again when it's complete.");
             }
             $("circle.solution-front-point").tipsy({ fade: true, gravity: 's', offset: 1, offsetX: 5, html: true });
-            
+
             setupEventsListeners(solutionFrontSVG, solutionData);
         });
     });
@@ -214,7 +214,7 @@ function getSolutionPath(d) {
         } else {
             return "";
         }
-        
+
     } else {
         return gon.solution_path + d[solutionID];
     }

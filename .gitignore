@@ -39,3 +39,5 @@ algo/temp
 # Ignore gsl compile files
 *.Po
 *.Plo
+
+data.yml

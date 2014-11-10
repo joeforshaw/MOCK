@@ -41,3 +41,5 @@ algo/temp
 *.Plo
 
 data.yml
+
+public/assets/*
